@@ -1,13 +1,6 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 html,
@@ -35,8 +28,29 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+html {
+  color-scheme: dark;
+}
+
+/* App container */
+.App {
+  min-height: 100vh;
+  text-align: center;
+}
+
+/* Work in Progress Banner */
+.wip-banner {
+  background: linear-gradient(90deg, #ff6b9d, #a78bfa, #00d9ff);
+  color: #1a1a2e;
+  padding: 0.5rem;
+  font-weight: 600;
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  text-align: center;
+  animation: gradient-shift 3s ease infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
