@@ -17,7 +17,7 @@ body {
 
 body {
   color: var(--black);
-  background: var(--white);
+  background: var(--light-gray);
   font-family: Georgia, 'Times New Roman', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
