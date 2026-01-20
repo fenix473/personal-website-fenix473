@@ -7,17 +7,14 @@
 
 .home-section h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);
-    background: linear-gradient(135deg, #00d9ff 0%, #a78bfa 50%, #ff6b9d 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff;
     margin-bottom: 1rem;
     font-weight: 700;
 }
 
 .home-section > h2 {
     font-size: clamp(1.2rem, 3vw, 1.5rem);
-    color: #a0a0a0;
+    color: #888888;
     font-weight: 400;
     margin-bottom: 1.5rem;
 }
@@ -34,16 +31,15 @@
 .about-section {
     margin-top: 3rem;
     padding: clamp(1.5rem, 4vw, 2.5rem);
-    background: linear-gradient(145deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.6));
-    border: 1px solid rgba(0, 217, 255, 0.2);
+    background: #0a0a0a;
+    border: 1px solid #333333;
     border-radius: 16px;
-    backdrop-filter: blur(10px);
     text-align: left;
 }
 
 .about-section h2 {
     font-size: clamp(1.75rem, 4vw, 2.25rem);
-    color: #00d9ff;
+    color: #ffffff;
     margin-bottom: 2rem;
     text-align: center;
     position: relative;
@@ -53,15 +49,14 @@
     content: '';
     display: block;
     width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #00d9ff, #a78bfa);
+    height: 2px;
+    background: #ffffff;
     margin: 0.75rem auto 0;
-    border-radius: 2px;
 }
 
 .about-section h3 {
     font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-    color: #a78bfa;
+    color: #e0e0e0;
     margin: 1.5rem 0 0.75rem 0;
     display: flex;
     align-items: center;
@@ -70,11 +65,11 @@
 
 .about-section h3::before {
     content: '▸';
-    color: #00d9ff;
+    color: #ffffff;
 }
 
 .about-section p {
-    color: #b0b0b0;
+    color: #a0a0a0;
     margin: 0.5rem 0;
     padding-left: 1.25rem;
     font-size: clamp(0.9rem, 2vw, 1rem);
@@ -89,8 +84,8 @@
 .about-section li {
     padding: 0.75rem 1rem;
     margin: 0.5rem 0;
-    background: rgba(0, 217, 255, 0.05);
-    border-left: 3px solid #00d9ff;
+    background: #111111;
+    border-left: 3px solid #ffffff;
     border-radius: 0 8px 8px 0;
     color: #c0c0c0;
     font-size: clamp(0.85rem, 2vw, 0.95rem);
@@ -98,28 +93,27 @@
 }
 
 .about-section li:hover {
-    background: rgba(0, 217, 255, 0.1);
+    background: #1a1a1a;
     transform: translateX(4px);
 }
 
 .about-section li strong {
-    color: #00d9ff;
+    color: #ffffff;
 }
 
 /* Contact Section Styles */
 .contact-section {
     margin-top: 3rem;
     padding: clamp(1.5rem, 4vw, 2.5rem);
-    background: linear-gradient(145deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.6));
-    border: 1px solid rgba(167, 139, 250, 0.2);
+    background: #0a0a0a;
+    border: 1px solid #333333;
     border-radius: 16px;
-    backdrop-filter: blur(10px);
     text-align: center;
 }
 
 .contact-section h2 {
     font-size: clamp(1.75rem, 4vw, 2.25rem);
-    color: #a78bfa;
+    color: #ffffff;
     margin-bottom: 1.5rem;
 }
 
@@ -127,10 +121,9 @@
     content: '';
     display: block;
     width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #a78bfa, #00d9ff);
+    height: 2px;
+    background: #ffffff;
     margin: 0.75rem auto 0;
-    border-radius: 2px;
 }
 
 .contact-links {
@@ -145,10 +138,10 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: rgba(167, 139, 250, 0.1);
-    color: #a78bfa;
+    background: transparent;
+    color: #ffffff;
     text-decoration: none;
-    border: 1px solid rgba(167, 139, 250, 0.3);
+    border: 1px solid #ffffff;
     border-radius: 25px;
     font-size: clamp(0.9rem, 2.5vw, 1rem);
     font-weight: 500;
@@ -156,9 +149,7 @@
 }
 
 .contact-links a:hover {
-    background: #a78bfa;
-    color: #1a1a2e;
+    background: #ffffff;
+    color: #000000;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(167, 139, 250, 0.3);
 }
-
