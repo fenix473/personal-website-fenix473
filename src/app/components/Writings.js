@@ -1,108 +1,129 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import { useState, useRef } from "react";
+import WordReader from "../functionalcomponents/wordReader";
+import useInfiniteScroll from "../functionalcomponents/useInfiniteScroll";
+import CoverBackButton from "./CoverBackButton";
 
-// Dynamically import react-pdf to avoid SSR issues
-const Document = dynamic(
-    () => import("react-pdf").then((mod) => mod.Document),
-    { ssr: false }
-);
-const Page = dynamic(
-    () => import("react-pdf").then((mod) => mod.Page),
-    { ssr: false }
-);
-
-// PDFs served from public folder
+// DOCX files served from public folder
 const baseUrl = "/writings/";
 
-// Essay collection with titles and files
+// Essay collection
 const essays = [
-    { title: "Orange Man", file: baseUrl + "Orange Man.pdf", description: "Reflection on the Charge of the Light Brigade by Tennyson. Exploring the topics of discipline, loyalty and officer responsibility." },
-    { title: "Subjugation of Nature", file: baseUrl + "Subjugation of Nature.pdf", description: "Explration of the conflict between human and nature in the context of the Enlightenment and Romanticism." },
-    { title: "Professional Writing", file: baseUrl + "Editable ENG II_ Initial.pdf", description: "A reflection on what it means to be a professional." },
-    { title: "Research Essay", file: baseUrl + "Copy of Research Essay.pdf", description: "A research essay on work ethics." }
+    { 
+        title: "Orange Man", 
+        file: baseUrl + "Orange Man Clean.docx", 
+        description: "Reflection on the Charge of the Light Brigade by Tennyson. Exploring discipline, loyalty and officer responsibility.", 
+        cover: baseUrl + "writingsCovers/Orange Man Cover.png"
+    },
+    { 
+        title: "Profession", 
+        file: baseUrl + "Profession.docx", 
+        description: "Exploring professional development and career growth.",
+        cover: baseUrl + "writingsCovers/Profession Cover.png"
+    },
+    { 
+        title: "Serve Analytical Paper", 
+        file: baseUrl + "Serve Analytical Paper.docx", 
+        description: "An analytical paper on service and dedication.",
+        cover: baseUrl + "writingsCovers/Serve Analytical Paper Cover.png"
+    }
 ];
 
-// Hook to get responsive PDF width
-function usePdfWidth() {
-    const [width, setWidth] = useState(600);
-
-    useEffect(() => {
-        function handleResize() {
-            setWidth(Math.min(600, window.innerWidth - 40));
-        }
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    return width;
-}
-
-// Setup PDF.js worker on client side
-function usePdfWorker() {
-    useEffect(() => {
-        import("react-pdf").then((pdfModule) => {
-            pdfModule.pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfModule.pdfjs.version}/build/pdf.worker.min.mjs`;
-        });
-    }, []);
-}
-
 function Writings() {
-    const [numPages, setNumPages] = useState(null);
     const [selectedEssay, setSelectedEssay] = useState(null);
-    const pdfWidth = usePdfWidth();
-    usePdfWorker();
+    const [isOpening, setIsOpening] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+    const [showReader, setShowReader] = useState(false);
+    const scrollRef = useRef(null);
 
-    function onDocumentLoadSuccess({ numPages }) {
-        setNumPages(numPages);
+    // Infinite scroll - disabled when essay is selected or transitioning
+    useInfiniteScroll(scrollRef, !selectedEssay && !isClosing);
+
+    function handleSelect(essay) {
+        setSelectedEssay(essay);
+        setIsOpening(true);
+        
+        // After fade out animation, show reader
+        setTimeout(() => {
+            setShowReader(true);
+            setIsOpening(false);
+        }, 600);
     }
 
     function handleBack() {
-        setSelectedEssay(null);
-        setNumPages(null);
+        setIsClosing(true);
+        
+        // First fade out reader
+        setTimeout(() => {
+            setShowReader(false);
+        }, 400);
+
+        // Then fade in carousel items
+        setTimeout(() => {
+            setIsClosing(false);
+            setSelectedEssay(null);
+        }, 800);
     }
 
-    // Show essay selection if none selected
-    if (!selectedEssay) {
+    // Triple essays for infinite scroll effect
+    const tripleEssays = [...essays, ...essays, ...essays];
+
+    // Show reader view with animation
+    if (showReader && selectedEssay) {
         return (
-            <div className="writings-section">
-                <h1 className="writings-title">Writings</h1>
-                <p className="writings-subtitle">A collection of essays and reflections</p>
-                <div className="essays-grid">
-                    {essays.map((essay, index) => (
-                        <div
-                            key={index}
-                            className="essay-card"
-                            onClick={() => setSelectedEssay(essay)}
-                        >
-                            <h3 className="essay-card-title">{essay.title}</h3>
-                            <p className="essay-card-description">{essay.description}</p>
-                            <span className="essay-card-link">Read essay →</span>
-                        </div>
-                    ))}
+            <div className={`writings-reader docx-reader ${isClosing ? 'fade-out' : 'fade-in'}`}>
+                <CoverBackButton 
+                    coverImage={selectedEssay.cover} 
+                    onClick={handleBack} 
+                />
+                <div className="reader-cover-container">
+                    <img 
+                        src={selectedEssay.cover} 
+                        alt={selectedEssay.title} 
+                        className="reader-cover"
+                    />
+                </div>
+                <div className={`docx-container ${isClosing ? '' : 'fade-in-delayed'}`}>
+                    <WordReader filePath={selectedEssay.file} />
                 </div>
             </div>
         );
     }
 
-    // Show selected essay
+    // Determine transition state
+    const isTransitioning = isOpening || isClosing;
+
+    // Show carousel (with transition state)
     return (
-        <div className="writings-reader">
-            <h1 className="writings-reader-title">Writings</h1>
-            <button className="back-button" onClick={handleBack}>
-                ← Back to list
-            </button>
-            <h2 className="essay-title">{selectedEssay.title}</h2>
-            <div className="pdf-container">
-                <Document file={selectedEssay.file} onLoadSuccess={onDocumentLoadSuccess}>
-                    {numPages && Array.from({ length: numPages }, (_, index) => (
-                        <Page key={index + 1} pageNumber={index + 1} width={pdfWidth} />
-                    ))}
-                </Document>
+        <div className={`writings-section ${isTransitioning ? 'transitioning' : ''}`}>
+            <h1 className={`writings-title ${isOpening ? 'fade-out' : ''} ${isClosing ? 'fade-in' : ''}`}>
+                Writings
+            </h1>
+            <div className="carousel-container" ref={scrollRef}>
+                <div className="essays-track">
+                    {tripleEssays.map((essay, index) => {
+                        const isSelected = selectedEssay && essay.title === selectedEssay.title;
+                        let cardClass = 'essay-card';
+                        
+                        if (isOpening) {
+                            cardClass += isSelected ? ' selected' : ' fade-out';
+                        } else if (isClosing) {
+                            cardClass += isSelected ? ' selected-reverse' : ' fade-in';
+                        }
+                        
+                        return (
+                            <div
+                                key={index}
+                                className={cardClass}
+                                onClick={() => !isTransitioning && handleSelect(essay)}
+                            >
+                                <img src={essay.cover} alt={essay.title} className="essay-card-cover" />
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
-            <p className="page-count">{numPages} pages</p>
         </div>
     );
 }
