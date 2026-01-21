@@ -4,13 +4,13 @@ import { memo } from 'react';
 
 /**
  * Melody button component - plays a pre-defined sequence of notes.
- * Extends the styling of PianoKey but simplified for single-click melody playback.
+ * Click to play, click again to stop.
  * 
  * @param {Object} props
  * @param {string} props.name - Display name of the melody
  * @param {boolean} props.isPlaying - Whether this melody is currently playing
  * @param {boolean} props.disabled - Whether the button is disabled
- * @param {Function} props.onPlay - Callback when melody should start playing
+ * @param {Function} props.onPlay - Callback when melody should start/stop
  */
 function MelodyButton({ 
   name, 
@@ -19,7 +19,7 @@ function MelodyButton({
   onPlay 
 }) {
   const handleClick = () => {
-    if (!disabled && !isPlaying) {
+    if (!disabled) {
       onPlay();
     }
   };
@@ -35,12 +35,12 @@ function MelodyButton({
     <button
       className={classNames}
       onClick={handleClick}
-      disabled={disabled || isPlaying}
-      aria-label={`Play melody: ${name}`}
+      disabled={disabled}
+      aria-label={isPlaying ? `Stop melody: ${name}` : `Play melody: ${name}`}
       type="button"
     >
       <span className="melody-button__icon">
-        {isPlaying ? '♪' : '▶'}
+        {isPlaying ? '■' : '▶'}
       </span>
       <span className="melody-button__label">
         {name}

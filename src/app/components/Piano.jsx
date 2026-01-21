@@ -28,16 +28,15 @@ const PIANO_KEYS = [
 
 /**
  * Pre-defined melodies with note sequences.
- * Each note has: note name, duration in ms (how long to show as active)
- * null represents a rest/pause
+ * Each note has: note name, duration in ms
+ * Duration: 1 = quarter note (400ms), 2 = half note (800ms)
  */
 const MELODIES = [
   {
     id: 'mary-little-lamb',
     name: 'Mary Had a Little Lamb',
-    tempo: 300, // ms per beat
+    tempo: 300,
     notes: [
-      // "Ma-ry had a lit-tle lamb"
       { note: 'E4', duration: 1 },
       { note: 'D4', duration: 1 },
       { note: 'C4', duration: 1 },
@@ -45,15 +44,12 @@ const MELODIES = [
       { note: 'E4', duration: 1 },
       { note: 'E4', duration: 1 },
       { note: 'E4', duration: 2 },
-      // "lit-tle lamb"
       { note: 'D4', duration: 1 },
       { note: 'D4', duration: 1 },
       { note: 'D4', duration: 2 },
-      // "lit-tle lamb"
       { note: 'E4', duration: 1 },
       { note: 'G4', duration: 1 },
       { note: 'G4', duration: 2 },
-      // "Ma-ry had a lit-tle lamb"
       { note: 'E4', duration: 1 },
       { note: 'D4', duration: 1 },
       { note: 'C4', duration: 1 },
@@ -62,8 +58,149 @@ const MELODIES = [
       { note: 'E4', duration: 1 },
       { note: 'E4', duration: 1 },
       { note: 'E4', duration: 1 },
-      // "whose fleece was white as snow"
       { note: 'D4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 2 },
+    ],
+  },
+  {
+    id: 'yellow-rose-texas',
+    name: 'Yellow Rose of Texas',
+    tempo: 400,
+    notes: [
+      { note: 'C4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'F4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'A4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'E4', duration: 2 },
+      { note: 'C4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'F4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'A4', duration: 1 },
+      { note: 'G4', duration: 2 },
+      { note: 'C4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'F4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 2 },
+    ],
+  },
+  {
+    id: 'red-river-valley',
+    name: 'Red River Valley',
+    tempo: 400,
+    notes: [
+      { note: 'G4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'A4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'E4', duration: 2 },
+      { note: 'C4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 2 },
+      { note: 'G4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'A4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'E4', duration: 2 },
+      { note: 'D4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 2 },
+    ],
+  },
+  {
+    id: 'home-on-range',
+    name: 'Home on the Range',
+    tempo: 400,
+    notes: [
+      { note: 'G4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'F4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 2 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'F4', duration: 1 },
+      { note: 'G4', duration: 1 },
+      { note: 'A4', duration: 1 },
+      { note: 'G4', duration: 2 },
+      { note: 'G4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'F4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 2 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 2 },
+    ],
+  },
+  {
+    id: 'streets-of-laredo',
+    name: 'Streets of Laredo',
+    tempo: 400,
+    notes: [
+      { note: 'G4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 2 },
+      { note: 'G4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 2 },
+      { note: 'G4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'C4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'E4', duration: 1 },
+      { note: 'D4', duration: 1 },
+      { note: 'C4', duration: 2 },
       { note: 'D4', duration: 1 },
       { note: 'E4', duration: 1 },
       { note: 'D4', duration: 1 },
@@ -162,10 +299,29 @@ export default function Piano() {
   useKeyPress(keyBindings, handleKeyDown, handleKeyUp);
 
   /**
+   * Stop the currently playing melody
+   */
+  const stopMelody = useCallback(() => {
+    melodyAbortRef.current = true;
+    setActiveNotes(new Set());
+    setPlayingMelody(null);
+  }, []);
+
+  /**
    * Play a melody - sequence of notes with timing
+   * If same melody is playing, stop it instead
    */
   const playMelody = useCallback(async (melody) => {
-    if (playingMelody) return; // Already playing
+    // If this melody is already playing, stop it
+    if (playingMelody === melody.id) {
+      stopMelody();
+      return;
+    }
+
+    // If another melody is playing, stop it first
+    if (playingMelody) {
+      stopMelody();
+    }
 
     await resumeContext();
     setPlayingMelody(melody.id);
@@ -186,6 +342,9 @@ export default function Piano() {
         setTimeout(resolve, noteData.duration * melody.tempo)
       );
 
+      // Check again after waiting
+      if (melodyAbortRef.current) break;
+
       // Clear visual feedback
       setActiveNotes(new Set());
       
@@ -193,8 +352,11 @@ export default function Piano() {
       await new Promise(resolve => setTimeout(resolve, 50));
     }
 
-    setPlayingMelody(null);
-  }, [playingMelody, playNote, resumeContext]);
+    // Only clear if not aborted (aborted already clears)
+    if (!melodyAbortRef.current) {
+      setPlayingMelody(null);
+    }
+  }, [playingMelody, playNote, resumeContext, stopMelody]);
 
   // Separate white and black keys for proper rendering order
   const whiteKeys = useMemo(
@@ -284,7 +446,7 @@ export default function Piano() {
               key={melody.id}
               name={melody.name}
               isPlaying={playingMelody === melody.id}
-              disabled={!isLoaded || (playingMelody && playingMelody !== melody.id)}
+              disabled={!isLoaded}
               onPlay={() => playMelody(melody)}
             />
           ))}
