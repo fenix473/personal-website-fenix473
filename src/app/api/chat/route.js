@@ -3,7 +3,7 @@
  * Avoids CORS issues by making server-to-server requests
  */
 
-const N8N_WEBHOOK_URL = 'https://fenix473.app.n8n.cloud/webhook-test/81942a4e-0e4b-4469-82e7-72f57b09e3ba';
+const N8N_WEBHOOK_URL = 'https://fenix473.app.n8n.cloud/webhook/81942a4e-0e4b-4469-82e7-72f57b09e3ba';
 
 export async function POST(request) {
     try {
