@@ -19,7 +19,7 @@ function ChatWindow() {
     
     const [inputValue, setInputValue] = useState('')
 
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         if (inputValue.trim() === '') return; // Don't send empty messages
 
         const newMessage = {
@@ -29,8 +29,32 @@ function ChatWindow() {
             sender: 'user'
         }
 
-        setMessages([...messages, newMessage]) // Add new message to the messages array
+        setMessages(prev => [...prev, newMessage]) // Add new message to the messages array
         setInputValue('') // Clear the input field
+
+        try {
+            const response = await fetch('https://fenix473.app.n8n.cloud/webhook/81942a4e-0e4b-4469-82e7-72f57b09e3ba', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: inputValue })
+                });
+
+                const data = await response.json();
+
+                const botMessage = {
+                    id: Date.now(),
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    message: data.message,
+                    sender: 'compositor'
+                }
+                setMessages(prev => [...prev, botMessage]);
+
+            } catch (error) {
+                console.error('Error sending message:', error);
+        }
     }
 
     const [isOpen, setIsOpen] = useState(false)

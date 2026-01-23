@@ -7,15 +7,17 @@ import { useRef, useEffect, useCallback, useState } from 'react';
  * Handles audio loading, playback with sustain/loop on hold, and polyphonic support.
  * 
  * @param {Array} notes - Array of note objects with { note, audioPath }
- * @returns {Object} - { playNote, stopNote, isLoaded, resumeContext }
+ * @returns {Object} - { playNote, stopNote, isLoaded, resumeContext, setVolume, volume }
  */
 export default function useAudioPlayer(notes) {
   const audioContextRef = useRef(null);
+  const masterGainRef = useRef(null);
   const audioBuffersRef = useRef(new Map());
   const activeSourcesRef = useRef(new Map());
   const gainNodesRef = useRef(new Map());
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadError, setLoadError] = useState(null);
+  const [volume, setVolumeState] = useState(0.7);
   const notesRef = useRef(notes);
 
   // Keep notes ref updated
@@ -24,13 +26,28 @@ export default function useAudioPlayer(notes) {
   }, [notes]);
 
   /**
-   * Initialize AudioContext (must be called after user interaction for autoplay policy)
+   * Initialize AudioContext and master gain node
    */
   const initAudioContext = useCallback(() => {
     if (!audioContextRef.current) {
       audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      // Create master gain node for volume control
+      masterGainRef.current = audioContextRef.current.createGain();
+      masterGainRef.current.connect(audioContextRef.current.destination);
+      masterGainRef.current.gain.setValueAtTime(0.7, audioContextRef.current.currentTime);
     }
     return audioContextRef.current;
+  }, []);
+
+  /**
+   * Set the master volume (0-1)
+   */
+  const setVolume = useCallback((newVolume) => {
+    const clampedVolume = Math.max(0, Math.min(1, newVolume));
+    setVolumeState(clampedVolume);
+    if (masterGainRef.current && audioContextRef.current) {
+      masterGainRef.current.gain.setValueAtTime(clampedVolume, audioContextRef.current.currentTime);
+    }
   }, []);
 
   /**
@@ -140,9 +157,9 @@ export default function useAudioPlayer(notes) {
       }
     }
 
-    // Create gain node for smooth release
+    // Create gain node for smooth release, connect through master gain
     const gainNode = ctx.createGain();
-    gainNode.connect(ctx.destination);
+    gainNode.connect(masterGainRef.current);
     gainNode.gain.setValueAtTime(1, ctx.currentTime);
 
     // Create buffer source node
@@ -212,5 +229,7 @@ export default function useAudioPlayer(notes) {
     isLoaded,
     loadError,
     resumeContext,
+    volume,
+    setVolume,
   };
 }

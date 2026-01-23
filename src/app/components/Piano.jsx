@@ -247,8 +247,17 @@ export default function Piano() {
     stopNote, 
     isLoaded, 
     loadError, 
-    resumeContext 
+    resumeContext,
+    volume,
+    setVolume,
   } = useAudioPlayer(PIANO_KEYS);
+
+  /**
+   * Handle volume slider change
+   */
+  const handleVolumeChange = useCallback((e) => {
+    setVolume(parseFloat(e.target.value));
+  }, [setVolume]);
 
   /**
    * Start playing a note (called from keyboard or mouse/touch)
@@ -436,6 +445,24 @@ export default function Piano() {
           Place audio files in /public/sounds/piano/
         </p>
       )}
+
+      {/* Volume slider */}
+      <div className="piano__volume">
+        <label className="piano__volume-label" htmlFor="volume-slider">
+          Volume
+        </label>
+        <input
+          id="volume-slider"
+          type="range"
+          className="piano__volume-slider"
+          min="0"
+          max="1"
+          step="0.01"
+          value={volume}
+          onChange={handleVolumeChange}
+        />
+        <span className="piano__volume-value">{Math.round(volume * 100)}%</span>
+      </div>
 
       {/* Melody buttons */}
       <div className="piano__melodies">
