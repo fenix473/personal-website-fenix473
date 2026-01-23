@@ -1,0 +1,69 @@
+"use client"
+
+import { Box, Heading, Text, CloseButton, Button, Group, Input } from "@chakra-ui/react"
+import "../css/ChatWindow.css"
+import { useState } from "react"
+
+
+
+function ChatWindow() {
+
+    const [messages, setMessages] = useState([
+        {
+            id: 1,
+            time: '10:30 AM',
+            message: 'Hello, how are you?',
+            sender: 'compositor'
+        }
+    ])
+    
+    const [inputValue, setInputValue] = useState('')
+
+    const handleSendMessage = () => {
+        if (inputValue.trim() === '') return; // Don't send empty messages
+
+        const newMessage = {
+            id: Date.now(),
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            message: inputValue,
+            sender: 'user'
+        }
+
+        setMessages([...messages, newMessage]) // Add new message to the messages array
+        setInputValue('') // Clear the input field
+    }
+
+    const [isOpen, setIsOpen] = useState(false)
+
+    return isOpen ? (
+        <Box className="chat-window">
+            <Box className="chat-header">
+                <Heading size="md">Compositor</Heading>
+                <CloseButton onClick={() => setIsOpen(false)} />
+            </Box>
+            <Box className="messages-container">
+                {messages.map((msg) => (
+                    <Box 
+                        key={msg.id}
+                        className={`message-bubble ${msg.sender === 'user' ? 'user' : 'compositor'}`}
+                    >
+                        <Text>{msg.message}</Text>
+                        <Text fontSize="xs" color="gray.500">{msg.time}</Text>
+                    </Box>
+                ))}
+            </Box>
+            <Group attached w="full" maxW="sm">
+                <Input flex="1" placeholder="Enter your message" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage() }} />
+                <Button bg="bg.subtle" variant="outline" onClick={handleSendMessage}>
+                    Send
+                </Button>
+            </Group>
+        </Box>) : (
+        <Box className="chat-window-closed" onClick={() => setIsOpen(true)}>
+            <Text fontSize="2xl">💬</Text>
+        </Box>
+    );
+}    
+
+
+export default ChatWindow;

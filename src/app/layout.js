@@ -5,6 +5,8 @@ import "./css/Nav.css";
 import "./css/Home.css";
 import "./css/Resume.css";
 import "./css/Writings.css";
+import { Provider } from "@/components/ui/provider";
+import ChatWindow from "./components/ChatWindow";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,17 +27,20 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <div className="App">
-          <div className="wip-banner">
-            🚧 Work in Progress 🚧
+        <Provider>
+          <div className="App">
+            <div className="wip-banner">
+              🚧 Work in Progress 🚧
+            </div>
+            <nav className="navbar">
+              <Link href="/">Home</Link>
+              <Link href="/projects">Projects</Link>
+              <Link href="/writings">Writings</Link>
+            </nav>
+            {children}
           </div>
-          <nav className="navbar">
-            <Link href="/">Home</Link>
-            <Link href="/projects">Projects</Link>
-            <Link href="/writings">Writings</Link>
-          </nav>
-          {children}
-        </div>
+          <ChatWindow />
+        </Provider>
       </body>
     </html>
   );
