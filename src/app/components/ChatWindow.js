@@ -38,22 +38,23 @@ function ChatWindow() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    message: inputValue })
-                });
+                body: JSON.stringify({ message: inputValue })
+            });
 
-                const data = await response.json();
+            console.log('Response status:', response.status);
+            const data = await response.json();
+            console.log('Response data:', data);
 
-                const botMessage = {
-                    id: Date.now(),
-                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                    message: data[0].output,
-                    sender: 'compositor'
-                }
-                setMessages(prev => [...prev, botMessage]);
+            const botMessage = {
+                id: Date.now(),
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                message: data[0]?.output || 'No response',
+                sender: 'compositor'
+            }
+            setMessages(prev => [...prev, botMessage]);
 
-            } catch (error) {
-                console.error('Error sending message:', error);
+        } catch (error) {
+            console.error('Error sending message:', error);
         }
     }
 
