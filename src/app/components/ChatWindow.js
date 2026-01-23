@@ -33,7 +33,7 @@ function ChatWindow() {
         setInputValue('') // Clear the input field
 
         try {
-            const response = await fetch('https://fenix473.app.n8n.cloud/webhook-test/81942a4e-0e4b-4469-82e7-72f57b09e3ba', {
+            const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
