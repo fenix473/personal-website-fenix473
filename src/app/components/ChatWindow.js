@@ -47,7 +47,7 @@ function ChatWindow() {
                 const botMessage = {
                     id: Date.now(),
                     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                    message: data.message,
+                    message: data[0].output,
                     sender: 'compositor'
                 }
                 setMessages(prev => [...prev, botMessage]);
