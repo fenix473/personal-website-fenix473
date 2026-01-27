@@ -546,20 +546,22 @@ export default function Piano() {
 
       {/* Volume slider */}
       <div className="piano__volume">
+        <div className="piano__volume-slider-row">
+          <input
+            id="volume-slider"
+            type="range"
+            className="piano__volume-slider"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={handleVolumeChange}
+          />
+          <span className="piano__volume-value">{Math.round(volume * 100)}%</span>
+        </div>
         <label className="piano__volume-label" htmlFor="volume-slider">
           Volume
         </label>
-        <input
-          id="volume-slider"
-          type="range"
-          className="piano__volume-slider"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={handleVolumeChange}
-        />
-        <span className="piano__volume-value">{Math.round(volume * 100)}%</span>
       </div>
 
       {/* AI Melody Generator */}
