@@ -27,7 +27,11 @@ export async function POST(request) {
       RETURNING id, name, tempo, notes, created_at
     `;
 
-    return Response.json(result[0]);
+    // Parse notes back to array for response
+    const saved = result[0];
+    saved.notes = typeof saved.notes === 'string' ? JSON.parse(saved.notes) : saved.notes;
+
+    return Response.json(saved);
   } catch (error) {
     console.error('Error saving melody:', error);
     return Response.json(
