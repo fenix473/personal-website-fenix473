@@ -17,7 +17,7 @@ export const metadata = {
     siteName: 'Libero Favi Portfolio',
     images: [
       {
-        url: `${baseUrl}/${encodeURIComponent('Piano Preview.png')}`,
+        url: `${baseUrl}/Piano%20Preview.png`,
         width: 1200,
         height: 630,
         alt: 'Piano project preview - interactive web piano interface',
@@ -30,7 +30,7 @@ export const metadata = {
     title: 'Piano - Interactive Web Piano',
     description:
       'Interactive piano with keyboard and touch support. Play melodies, generate AI compositions, and explore music.',
-    images: [`${baseUrl}/${encodeURIComponent('Piano Preview.png')}`],
+    images: [`${baseUrl}/Piano%20Preview.png`],
   },
 };
 
