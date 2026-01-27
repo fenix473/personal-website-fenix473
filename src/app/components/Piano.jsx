@@ -273,8 +273,8 @@ export default function Piano() {
   const [activeNotes, setActiveNotes] = useState(new Set());
   // Track which melody is currently playing
   const [playingMelody, setPlayingMelody] = useState(null);
-  // Ref to track if we should cancel melody playback
-  const melodyAbortRef = useRef(false);
+  // Playback id: each melody run gets an id; when we stop or switch, we bump it so the old run exits
+  const playbackIdRef = useRef(0);
   
   // AI melody generation state
   const [melodyPrompt, setMelodyPrompt] = useState('');
@@ -341,61 +341,50 @@ export default function Piano() {
   useKeyPress(keyBindings, handleKeyDown, null);
 
   /**
-   * Stop the currently playing melody
+   * Stop the currently playing melody (bumps playback id so any running loop exits)
    */
   const stopMelody = useCallback(() => {
-    melodyAbortRef.current = true;
+    playbackIdRef.current += 1;
     setActiveNotes(new Set());
     setPlayingMelody(null);
   }, []);
 
   /**
-   * Play a melody - sequence of notes with timing
-   * If same melody is playing, stop it instead
+   * Play a melody - sequence of notes with timing.
+   * If same melody is playing, stop it. If another is playing, stop it first then play this one.
    */
   const playMelody = useCallback(async (melody) => {
-    // If this melody is already playing, stop it
     if (playingMelody === melody.id) {
       stopMelody();
       return;
     }
-
-    // If another melody is playing, stop it first
     if (playingMelody) {
       stopMelody();
     }
 
     await resumeContext();
+    const myId = playbackIdRef.current + 1;
+    playbackIdRef.current = myId;
     setPlayingMelody(melody.id);
-    melodyAbortRef.current = false;
 
     for (const noteData of melody.notes) {
-      // Check if playback was aborted
-      if (melodyAbortRef.current) break;
+      if (myId !== playbackIdRef.current) break;
 
       if (noteData.note) {
-        // Play the note and show visual feedback
         playNote(noteData.note);
         setActiveNotes(new Set([noteData.note]));
       }
 
-      // Wait for the duration
-      await new Promise(resolve => 
+      await new Promise(resolve =>
         setTimeout(resolve, noteData.duration * melody.tempo)
       );
+      if (myId !== playbackIdRef.current) break;
 
-      // Check again after waiting
-      if (melodyAbortRef.current) break;
-
-      // Clear visual feedback
       setActiveNotes(new Set());
-      
-      // Small gap between notes
       await new Promise(resolve => setTimeout(resolve, 50));
     }
 
-    // Only clear if not aborted (aborted already clears)
-    if (!melodyAbortRef.current) {
+    if (myId === playbackIdRef.current) {
       setPlayingMelody(null);
     }
   }, [playingMelody, playNote, resumeContext, stopMelody]);

@@ -18,7 +18,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+
 export const metadata = {
+  metadataBase: new URL(baseUrl),
   title: "Libero Favi - Portfolio",
   description: "Journalist and Software Engineer",
 };
