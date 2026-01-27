@@ -163,6 +163,7 @@ export function SavedMelodyList({
               onPlay={() => onPlay(melody)}
             />
             <button
+              type="button"
               className="piano__delete-button"
               onClick={() => deleteMelody(melody.id)}
               aria-label={`Delete ${melody.name}`}

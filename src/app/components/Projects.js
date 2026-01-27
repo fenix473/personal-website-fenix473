@@ -12,7 +12,7 @@ function Projects() {
 
       <div className="projects__grid">
         {/* Piano Project Card */}
-        <Link href="/projects/piano" className="project-card project-card--piano">
+        <Link href="/projects/piano" className="project-card project-card--piano" prefetch={false}>
           <div className="project-card__icon">
             🎹
           </div>
