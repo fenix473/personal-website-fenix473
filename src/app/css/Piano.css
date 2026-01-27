@@ -313,6 +313,105 @@
   opacity: 0.9;
 }
 
+/* AI Melody Generator */
+.piano__generator {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.piano__generator-input {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.piano__prompt-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  color: #fff;
+  background: linear-gradient(180deg, #3a3a4a 0%, #2a2a3a 100%);
+  border: 1px solid #4a4a5a;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.piano__prompt-input:focus {
+  border-color: #6a6a7a;
+  box-shadow: 0 0 0 2px rgba(106, 106, 122, 0.2);
+}
+
+.piano__prompt-input::placeholder {
+  color: #888;
+}
+
+.piano__prompt-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.piano__generate-button {
+  padding: 0.75rem 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(180deg, #5a7a5a 0%, #4a6a4a 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.piano__generate-button:hover:not(:disabled) {
+  background: linear-gradient(180deg, #6a8a6a 0%, #5a7a5a 100%);
+}
+
+.piano__generate-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.piano__generate-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Saved melody with delete button */
+.piano__saved-melody {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.piano__delete-button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #888;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.piano__delete-button:hover {
+  color: #ff6666;
+  background: rgba(255, 102, 102, 0.1);
+}
+
 /* Responsive design */
 @media (max-width: 500px) {
   .piano-container {

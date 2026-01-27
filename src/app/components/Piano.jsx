@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useCallback, useState, useRef } from 'react';
+import { useMemo, useCallback, useState, useRef, useEffect } from 'react';
 import PianoKey from './PianoKey';
 import MelodyButton from './MelodyButton';
 import useAudioPlayer from '../hooks/useAudioPlayer';
@@ -234,12 +234,37 @@ export default function Piano() {
   const [playingMelody, setPlayingMelody] = useState(null);
   // Ref to track if we should cancel melody playback
   const melodyAbortRef = useRef(false);
+  
+  // Saved melodies from Neon database
+  const [savedMelodies, setSavedMelodies] = useState([]);
+  // AI melody generation state
+  const [melodyPrompt, setMelodyPrompt] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generationError, setGenerationError] = useState(null);
 
   // Extract keyboard bindings for the key press hook
   const keyBindings = useMemo(
     () => PIANO_KEYS.map(key => key.keyBinding),
     []
   );
+
+  /**
+   * Fetch saved melodies from Neon database on mount
+   */
+  useEffect(() => {
+    const fetchSavedMelodies = async () => {
+      try {
+        const response = await fetch('/api/piano/list');
+        if (response.ok) {
+          const data = await response.json();
+          setSavedMelodies(data);
+        }
+      } catch (error) {
+        console.error('Error fetching saved melodies:', error);
+      }
+    };
+    fetchSavedMelodies();
+  }, []);
 
   // Initialize audio player with piano notes
   const { 
@@ -367,6 +392,81 @@ export default function Piano() {
     }
   }, [playingMelody, playNote, resumeContext, stopMelody]);
 
+  /**
+   * Generate a melody via N8N and save to Neon
+   */
+  const generateMelody = useCallback(async () => {
+    if (!melodyPrompt.trim() || isGenerating) return;
+
+    setIsGenerating(true);
+    setGenerationError(null);
+
+    try {
+      // Call N8N to generate melody
+      const genResponse = await fetch('/api/piano/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: melodyPrompt }),
+      });
+
+      const data = await genResponse.json();
+
+      // Check if N8N returned melody data
+      if (data[0]?.melody?.notes) {
+        const melody = data[0].melody;
+
+        // Save to Neon database
+        const saveResponse = await fetch('/api/piano/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: melody.name || melodyPrompt,
+            tempo: melody.tempo || 300,
+            notes: melody.notes,
+          }),
+        });
+
+        if (saveResponse.ok) {
+          const savedMelody = await saveResponse.json();
+          // Add to saved melodies list
+          setSavedMelodies(prev => [savedMelody, ...prev]);
+          // Play the new melody
+          playMelody(savedMelody);
+          // Clear input
+          setMelodyPrompt('');
+        } else {
+          setGenerationError('Failed to save melody');
+        }
+      } else {
+        setGenerationError(data[0]?.output || 'No melody generated');
+      }
+    } catch (error) {
+      console.error('Error generating melody:', error);
+      setGenerationError('Failed to generate melody');
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [melodyPrompt, isGenerating, playMelody]);
+
+  /**
+   * Delete a saved melody from Neon
+   */
+  const deleteMelody = useCallback(async (melodyId) => {
+    try {
+      const response = await fetch('/api/piano/delete', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: melodyId }),
+      });
+
+      if (response.ok) {
+        setSavedMelodies(prev => prev.filter(m => m.id !== melodyId));
+      }
+    } catch (error) {
+      console.error('Error deleting melody:', error);
+    }
+  }, []);
+
   // Separate white and black keys for proper rendering order
   const whiteKeys = useMemo(
     () => PIANO_KEYS.filter(key => !key.isBlack),
@@ -464,9 +564,61 @@ export default function Piano() {
         <span className="piano__volume-value">{Math.round(volume * 100)}%</span>
       </div>
 
-      {/* Melody buttons */}
+      {/* AI Melody Generator */}
+      <div className="piano__generator">
+        <p className="piano__melodies-label">Generate a melody with AI:</p>
+        <div className="piano__generator-input">
+          <input
+            type="text"
+            className="piano__prompt-input"
+            placeholder="e.g., play something happy"
+            value={melodyPrompt}
+            onChange={(e) => setMelodyPrompt(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && generateMelody()}
+            disabled={isGenerating || !isLoaded}
+          />
+          <button
+            className="piano__generate-button"
+            onClick={generateMelody}
+            disabled={isGenerating || !isLoaded || !melodyPrompt.trim()}
+          >
+            {isGenerating ? 'Generating...' : 'Generate'}
+          </button>
+        </div>
+        {generationError && (
+          <p className="piano__status piano__status--error">{generationError}</p>
+        )}
+      </div>
+
+      {/* Saved melodies from database */}
+      {savedMelodies.length > 0 && (
+        <div className="piano__melodies">
+          <p className="piano__melodies-label">Your saved melodies:</p>
+          <div className="piano__melody-buttons">
+            {savedMelodies.map((melody) => (
+              <div key={melody.id} className="piano__saved-melody">
+                <MelodyButton
+                  name={melody.name}
+                  isPlaying={playingMelody === melody.id}
+                  disabled={!isLoaded}
+                  onPlay={() => playMelody(melody)}
+                />
+                <button
+                  className="piano__delete-button"
+                  onClick={() => deleteMelody(melody.id)}
+                  aria-label={`Delete ${melody.name}`}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Pre-defined melody buttons */}
       <div className="piano__melodies">
-        <p className="piano__melodies-label">Play a melody:</p>
+        <p className="piano__melodies-label">Classic melodies:</p>
         <div className="piano__melody-buttons">
           {MELODIES.map((melody) => (
             <MelodyButton
