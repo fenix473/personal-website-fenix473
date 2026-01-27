@@ -9,7 +9,7 @@ export async function generateMetadata() {
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
 
   // Construct absolute image URL with proper encoding
-  const imageUrl = new URL('/Piano Preview.png', baseUrl).toString();
+  const imageUrl = new URL('/piano-preview.png', baseUrl).toString();
 
   return {
     title: 'Piano - Interactive Web Piano | Libero Favi',
@@ -25,8 +25,8 @@ export async function generateMetadata() {
       images: [
         {
           url: imageUrl,
-          width: 1200,
-          height: 627,
+          width: 2086,
+          height: 994,
           alt: 'Piano project preview - interactive web piano interface',
           type: 'image/png',
         },
