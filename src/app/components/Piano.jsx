@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo, useCallback, useState, useRef, useEffect } from 'react';
+import { useMemo, useCallback, useState, useRef } from 'react';
 import PianoKey from './PianoKey';
-import MelodyButton from './MelodyButton';
+import MelodyButton, { SavedMelodyList } from './MelodyButton';
 import useAudioPlayer from '../hooks/useAudioPlayer';
 import useKeyPress from '../hooks/useKeyPress';
 import '../css/Piano.css';
@@ -235,8 +235,6 @@ export default function Piano() {
   // Ref to track if we should cancel melody playback
   const melodyAbortRef = useRef(false);
   
-  // Saved melodies from Neon database
-  const [savedMelodies, setSavedMelodies] = useState([]);
   // AI melody generation state
   const [melodyPrompt, setMelodyPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -247,24 +245,6 @@ export default function Piano() {
     () => PIANO_KEYS.map(key => key.keyBinding),
     []
   );
-
-  /**
-   * Fetch saved melodies from Neon database on mount
-   */
-  useEffect(() => {
-    const fetchSavedMelodies = async () => {
-      try {
-        const response = await fetch('/api/piano/list');
-        if (response.ok) {
-          const data = await response.json();
-          setSavedMelodies(data);
-        }
-      } catch (error) {
-        console.error('Error fetching saved melodies:', error);
-      }
-    };
-    fetchSavedMelodies();
-  }, []);
 
   // Initialize audio player with piano notes
   const { 
@@ -428,8 +408,10 @@ export default function Piano() {
 
         if (saveResponse.ok) {
           const savedMelody = await saveResponse.json();
-          // Add to saved melodies list
-          setSavedMelodies(prev => [savedMelody, ...prev]);
+          // Add to saved melodies list via global function
+          if (typeof window !== 'undefined' && window.__addSavedMelody) {
+            window.__addSavedMelody(savedMelody);
+          }
           // Play the new melody
           playMelody(savedMelody);
           // Clear input
@@ -447,25 +429,6 @@ export default function Piano() {
       setIsGenerating(false);
     }
   }, [melodyPrompt, isGenerating, playMelody]);
-
-  /**
-   * Delete a saved melody from Neon
-   */
-  const deleteMelody = useCallback(async (melodyId) => {
-    try {
-      const response = await fetch('/api/piano/delete', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: melodyId }),
-      });
-
-      if (response.ok) {
-        setSavedMelodies(prev => prev.filter(m => m.id !== melodyId));
-      }
-    } catch (error) {
-      console.error('Error deleting melody:', error);
-    }
-  }, []);
 
   // Separate white and black keys for proper rendering order
   const whiteKeys = useMemo(
@@ -591,30 +554,11 @@ export default function Piano() {
       </div>
 
       {/* Saved melodies from database */}
-      {savedMelodies.length > 0 && (
-        <div className="piano__melodies">
-          <p className="piano__melodies-label">Your saved melodies:</p>
-          <div className="piano__melody-buttons">
-            {savedMelodies.map((melody) => (
-              <div key={melody.id} className="piano__saved-melody">
-                <MelodyButton
-                  name={melody.name}
-                  isPlaying={playingMelody === melody.id}
-                  disabled={!isLoaded}
-                  onPlay={() => playMelody(melody)}
-                />
-                <button
-                  className="piano__delete-button"
-                  onClick={() => deleteMelody(melody.id)}
-                  aria-label={`Delete ${melody.name}`}
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <SavedMelodyList
+        playingMelodyId={playingMelody}
+        disabled={!isLoaded}
+        onPlay={playMelody}
+      />
 
       {/* Pre-defined melody buttons */}
       <div className="piano__melodies">
