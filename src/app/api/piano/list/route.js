@@ -15,13 +15,8 @@ export async function GET() {
       ORDER BY created_at DESC
     `;
 
-    // Parse notes JSON string back to array
-    const parsed = melodies.map(m => ({
-      ...m,
-      notes: typeof m.notes === 'string' ? JSON.parse(m.notes) : m.notes,
-    }));
-
-    return Response.json(parsed);
+    // JSONB returns as parsed object, no need to parse
+    return Response.json(melodies);
   } catch (error) {
     console.error('Error fetching melodies:', error);
     return Response.json(

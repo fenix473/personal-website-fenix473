@@ -31,12 +31,23 @@ export function getDb() {
 export async function initializeDatabase() {
   const sql = getDb();
   try {
-    // Example: Create a messages table for chat history
+    // Create messages table for chat history
     await sql`
       CREATE TABLE IF NOT EXISTS messages (
         id SERIAL PRIMARY KEY,
         content TEXT NOT NULL,
         role VARCHAR(50) NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+
+    // Create melodies table for piano saved melodies
+    await sql`
+      CREATE TABLE IF NOT EXISTS melodies (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        tempo INTEGER NOT NULL DEFAULT 300,
+        notes TEXT NOT NULL,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
     `;

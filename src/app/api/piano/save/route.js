@@ -20,18 +20,14 @@ export async function POST(request) {
       );
     }
 
-    // Insert melody into database
+    // Insert melody into database (notes is JSONB, pass as JSON string for Neon)
     const result = await sql`
       INSERT INTO melodies (name, tempo, notes)
-      VALUES (${name}, ${tempo}, ${JSON.stringify(notes)})
+      VALUES (${name}, ${tempo}, ${JSON.stringify(notes)}::jsonb)
       RETURNING id, name, tempo, notes, created_at
     `;
 
-    // Parse notes back to array for response
-    const saved = result[0];
-    saved.notes = typeof saved.notes === 'string' ? JSON.parse(saved.notes) : saved.notes;
-
-    return Response.json(saved);
+    return Response.json(result[0]);
   } catch (error) {
     console.error('Error saving melody:', error);
     return Response.json(
