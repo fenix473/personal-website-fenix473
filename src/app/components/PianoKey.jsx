@@ -1,10 +1,10 @@
 'use client';
 
-import { memo, useCallback, useRef } from 'react';
+import { memo, useCallback } from 'react';
 
 /**
  * Individual piano key component.
- * Handles mouse and touch events for audio playback.
+ * Simple click-to-play behavior (no hold).
  * Memoized to prevent unnecessary re-renders.
  * 
  * @param {Object} props
@@ -12,51 +12,26 @@ import { memo, useCallback, useRef } from 'react';
  * @param {string} props.keyBinding - Keyboard key binding
  * @param {boolean} props.isBlack - Whether this is a black key
  * @param {boolean} props.isActive - Whether the key is currently pressed
- * @param {Function} props.onNoteStart - Callback when note should start
- * @param {Function} props.onNoteEnd - Callback when note should end
+ * @param {Function} props.onNoteStart - Callback when note should play
  */
 function PianoKey({ 
   note, 
   keyBinding, 
   isBlack, 
   isActive, 
-  onNoteStart, 
-  onNoteEnd 
+  onNoteStart,
 }) {
-  const isMouseDownRef = useRef(false);
-
   /**
-   * Handle mouse down - start playing note
+   * Handle click - play note once
    */
-  const handleMouseDown = useCallback((e) => {
+  const handleClick = useCallback((e) => {
     e.preventDefault();
-    isMouseDownRef.current = true;
+    e.stopPropagation();
     onNoteStart(note);
   }, [note, onNoteStart]);
 
   /**
-   * Handle mouse up - stop playing note
-   */
-  const handleMouseUp = useCallback((e) => {
-    e.preventDefault();
-    if (isMouseDownRef.current) {
-      isMouseDownRef.current = false;
-      onNoteEnd(note);
-    }
-  }, [note, onNoteEnd]);
-
-  /**
-   * Handle mouse leave - stop note if mouse was pressed
-   */
-  const handleMouseLeave = useCallback(() => {
-    if (isMouseDownRef.current) {
-      isMouseDownRef.current = false;
-      onNoteEnd(note);
-    }
-  }, [note, onNoteEnd]);
-
-  /**
-   * Handle touch start - start playing note (mobile support)
+   * Handle touch start - play note (mobile support)
    */
   const handleTouchStart = useCallback((e) => {
     e.preventDefault();
@@ -64,12 +39,12 @@ function PianoKey({
   }, [note, onNoteStart]);
 
   /**
-   * Handle touch end - stop playing note (mobile support)
+   * Prevent double-click text selection
    */
-  const handleTouchEnd = useCallback((e) => {
+  const handleDoubleClick = useCallback((e) => {
     e.preventDefault();
-    onNoteEnd(note);
-  }, [note, onNoteEnd]);
+    e.stopPropagation();
+  }, []);
 
   // Build class names
   const classNames = [
@@ -81,11 +56,9 @@ function PianoKey({
   return (
     <button
       className={classNames}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
       onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+      onDoubleClick={handleDoubleClick}
       aria-label={`Piano key ${note}`}
       type="button"
     >
@@ -103,7 +76,6 @@ export default memo(PianoKey, (prevProps, nextProps) => {
     prevProps.keyBinding === nextProps.keyBinding &&
     prevProps.isBlack === nextProps.isBlack &&
     prevProps.isActive === nextProps.isActive &&
-    prevProps.onNoteStart === nextProps.onNoteStart &&
-    prevProps.onNoteEnd === nextProps.onNoteEnd
+    prevProps.onNoteStart === nextProps.onNoteStart
   );
 });

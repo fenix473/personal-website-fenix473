@@ -3,38 +3,64 @@
 import { useRef, useEffect, useCallback, useState } from 'react';
 
 /**
- * Custom hook for Web Audio API piano playback.
- * Handles audio loading, playback with sustain/loop on hold, and polyphonic support.
+ * Note frequency map - converts note names to frequencies in Hz.
+ * Uses A4 = 440Hz as reference.
+ */
+const NOTE_FREQUENCIES = {
+  'C': 16.35, 'C#': 17.32, 'D': 18.35, 'D#': 19.45, 'E': 20.60,
+  'F': 21.83, 'F#': 23.12, 'G': 24.50, 'G#': 25.96, 'A': 27.50,
+  'A#': 29.14, 'B': 30.87,
+};
+
+/**
+ * Get frequency for a note (e.g., "C4", "F#5")
+ */
+function getNoteFrequency(note) {
+  const match = note.match(/^([A-G]#?)(\d)$/);
+  if (!match) return 440;
+  
+  const [, noteName, octave] = match;
+  const baseFreq = NOTE_FREQUENCIES[noteName];
+  return baseFreq * Math.pow(2, parseInt(octave));
+}
+
+/**
+ * Custom hook for synthesized piano sounds using Web Audio API.
+ * Creates piano-like tones using oscillators with ADSR envelope.
+ * Uses a compressor to prevent volume scaling with multiple notes.
  * 
- * @param {Array} notes - Array of note objects with { note, audioPath }
  * @returns {Object} - { playNote, stopNote, isLoaded, resumeContext, setVolume, volume }
  */
-export default function useAudioPlayer(notes) {
+export default function useAudioPlayer() {
   const audioContextRef = useRef(null);
   const masterGainRef = useRef(null);
-  const audioBuffersRef = useRef(new Map());
-  const activeSourcesRef = useRef(new Map());
-  const gainNodesRef = useRef(new Map());
+  const compressorRef = useRef(null);
+  const activeNotesRef = useRef(new Map());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [loadError, setLoadError] = useState(null);
   const [volume, setVolumeState] = useState(0.7);
-  const notesRef = useRef(notes);
-
-  // Keep notes ref updated
-  useEffect(() => {
-    notesRef.current = notes;
-  }, [notes]);
 
   /**
-   * Initialize AudioContext and master gain node
+   * Initialize AudioContext with compressor to prevent volume scaling
    */
   const initAudioContext = useCallback(() => {
     if (!audioContextRef.current) {
       audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
-      // Create master gain node for volume control
+      
+      // Create compressor to prevent volume from increasing with more notes
+      compressorRef.current = audioContextRef.current.createDynamicsCompressor();
+      compressorRef.current.threshold.setValueAtTime(-24, audioContextRef.current.currentTime);
+      compressorRef.current.knee.setValueAtTime(30, audioContextRef.current.currentTime);
+      compressorRef.current.ratio.setValueAtTime(12, audioContextRef.current.currentTime);
+      compressorRef.current.attack.setValueAtTime(0.003, audioContextRef.current.currentTime);
+      compressorRef.current.release.setValueAtTime(0.25, audioContextRef.current.currentTime);
+      
+      // Master gain for volume control
       masterGainRef.current = audioContextRef.current.createGain();
-      masterGainRef.current.connect(audioContextRef.current.destination);
       masterGainRef.current.gain.setValueAtTime(0.7, audioContextRef.current.currentTime);
+      
+      // Chain: notes -> masterGain -> compressor -> destination
+      masterGainRef.current.connect(compressorRef.current);
+      compressorRef.current.connect(audioContextRef.current.destination);
     }
     return audioContextRef.current;
   }, []);
@@ -65,169 +91,192 @@ export default function useAudioPlayer(notes) {
     return ctx;
   }, [initAudioContext]);
 
-  /**
-   * Load a single audio file into an AudioBuffer
-   */
-  const loadAudioBuffer = useCallback(async (audioPath, note, ctx) => {
-    try {
-      const response = await fetch(audioPath);
-      if (!response.ok) {
-        throw new Error(`Failed to load ${audioPath}: ${response.status}`);
-      }
-      const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
-      audioBuffersRef.current.set(note, audioBuffer);
-      return audioBuffer;
-    } catch (error) {
-      console.warn(`Could not load audio for ${note}:`, error.message);
-      return null;
-    }
-  }, []);
-
-  /**
-   * Load all audio files on mount
-   */
+  // Mark as loaded on mount (no files to load for synthesis)
   useEffect(() => {
-    let isMounted = true;
+    initAudioContext();
+    setIsLoaded(true);
 
-    const loadAllAudio = async () => {
-      const ctx = initAudioContext();
-      
-      const loadPromises = notesRef.current.map(({ note, audioPath }) => 
-        loadAudioBuffer(audioPath, note, ctx)
-      );
-
-      try {
-        await Promise.all(loadPromises);
-        if (isMounted) {
-          setIsLoaded(true);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setLoadError(error);
-        }
-      }
-    };
-
-    if (notes && notes.length > 0) {
-      loadAllAudio();
-    }
-
-    // Cleanup on unmount
     return () => {
-      isMounted = false;
-      
-      // Stop all active sources
-      activeSourcesRef.current.forEach((source) => {
+      // Stop all active notes
+      activeNotesRef.current.forEach((noteData) => {
         try {
-          source.stop();
+          noteData.oscillators.forEach(osc => osc.stop());
         } catch (e) {
-          // Ignore errors from already stopped sources
+          // Ignore
         }
       });
-      activeSourcesRef.current.clear();
-      gainNodesRef.current.clear();
+      activeNotesRef.current.clear();
       
-      // Close audio context
       if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
         audioContextRef.current.close();
         audioContextRef.current = null;
       }
     };
-  }, []);
+  }, [initAudioContext]);
 
   /**
-   * Play a note - plays once, can retrigger anytime
+   * Create a piano-like sound using multiple oscillators with automatic fade out
    */
   const playNote = useCallback(async (note) => {
     const ctx = await resumeContext();
-    const buffer = audioBuffersRef.current.get(note);
-    
-    if (!buffer) {
-      return;
-    }
+    const frequency = getNoteFrequency(note);
+    const currentTime = ctx.currentTime;
 
-    // Stop any existing source for this note to allow retrigger
-    if (activeSourcesRef.current.has(note)) {
+    // Stop existing note if playing (with quick fade)
+    if (activeNotesRef.current.has(note)) {
+      const existing = activeNotesRef.current.get(note);
+      if (existing.timeout) clearTimeout(existing.timeout);
+      // Quick fade out existing note
       try {
-        const existingSource = activeSourcesRef.current.get(note);
-        existingSource.stop();
-      } catch (e) {
-        // Ignore
-      }
+        existing.gainNode.gain.cancelScheduledValues(currentTime);
+        existing.gainNode.gain.setValueAtTime(existing.gainNode.gain.value, currentTime);
+        existing.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.05);
+      } catch (e) {}
+      // Stop oscillators after fade
+      setTimeout(() => {
+        existing.oscillators.forEach(osc => {
+          try { osc.stop(); } catch (e) {}
+        });
+      }, 60);
+      activeNotesRef.current.delete(note);
     }
 
-    // Create gain node for smooth release, connect through master gain
-    const gainNode = ctx.createGain();
-    gainNode.connect(masterGainRef.current);
-    gainNode.gain.setValueAtTime(1, ctx.currentTime);
+    // Create gain node for this note's envelope
+    const noteGain = ctx.createGain();
+    noteGain.connect(masterGainRef.current);
 
-    // Create buffer source node
-    const source = ctx.createBufferSource();
-    source.buffer = buffer;
-    source.loop = false; // Play once, no looping
-    source.connect(gainNode);
+    // ADSR Envelope with full decay (piano-like with automatic fade out)
+    const attackTime = 0.01;
+    const decayTime = 0.1;
+    const sustainTime = 0.8;  // How long to sustain before release
+    const releaseTime = 1.0;  // Fade out duration
+    const peakLevel = 0.25;
+    const sustainLevel = 0.12;
+    const totalDuration = attackTime + decayTime + sustainTime + releaseTime;
 
-    // Store references
-    activeSourcesRef.current.set(note, source);
-    gainNodesRef.current.set(note, gainNode);
+    // Attack
+    noteGain.gain.setValueAtTime(0, currentTime);
+    noteGain.gain.linearRampToValueAtTime(peakLevel, currentTime + attackTime);
+    // Decay to sustain
+    noteGain.gain.exponentialRampToValueAtTime(sustainLevel, currentTime + attackTime + decayTime);
+    // Release (fade out)
+    noteGain.gain.exponentialRampToValueAtTime(0.001, currentTime + attackTime + decayTime + sustainTime + releaseTime);
 
-    // Clean up when audio finishes naturally
-    source.onended = () => {
-      activeSourcesRef.current.delete(note);
-      gainNodesRef.current.delete(note);
-    };
+    const oscillators = [];
 
-    // Start playback
-    source.start(0);
+    // Main oscillator - triangle wave for softer tone
+    const osc1 = ctx.createOscillator();
+    osc1.type = 'triangle';
+    osc1.frequency.setValueAtTime(frequency, currentTime);
+    
+    // Second oscillator - sine wave, one octave up for brightness
+    const osc2 = ctx.createOscillator();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(frequency * 2, currentTime);
+    
+    // Third oscillator - sine at fundamental for body
+    const osc3 = ctx.createOscillator();
+    osc3.type = 'sine';
+    osc3.frequency.setValueAtTime(frequency, currentTime);
+
+    // Individual gain nodes for mixing oscillators
+    const osc1Gain = ctx.createGain();
+    const osc2Gain = ctx.createGain();
+    const osc3Gain = ctx.createGain();
+
+    osc1Gain.gain.setValueAtTime(0.4, currentTime);
+    osc2Gain.gain.setValueAtTime(0.1, currentTime);
+    osc3Gain.gain.setValueAtTime(0.3, currentTime);
+
+    osc1.connect(osc1Gain);
+    osc2.connect(osc2Gain);
+    osc3.connect(osc3Gain);
+
+    osc1Gain.connect(noteGain);
+    osc2Gain.connect(noteGain);
+    osc3Gain.connect(noteGain);
+
+    // Start oscillators
+    osc1.start(currentTime);
+    osc2.start(currentTime);
+    osc3.start(currentTime);
+
+    // Schedule oscillators to stop after the envelope completes
+    const stopTime = currentTime + totalDuration + 0.1;
+    osc1.stop(stopTime);
+    osc2.stop(stopTime);
+    osc3.stop(stopTime);
+
+    oscillators.push(osc1, osc2, osc3);
+
+    // Store active note data
+    activeNotesRef.current.set(note, {
+      oscillators,
+      gainNode: noteGain,
+      oscGains: [osc1Gain, osc2Gain, osc3Gain],
+    });
+
+    // Clean up reference after note finishes
+    const cleanupTimeout = setTimeout(() => {
+      activeNotesRef.current.delete(note);
+    }, totalDuration * 1000 + 150);
+
+    activeNotesRef.current.get(note).timeout = cleanupTimeout;
   }, [resumeContext]);
 
   /**
-   * Stop a note with smooth release (fade out)
+   * Internal stop function
+   */
+  const stopNoteInternal = useCallback((note, ctx) => {
+    const noteData = activeNotesRef.current.get(note);
+    if (!noteData) return;
+
+    const { oscillators, gainNode, timeout } = noteData;
+    const currentTime = ctx.currentTime;
+    const releaseTime = 0.5;
+
+    if (timeout) clearTimeout(timeout);
+
+    // Release envelope
+    gainNode.gain.cancelScheduledValues(currentTime);
+    gainNode.gain.setValueAtTime(gainNode.gain.value, currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + releaseTime);
+
+    // Stop oscillators after release
+    setTimeout(() => {
+      oscillators.forEach(osc => {
+        try { osc.stop(); } catch (e) {}
+      });
+      activeNotesRef.current.delete(note);
+    }, releaseTime * 1000);
+  }, []);
+
+  /**
+   * Stop a note with smooth release
    */
   const stopNote = useCallback((note) => {
     const ctx = audioContextRef.current;
     if (!ctx) return;
-
-    const source = activeSourcesRef.current.get(note);
-    const gainNode = gainNodesRef.current.get(note);
-
-    if (source && gainNode) {
-      // Smooth release with exponential ramp (simulates piano release)
-      const releaseTime = 0.3; // 300ms release
-      const currentTime = ctx.currentTime;
-      
-      gainNode.gain.setValueAtTime(gainNode.gain.value, currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + releaseTime);
-
-      // Stop the source after the fade out
-      setTimeout(() => {
-        try {
-          source.stop();
-        } catch (e) {
-          // Source may already be stopped
-        }
-        activeSourcesRef.current.delete(note);
-        gainNodesRef.current.delete(note);
-      }, releaseTime * 1000);
-    }
-  }, []);
+    stopNoteInternal(note, ctx);
+  }, [stopNoteInternal]);
 
   /**
    * Stop all currently playing notes
    */
   const stopAllNotes = useCallback(() => {
-    activeSourcesRef.current.forEach((_, note) => {
-      stopNote(note);
+    const ctx = audioContextRef.current;
+    if (!ctx) return;
+    activeNotesRef.current.forEach((_, note) => {
+      stopNoteInternal(note, ctx);
     });
-  }, [stopNote]);
+  }, [stopNoteInternal]);
 
   return {
     playNote,
     stopNote,
     stopAllNotes,
     isLoaded,
-    loadError,
+    loadError: null,
     resumeContext,
     volume,
     setVolume,

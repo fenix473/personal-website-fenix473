@@ -8,23 +8,67 @@ import useKeyPress from '../hooks/useKeyPress';
 import '../css/Piano.css';
 
 /**
- * Piano key configuration for one octave (C4 to B4).
- * Each key includes note name, keyboard binding, type, and audio path.
+ * Note names in chromatic order
  */
-const PIANO_KEYS = [
-  { note: 'C4', keyBinding: 'a', isBlack: false, audioPath: '/sounds/piano/C4.ogg' },
-  { note: 'C#4', keyBinding: 'w', isBlack: true, audioPath: '/sounds/piano/C-sharp-4.ogg' },
-  { note: 'D4', keyBinding: 's', isBlack: false, audioPath: '/sounds/piano/D4.ogg' },
-  { note: 'D#4', keyBinding: 'e', isBlack: true, audioPath: '/sounds/piano/D-sharp-4.ogg' },
-  { note: 'E4', keyBinding: 'd', isBlack: false, audioPath: '/sounds/piano/E4.ogg' },
-  { note: 'F4', keyBinding: 'f', isBlack: false, audioPath: '/sounds/piano/F4.ogg' },
-  { note: 'F#4', keyBinding: 't', isBlack: true, audioPath: '/sounds/piano/F-sharp-4.ogg' },
-  { note: 'G4', keyBinding: 'g', isBlack: false, audioPath: '/sounds/piano/G4.ogg' },
-  { note: 'G#4', keyBinding: 'y', isBlack: true, audioPath: '/sounds/piano/G-sharp-4.ogg' },
-  { note: 'A4', keyBinding: 'h', isBlack: false, audioPath: '/sounds/piano/A4.ogg' },
-  { note: 'A#4', keyBinding: 'u', isBlack: true, audioPath: '/sounds/piano/A-sharp-4.ogg' },
-  { note: 'B4', keyBinding: 'j', isBlack: false, audioPath: '/sounds/piano/B4.ogg' },
-];
+const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const BLACK_NOTES = new Set(['C#', 'D#', 'F#', 'G#', 'A#']);
+
+/**
+ * Keyboard mappings for all 4 octaves (C2 to C6)
+ * Row 1 (1-0): C2-B2 (lowest octave)
+ * Row Q (q-]): C3-B3 
+ * Row A (a-'): C4-B4
+ * Row Z (z-.): C5-B5 (highest octave)
+ * C6 mapped to /
+ */
+const KEYBOARD_MAP = {
+  // Octave 2 (number row) - white keys: 1,2,3,4,5,6,7 - black keys on shifted positions
+  '1': 'C2', '!': 'C#2', '2': 'D2', '@': 'D#2', '3': 'E2',
+  '4': 'F2', '$': 'F#2', '5': 'G2', '%': 'G#2', '6': 'A2', '^': 'A#2', '7': 'B2',
+  // Octave 3 (Q row) - white keys: q,w,e,r,t,y,u - black keys: 9,0,-
+  'q': 'C3', '8': 'C#3', 'w': 'D3', '9': 'D#3', 'e': 'E3',
+  'r': 'F3', '0': 'F#3', 't': 'G3', '-': 'G#3', 'y': 'A3', '=': 'A#3', 'u': 'B3',
+  // Octave 4 (A row) - white keys: a,s,d,f,g,h,j - black keys: i,o,p,[,]
+  'a': 'C4', 'i': 'C#4', 's': 'D4', 'o': 'D#4', 'd': 'E4',
+  'f': 'F4', 'p': 'F#4', 'g': 'G4', '[': 'G#4', 'h': 'A4', ']': 'A#4', 'j': 'B4',
+  // Octave 5 (Z row) - white keys: z,x,c,v,b,n,m - black keys: k,l,;,'
+  'z': 'C5', 'k': 'C#5', 'x': 'D5', 'l': 'D#5', 'c': 'E5',
+  'v': 'F5', ';': 'F#5', 'b': 'G5', "'": 'G#5', 'n': 'A5', '\\': 'A#5', 'm': 'B5',
+  // C6 (the final key)
+  ',': 'C6',
+};
+
+/**
+ * Generate 49 piano keys (C2 to C6 - 4 octaves + 1)
+ */
+function generatePianoKeys() {
+  const keys = [];
+  const startOctave = 2;
+  const endOctave = 6;
+  
+  for (let octave = startOctave; octave <= endOctave; octave++) {
+    const notesToAdd = octave === endOctave ? ['C'] : NOTE_NAMES;
+    
+    for (const noteName of notesToAdd) {
+      const note = `${noteName}${octave}`;
+      const isBlack = BLACK_NOTES.has(noteName);
+      
+      // Find keyboard binding if exists
+      const keyBinding = Object.entries(KEYBOARD_MAP)
+        .find(([, n]) => n === note)?.[0] || '';
+      
+      keys.push({
+        note,
+        keyBinding,
+        isBlack,
+      });
+    }
+  }
+  
+  return keys;
+}
+
+const PIANO_KEYS = generatePianoKeys();
 
 /**
  * Pre-defined melodies with note sequences.
@@ -210,12 +254,9 @@ const MELODIES = [
 ];
 
 /**
- * Create a mapping from keyboard key to note
+ * Create a mapping from keyboard key to note (use KEYBOARD_MAP directly)
  */
-const KEY_TO_NOTE_MAP = PIANO_KEYS.reduce((acc, key) => {
-  acc[key.keyBinding.toLowerCase()] = key.note;
-  return acc;
-}, {});
+const KEY_TO_NOTE_MAP = KEYBOARD_MAP;
 
 /**
  * Minimalist Piano Component
@@ -242,20 +283,19 @@ export default function Piano() {
 
   // Extract keyboard bindings for the key press hook
   const keyBindings = useMemo(
-    () => PIANO_KEYS.map(key => key.keyBinding),
+    () => Object.keys(KEYBOARD_MAP),
     []
   );
 
-  // Initialize audio player with piano notes
+  // Initialize audio player with synthesized sounds
   const { 
     playNote, 
-    stopNote, 
     isLoaded, 
     loadError, 
     resumeContext,
     volume,
     setVolume,
-  } = useAudioPlayer(PIANO_KEYS);
+  } = useAudioPlayer();
 
   /**
    * Handle volume slider change
@@ -265,32 +305,30 @@ export default function Piano() {
   }, [setVolume]);
 
   /**
-   * Start playing a note (called from keyboard or mouse/touch)
+   * Play a note (called from keyboard or click)
+   * Shows brief visual feedback
    */
   const handleNoteStart = useCallback((note) => {
     resumeContext(); // Ensure audio context is active
     playNote(note);
+    // Show visual feedback briefly
     setActiveNotes(prev => {
       const next = new Set(prev);
       next.add(note);
       return next;
     });
+    // Clear visual feedback after short delay
+    setTimeout(() => {
+      setActiveNotes(prev => {
+        const next = new Set(prev);
+        next.delete(note);
+        return next;
+      });
+    }, 150);
   }, [playNote, resumeContext]);
 
   /**
-   * Stop playing a note (called from keyboard or mouse/touch)
-   */
-  const handleNoteEnd = useCallback((note) => {
-    stopNote(note);
-    setActiveNotes(prev => {
-      const next = new Set(prev);
-      next.delete(note);
-      return next;
-    });
-  }, [stopNote]);
-
-  /**
-   * Handle keyboard key down - map to note and start
+   * Handle keyboard key down - map to note and play
    */
   const handleKeyDown = useCallback((key) => {
     const note = KEY_TO_NOTE_MAP[key];
@@ -299,18 +337,8 @@ export default function Piano() {
     }
   }, [handleNoteStart]);
 
-  /**
-   * Handle keyboard key up - map to note and stop
-   */
-  const handleKeyUp = useCallback((key) => {
-    const note = KEY_TO_NOTE_MAP[key];
-    if (note) {
-      handleNoteEnd(note);
-    }
-  }, [handleNoteEnd]);
-
-  // Set up keyboard event handling
-  useKeyPress(keyBindings, handleKeyDown, handleKeyUp);
+  // Set up keyboard event handling (only keydown, no keyup needed)
+  useKeyPress(keyBindings, handleKeyDown, null);
 
   /**
    * Stop the currently playing melody
@@ -442,19 +470,28 @@ export default function Piano() {
   );
 
   /**
-   * Get the position for black keys (positioned between white keys)
-   * Returns the left offset as a percentage based on white key index
+   * Get the position index for black keys relative to white keys
+   * Calculates based on octave and note position
    */
   const getBlackKeyPosition = useCallback((note) => {
-    // Map black keys to their position relative to white keys
-    const blackKeyPositions = {
-      'C#4': 0,  // Between C and D
-      'D#4': 1,  // Between D and E
-      'F#4': 3,  // Between F and G
-      'G#4': 4,  // Between G and A
-      'A#4': 5,  // Between A and B
+    const match = note.match(/^([A-G]#?)(\d)$/);
+    if (!match) return 0;
+    
+    const [, noteName, octave] = match;
+    const octaveNum = parseInt(octave);
+    const startOctave = 2;
+    
+    // Position within an octave (which white key it follows)
+    const blackKeyOffsets = {
+      'C#': 0, 'D#': 1, 'F#': 3, 'G#': 4, 'A#': 5
     };
-    return blackKeyPositions[note];
+    
+    // Calculate total white keys before this octave
+    const whiteKeysPerOctave = 7;
+    const octavesFromStart = octaveNum - startOctave;
+    const whiteKeysBefore = octavesFromStart * whiteKeysPerOctave;
+    
+    return whiteKeysBefore + blackKeyOffsets[noteName];
   }, []);
 
   return (
@@ -470,7 +507,6 @@ export default function Piano() {
               isBlack={false}
               isActive={activeNotes.has(key.note)}
               onNoteStart={handleNoteStart}
-              onNoteEnd={handleNoteEnd}
             />
           ))}
         </div>
@@ -491,7 +527,6 @@ export default function Piano() {
                 isBlack={true}
                 isActive={activeNotes.has(key.note)}
                 onNoteStart={handleNoteStart}
-                onNoteEnd={handleNoteEnd}
               />
             </div>
           ))}
