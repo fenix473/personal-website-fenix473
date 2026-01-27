@@ -1,8 +1,13 @@
 /**
  * Piano project page layout - exports metadata for social sharing (LinkedIn, etc.)
- * Uses static metadata to ensure tags are in initial HTML for crawlers
- * Uses relative paths - metadataBase from root layout converts to absolute URLs
+ * Uses static metadata with absolute URLs for maximum compatibility
  */
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+
+const imageUrl = `${baseUrl}/piano-preview.png`;
+
 export const metadata = {
   title: 'Piano - Interactive Web Piano | Libero Favi',
   description:
@@ -11,12 +16,12 @@ export const metadata = {
     title: 'Piano - Interactive Web Piano',
     description:
       'Interactive piano with keyboard and touch support. Play melodies, generate AI compositions, and explore music with Web Audio API.',
-    url: '/projects/piano',
+    url: `${baseUrl}/projects/piano`,
     siteName: 'Libero Favi Portfolio',
     type: 'website',
     images: [
       {
-        url: '/piano-preview.png',
+        url: imageUrl,
         width: 1200,
         height: 627,
         alt: 'Piano project preview - interactive web piano interface',
@@ -29,7 +34,7 @@ export const metadata = {
     title: 'Piano - Interactive Web Piano',
     description:
       'Interactive piano with keyboard and touch support. Play melodies, generate AI compositions, and explore music.',
-    images: ['/piano-preview.png'],
+    images: [imageUrl],
   },
 };
 
