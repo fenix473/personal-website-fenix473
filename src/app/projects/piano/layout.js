@@ -25,8 +25,8 @@ export async function generateMetadata() {
       images: [
         {
           url: imageUrl,
-          width: 2086,
-          height: 994,
+          width: 1200,
+          height: 627,
           alt: 'Piano project preview - interactive web piano interface',
           type: 'image/png',
         },
