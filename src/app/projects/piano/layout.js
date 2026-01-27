@@ -15,15 +15,16 @@ export const metadata = {
       'Interactive piano with keyboard and touch support. Play melodies, generate AI compositions, and explore music with Web Audio API.',
     url: `${baseUrl}/projects/piano`,
     siteName: 'Libero Favi Portfolio',
+    type: 'website',
     images: [
       {
         url: `${baseUrl}/Piano%20Preview.png`,
         width: 1200,
-        height: 630,
+        height: 627,
         alt: 'Piano project preview - interactive web piano interface',
+        type: 'image/png',
       },
     ],
-    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
