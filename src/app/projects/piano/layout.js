@@ -1,46 +1,37 @@
 /**
  * Piano project page layout - exports metadata for social sharing (LinkedIn, etc.)
- * Uses Next.js Metadata API for server-side rendering - ensures crawlers see meta tags
- * Uses generateMetadata to construct URLs at runtime with proper base URL
+ * Uses static metadata to ensure tags are in initial HTML for crawlers
+ * Uses relative paths - metadataBase from root layout converts to absolute URLs
  */
-export async function generateMetadata() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
-
-  // Construct absolute image URL with proper encoding
-  const imageUrl = new URL('/piano-preview.png', baseUrl).toString();
-
-  return {
-    title: 'Piano - Interactive Web Piano | Libero Favi',
+export const metadata = {
+  title: 'Piano - Interactive Web Piano | Libero Favi',
+  description:
+    'Interactive piano with keyboard and touch support. Play melodies, generate AI compositions, and explore music with Web Audio API.',
+  openGraph: {
+    title: 'Piano - Interactive Web Piano',
     description:
       'Interactive piano with keyboard and touch support. Play melodies, generate AI compositions, and explore music with Web Audio API.',
-    openGraph: {
-      title: 'Piano - Interactive Web Piano',
-      description:
-        'Interactive piano with keyboard and touch support. Play melodies, generate AI compositions, and explore music with Web Audio API.',
-      url: `${baseUrl}/projects/piano`,
-      siteName: 'Libero Favi Portfolio',
-      type: 'website',
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 627,
-          alt: 'Piano project preview - interactive web piano interface',
-          type: 'image/png',
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Piano - Interactive Web Piano',
-      description:
-        'Interactive piano with keyboard and touch support. Play melodies, generate AI compositions, and explore music.',
-      images: [imageUrl],
-    },
-  };
-}
+    url: '/projects/piano',
+    siteName: 'Libero Favi Portfolio',
+    type: 'website',
+    images: [
+      {
+        url: '/piano-preview.png',
+        width: 1200,
+        height: 627,
+        alt: 'Piano project preview - interactive web piano interface',
+        type: 'image/png',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Piano - Interactive Web Piano',
+    description:
+      'Interactive piano with keyboard and touch support. Play melodies, generate AI compositions, and explore music.',
+    images: ['/piano-preview.png'],
+  },
+};
 
 export default function PianoLayout({ children }) {
   return children;
