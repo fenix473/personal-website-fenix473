@@ -6,7 +6,7 @@
  * - POST: Initialize database tables
  */
 
-import { sql, initializeDatabase } from '@/lib/db';
+import { getDb, initializeDatabase } from '@/lib/db';
 
 /**
  * GET /api/db
@@ -14,6 +14,7 @@ import { sql, initializeDatabase } from '@/lib/db';
  */
 export async function GET() {
   try {
+    const sql = getDb();
     // Simple query to test connection
     const result = await sql`SELECT NOW() as current_time`;
     

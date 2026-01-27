@@ -4,12 +4,11 @@
  * Returns: array of { id, name, tempo, notes, created_at }
  */
 
-import { neon } from '@neondatabase/serverless';
-
-const sql = neon(process.env.DATABASE_URL);
+import { getDb } from '@/lib/db';
 
 export async function GET() {
   try {
+    const sql = getDb();
     const melodies = await sql`
       SELECT id, name, tempo, notes, created_at
       FROM melodies

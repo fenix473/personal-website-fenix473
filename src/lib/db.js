@@ -10,21 +10,26 @@
 
 import { neon } from '@neondatabase/serverless';
 
-// Create the SQL query function using the DATABASE_URL
-const sql = neon(process.env.DATABASE_URL);
+// Lazy initialization to avoid build-time errors
+let _sql = null;
 
 /**
- * Execute a SQL query using tagged template literals
- * @example
- * const users = await sql`SELECT * FROM users WHERE id = ${userId}`;
+ * Get the SQL query function (lazy initialized)
+ * @returns {Function} Neon SQL tagged template function
  */
-export { sql };
+export function getDb() {
+  if (!_sql) {
+    _sql = neon(process.env.DATABASE_URL);
+  }
+  return _sql;
+}
 
 /**
  * Initialize the database with required tables
  * Call this once to set up your schema
  */
 export async function initializeDatabase() {
+  const sql = getDb();
   try {
     // Example: Create a messages table for chat history
     await sql`

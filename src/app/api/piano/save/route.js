@@ -5,12 +5,11 @@
  * Returns: { id, name, tempo, notes, created_at }
  */
 
-import { neon } from '@neondatabase/serverless';
-
-const sql = neon(process.env.DATABASE_URL);
+import { getDb } from '@/lib/db';
 
 export async function POST(request) {
   try {
+    const sql = getDb();
     const { name, tempo, notes } = await request.json();
 
     // Validate required fields

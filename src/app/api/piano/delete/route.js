@@ -5,12 +5,11 @@
  * Returns: { success: true, id: number }
  */
 
-import { neon } from '@neondatabase/serverless';
-
-const sql = neon(process.env.DATABASE_URL);
+import { getDb } from '@/lib/db';
 
 export async function DELETE(request) {
   try {
+    const sql = getDb();
     const { id } = await request.json();
 
     if (!id) {
