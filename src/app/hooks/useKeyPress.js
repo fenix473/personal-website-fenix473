@@ -27,6 +27,15 @@ export default function useKeyPress(keyBindings, onKeyDown, onKeyUp) {
    * Handle keydown events - start sound if key is valid and not already pressed
    */
   const handleKeyDown = useCallback((event) => {
+    // Ignore if user is typing in an input field
+    const activeElement = document.activeElement;
+    const isTyping = activeElement && (
+      activeElement.tagName === 'INPUT' ||
+      activeElement.tagName === 'TEXTAREA' ||
+      activeElement.isContentEditable
+    );
+    if (isTyping) return;
+
     // Ignore auto-repeated keydown events from holding key
     if (event.repeat) return;
     
