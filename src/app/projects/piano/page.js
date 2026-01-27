@@ -40,29 +40,29 @@ export default function PianoPage() {
 
   return (
     <div className="piano-page" role="main">
-      <div className="piano-page__bg piano-page__bg--base" aria-hidden="true" />
+        <div className="piano-page__bg piano-page__bg--base" aria-hidden="true" />
 
-      <div
-        className="piano-page__bg piano-page__bg--piano piano-page__transition"
-        aria-hidden="true"
-        style={{ opacity: show ? 1 : 0, transitionDuration: isExiting ? '0.35s' : '0.6s' }}
-      />
+        <div
+          className="piano-page__bg piano-page__bg--piano piano-page__transition"
+          aria-hidden="true"
+          style={{ opacity: show ? 1 : 0, transitionDuration: isExiting ? '0.35s' : '0.6s' }}
+        />
 
-      <div
-        className="piano-page__foreground piano-page__transition"
-        style={{
-          opacity: show ? 1 : 0,
-          pointerEvents: isExiting ? 'none' : 'auto',
-          transitionDuration: isExiting ? '0.32s' : '0.5s',
-          transitionDelay: isExiting ? '0s' : '0.15s',
-        }}
-      >
-        <CoverBackButton onClick={handleBack} />
-        <div className="piano-page__content">
-          <h1 className="piano-page__title">Piano</h1>
-          <Piano />
+        <div
+          className="piano-page__foreground piano-page__transition"
+          style={{
+            opacity: show ? 1 : 0,
+            pointerEvents: isExiting ? 'none' : 'auto',
+            transitionDuration: isExiting ? '0.32s' : '0.5s',
+            transitionDelay: isExiting ? '0s' : '0.15s',
+          }}
+        >
+          <CoverBackButton onClick={handleBack} />
+          <div className="piano-page__content">
+            <h1 className="piano-page__title">Piano</h1>
+            <Piano />
+          </div>
         </div>
-      </div>
     </div>
   );
 }

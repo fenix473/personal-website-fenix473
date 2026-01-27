@@ -1,6 +1,6 @@
 /**
  * Piano project page layout - exports metadata for social sharing (LinkedIn, etc.)
- * Constructs absolute URLs for images to ensure compatibility with LinkedIn and iMessage
+ * Uses Next.js Metadata API for server-side rendering - ensures crawlers see meta tags
  */
 const baseUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
