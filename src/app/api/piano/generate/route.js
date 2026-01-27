@@ -19,7 +19,14 @@ export async function POST(request) {
       body: JSON.stringify(body),
     });
 
-    const text = await response.text();
+    let text = await response.text();
+
+    // Strip markdown code blocks if present (```json ... ``` or ``` ... ```)
+    text = text.trim();
+    if (text.startsWith('```')) {
+      // Remove opening ``` (with optional language tag) and closing ```
+      text = text.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+    }
 
     // Try to parse as JSON
     let data;
