@@ -1,4 +1,4 @@
-import Writings from "../components/Writings";
+import Writings from "@/components/Writings";
 
 export default function WritingsPage() {
   return <Writings />;

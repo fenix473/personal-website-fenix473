@@ -3,9 +3,9 @@
 import { useMemo, useCallback, useState, useRef } from 'react';
 import PianoKey from './PianoKey';
 import MelodyButton, { SavedMelodyList } from './MelodyButton';
-import useAudioPlayer from '../hooks/useAudioPlayer';
-import useKeyPress from '../hooks/useKeyPress';
-import '../css/Piano.css';
+import useAudioPlayer from '@/hooks/useAudioPlayer';
+import useKeyPress from '@/hooks/useKeyPress';
+import '@/styles/Piano.css';
 
 /**
  * Note names in chromatic order

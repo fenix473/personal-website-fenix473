@@ -2,9 +2,9 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Piano from '../../components/Piano';
-import CoverBackButton from '../../components/CoverBackButton';
-import '../../css/PianoPage.css';
+import Piano from '@/components/Piano';
+import CoverBackButton from '@/components/CoverBackButton';
+import '@/styles/PianoPage.css';
 
 const FADE_OUT_MS = 420;
 

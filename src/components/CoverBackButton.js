@@ -1,6 +1,6 @@
 "use client";
 
-import "./CoverBackButton.css";
+import "@/styles/CoverBackButton.css";
 
 /**
  * Back button with optional book cover as background.

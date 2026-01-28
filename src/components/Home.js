@@ -1,6 +1,6 @@
-import Resume from "./Resume";
-import About from "./About";
-import Contact from "./Contact";
+import Resume from "@/components/Resume";
+import About from "@/components/About";
+import Contact from "@/components/Contact";
 
 function Home() {
     return (

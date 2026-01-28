@@ -6,7 +6,7 @@ const baseUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
 
-const imageUrl = `${baseUrl}/piano-preview.png`;
+const imageUrl = `${baseUrl}/images/piano-preview.png`;
 
 export const metadata = {
   title: 'Piano - Interactive Web Piano | Libero Favi',

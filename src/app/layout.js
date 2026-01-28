@@ -1,12 +1,12 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
-import "./css/Nav.css";
-import "./css/Home.css";
-import "./css/Resume.css";
-import "./css/Writings.css";
+import "@/styles/Nav.css";
+import "@/styles/Home.css";
+import "@/styles/Resume.css";
+import "@/styles/Writings.css";
 import { Provider } from "@/components/ui/provider";
-import ChatWindow from "./components/ChatWindow";
+import ChatWindow from "@/components/ChatWindow";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

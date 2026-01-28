@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef } from "react";
-import WordReader from "../functionalcomponents/wordReader";
-import useInfiniteScroll from "../functionalcomponents/useInfiniteScroll";
-import CoverBackButton from "./CoverBackButton";
+import WordReader from "@/utils/wordReader";
+import useInfiniteScroll from "@/utils/useInfiniteScroll";
+import CoverBackButton from "@/components/CoverBackButton";
 
 // DOCX files served from public folder
 const baseUrl = "/writings/";

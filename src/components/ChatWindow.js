@@ -1,7 +1,7 @@
 "use client"
 
 import { Box, Heading, Text, CloseButton, Button, Group, Input } from "@chakra-ui/react"
-import "../css/ChatWindow.css"
+import "@/styles/ChatWindow.css"
 import { useState } from "react"
 
 

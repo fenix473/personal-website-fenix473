@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const RESUME_PDF = "/CV.pdf";
+const RESUME_PDF = "/documents/ResumeMarkt.pdf";
 
 function Resume() {
     const [showResume, setShowResume] = useState(false);
