@@ -14,7 +14,9 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  background-color: transparent; /* Allow orbit background to show through */
+  position: relative;
+  z-index: 0; /* Ensure content is above orbit background */
 }
 
 .main {
@@ -25,7 +27,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  background-color: var(--foreground);
+  background-color: transparent; /* Allow orbit background to show through */
   padding: 120px 60px;
 }
 
@@ -139,3 +141,4 @@ a.secondary {
     --button-secondary-border: #1a1a1a;
   }
 }
+

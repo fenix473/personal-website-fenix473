@@ -7,6 +7,10 @@
   --medium-gray: #CCCCCC;
   --text-gray: #666666;
   --hover-gray: #333333;
+  
+  /* Orbit Background */
+  --orbit-z-index: -1;
+  --orbit-background-opacity: 0.3;
 }
 
 html,
@@ -17,7 +21,7 @@ body {
 
 body {
   color: var(--black);
-  background: var(--light-gray);
+  background: transparent; /* Allow orbit background to show through */
   font-family: Georgia, 'Times New Roman', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -44,6 +48,8 @@ a:hover {
 .App {
   min-height: 100vh;
   text-align: center;
+  position: relative;
+  z-index: 0; /* Ensure content is above orbit background */
 }
 
 /* Work in Progress Banner */
@@ -57,4 +63,21 @@ a:hover {
   text-align: center;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+/* Orbit Background - Renders behind everything */
+.orbitBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--orbit-z-index);
+  pointer-events: none;
+}
+
+.orbitBackground canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }

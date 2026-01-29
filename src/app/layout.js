@@ -7,6 +7,7 @@ import "@/styles/Resume.css";
 import "@/styles/Writings.css";
 import { Provider } from "@/components/ui/provider";
 import ChatWindow from "@/components/ChatWindow";
+import OrbitBackground from "@/components/OrbitBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Provider>
+          <OrbitBackground />
           <div className="App">
             <div className="wip-banner">
               🚧 Work in Progress 🚧
@@ -41,6 +43,7 @@ export default function RootLayout({ children }) {
               <Link href="/">Home</Link>
               <Link href="/projects">Projects</Link>
               <Link href="/writings">Writings</Link>
+              <Link href="/orbit">Orbit</Link>
             </nav>
             {children}
           </div>
