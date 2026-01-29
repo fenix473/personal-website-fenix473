@@ -8,7 +8,7 @@
 .home-section h1 {
     font-family: Georgia, 'Times New Roman', serif;
     font-size: clamp(2.5rem, 6vw, 3.5rem);
-    color: var(--black);
+    color: var(--white);
     margin-bottom: 1.5rem;
     font-weight: 400;
     letter-spacing: -0.02em;
@@ -17,7 +17,7 @@
 .home-section > h2 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: clamp(1rem, 2.5vw, 1.15rem);
-    color: var(--text-gray);
+    color: var(--white);
     font-weight: 400;
     margin-bottom: 2rem;
     line-height: 1.7;
@@ -26,7 +26,7 @@
 .home-section > p {
     font-size: clamp(1rem, 2.5vw, 1.1rem);
     line-height: 1.8;
-    color: var(--text-gray);
+    color: var(--white);
     max-width: 650px;
     margin: 0 auto 3rem auto;
 }
@@ -35,7 +35,7 @@
 .about-section {
     margin-top: 4rem;
     padding: clamp(2rem, 4vw, 3rem);
-    background: var(--light-gray);
+    background: transparent;
     border: none;
     border-radius: 0;
     text-align: left;
@@ -44,7 +44,7 @@
 .about-section h2 {
     font-family: Georgia, 'Times New Roman', serif;
     font-size: clamp(1.5rem, 3.5vw, 2rem);
-    color: var(--black);
+    color: var(--white);
     margin-bottom: 2rem;
     text-align: center;
     font-weight: 400;
@@ -55,14 +55,14 @@
     display: block;
     width: 40px;
     height: 1px;
-    background: var(--black);
+    background: var(--white);
     margin: 1rem auto 0;
 }
 
 .about-section h3 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: clamp(0.85rem, 2vw, 0.95rem);
-    color: var(--black);
+    color: var(--white);
     margin: 2rem 0 0.75rem 0;
     font-weight: 600;
     letter-spacing: 0.05em;
@@ -74,7 +74,7 @@
 }
 
 .about-section p {
-    color: var(--text-gray);
+    color: var(--white);
     margin: 0.5rem 0;
     font-size: clamp(0.95rem, 2vw, 1rem);
     line-height: 1.7;
@@ -91,9 +91,9 @@
     margin: 0;
     background: transparent;
     border-left: none;
-    border-bottom: 1px solid var(--border-gray);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 0;
-    color: var(--text-gray);
+    color: var(--white);
     font-size: clamp(0.9rem, 2vw, 1rem);
     transition: color 0.2s ease;
 }
@@ -105,11 +105,11 @@
 .about-section li:hover {
     background: transparent;
     transform: none;
-    color: var(--black);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .about-section li strong {
-    color: var(--black);
+    color: var(--white);
     font-weight: 600;
 }
 
@@ -117,9 +117,9 @@
 .contact-section {
     margin-top: 4rem;
     padding: clamp(2rem, 4vw, 3rem);
-    background: var(--white);
-    border-top: 1px solid var(--border-gray);
-    border-bottom: 1px solid var(--border-gray);
+    background: transparent;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 0;
     text-align: center;
 }
@@ -127,7 +127,7 @@
 .contact-section h2 {
     font-family: Georgia, 'Times New Roman', serif;
     font-size: clamp(1.5rem, 3.5vw, 2rem);
-    color: var(--black);
+    color: var(--white);
     margin-bottom: 2rem;
     font-weight: 400;
 }
@@ -137,7 +137,7 @@
     display: block;
     width: 40px;
     height: 1px;
-    background: var(--black);
+    background: var(--white);
     margin: 1rem auto 0;
 }
 
@@ -153,10 +153,10 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.75rem;
-    background: var(--white);
-    color: var(--black);
+    background: transparent;
+    color: var(--white);
     text-decoration: none;
-    border: 1px solid var(--black);
+    border: 1px solid var(--white);
     border-radius: 0;
     font-family: Arial, Helvetica, sans-serif;
     font-size: clamp(0.85rem, 2vw, 0.9rem);
@@ -167,6 +167,6 @@
 }
 
 .contact-links a:hover {
-    background: var(--black);
+    background: rgba(255, 255, 255, 0.2);
     color: var(--white);
 }

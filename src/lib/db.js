@@ -16,10 +16,18 @@ let _sql = null;
 /**
  * Get the SQL query function (lazy initialized)
  * @returns {Function} Neon SQL tagged template function
+ * @throws {Error} If DATABASE_URL environment variable is not set
  */
 export function getDb() {
   if (!_sql) {
-    _sql = neon(process.env.DATABASE_URL);
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      throw new Error(
+        'DATABASE_URL environment variable is not set. ' +
+        'Please create a .env.local file in the project root with: DATABASE_URL=your_neon_connection_string'
+      );
+    }
+    _sql = neon(databaseUrl);
   }
   return _sql;
 }

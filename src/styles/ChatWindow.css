@@ -5,11 +5,12 @@
     right: 20px;
     width: 320px;
     height: 420px;
-    background-color: #ffffff;
+    background-color: transparent;
     border-radius: 12px;
     padding: 0;
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -21,8 +22,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
-    background-color: #007AFF;
+    background-color: transparent;
     color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .chat-header h2 {
@@ -59,16 +61,16 @@
 /* Compositor/bot messages - left aligned, gray */
 .message-bubble.compositor {
     align-self: flex-start;
-    background-color: #E5E5EA;
-    color: #1c1c1e;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
     border-bottom-left-radius: 4px;
 }
 
 /* Input area at bottom */
 .chat-window > div:last-child {
     padding: 12px;
-    border-top: 1px solid #e5e5e5;
-    background-color: #fafafa;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: transparent;
 }
 
 /* Collapsed chat bubble */
@@ -78,18 +80,20 @@
     right: 20px;
     width: 56px;
     height: 56px;
-    background-color: #007AFF;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .chat-window-closed:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(0, 122, 255, 0.5);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
 }

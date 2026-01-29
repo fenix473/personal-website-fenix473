@@ -20,7 +20,7 @@ body {
 }
 
 body {
-  color: var(--black);
+  color: var(--white);
   background: transparent; /* Allow orbit background to show through */
   font-family: Georgia, 'Times New Roman', serif;
   -webkit-font-smoothing: antialiased;
@@ -41,7 +41,7 @@ a {
 }
 
 a:hover {
-  color: var(--hover-gray);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* App container */
@@ -54,7 +54,7 @@ a:hover {
 
 /* Work in Progress Banner */
 .wip-banner {
-  background: var(--black);
+  background: transparent;
   color: var(--white);
   padding: 0.75rem;
   font-family: Arial, Helvetica, sans-serif;

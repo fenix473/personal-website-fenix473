@@ -1,13 +1,13 @@
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
+  --background: transparent;
+  --foreground: transparent;
 
-  --text-primary: #000;
-  --text-secondary: #666;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
 
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
+  --button-primary-hover: rgba(255, 255, 255, 0.2);
+  --button-secondary-hover: rgba(255, 255, 255, 0.1);
+  --button-secondary-border: rgba(255, 255, 255, 0.5);
 
   display: flex;
   min-height: 100vh;
@@ -86,25 +86,27 @@
 }
 
 a.primary {
-  background: var(--text-primary);
-  color: var(--background);
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--white);
   gap: 8px;
 }
 
 a.secondary {
   border-color: var(--button-secondary-border);
+  color: var(--white);
 }
 
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
     background: var(--button-primary-hover);
-    border-color: transparent;
+    border-color: var(--white);
   }
 
   a.secondary:hover {
     background: var(--button-secondary-hover);
-    border-color: transparent;
+    border-color: var(--white);
   }
 }
 
@@ -130,15 +132,15 @@ a.secondary {
   }
 
   .page {
-    --background: #000;
-    --foreground: #000;
+    --background: transparent;
+    --foreground: transparent;
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+    --button-primary-hover: rgba(255, 255, 255, 0.2);
+    --button-secondary-hover: rgba(255, 255, 255, 0.1);
+    --button-secondary-border: rgba(255, 255, 255, 0.5);
   }
 }
 

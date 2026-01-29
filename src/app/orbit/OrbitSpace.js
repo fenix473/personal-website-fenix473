@@ -3,10 +3,36 @@
  * Pass x, y coordinates to display Earth's position
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function OrbitSpace({ x, y, width = 600, height = 600, noBorder = false, backgroundColor = '#000' }) {
   const canvasRef = useRef(null);
+  const [earthImage, setEarthImage] = useState(null);
+  const [sunImage, setSunImage] = useState(null);
+
+  // Load Earth image
+  useEffect(() => {
+    const img = new Image();
+    img.src = '/images/Earth.png';
+    img.onload = () => {
+      setEarthImage(img);
+    };
+    img.onerror = () => {
+      console.error('Failed to load Earth image');
+    };
+  }, []);
+
+  // Load Sun image
+  useEffect(() => {
+    const img = new Image();
+    img.src = '/images/sun_cartoon.png';
+    img.onload = () => {
+      setSunImage(img);
+    };
+    img.onerror = () => {
+      console.error('Failed to load Sun image');
+    };
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -31,18 +57,42 @@ export default function OrbitSpace({ x, y, width = 600, height = 600, noBorder =
     const earthY = centerY + y * scale;
 
     // Draw Sun (center)
-    ctx.fillStyle = '#ffff00';
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, 20, 0, 2 * Math.PI);
-    ctx.fill();
+    if (sunImage) {
+      const sunSize = 160; // Size of Sun image in pixels
+      ctx.drawImage(
+        sunImage,
+        centerX - sunSize / 2,
+        centerY - sunSize / 2,
+        sunSize,
+        sunSize
+      );
+    } else {
+      // Fallback to yellow circle if image not loaded yet
+      ctx.fillStyle = '#ffff00';
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 20, 0, 2 * Math.PI);
+      ctx.fill();
+    }
 
-    // Draw Earth
-    ctx.fillStyle = '#00aaff';
-    ctx.beginPath();
-    ctx.arc(earthX, earthY, 8, 0, 2 * Math.PI);
-    ctx.fill();
+    // Draw Earth image
+    if (earthImage) {
+      const earthSize = 40; // Size of Earth image in pixels
+      ctx.drawImage(
+        earthImage,
+        earthX - earthSize / 2,
+        earthY - earthSize / 2,
+        earthSize,
+        earthSize
+      );
+    } else {
+      // Fallback to blue circle if image not loaded yet
+      ctx.fillStyle = '#00aaff';
+      ctx.beginPath();
+      ctx.arc(earthX, earthY, 20, 0, 2 * Math.PI);
+      ctx.fill();
+    }
 
-  }, [x, y, width, height, backgroundColor]);
+  }, [x, y, width, height, backgroundColor, earthImage, sunImage]);
 
   return (
     <canvas 

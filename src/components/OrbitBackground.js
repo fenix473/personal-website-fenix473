@@ -63,13 +63,13 @@ function OrbitBackground() {
                     width={viewportWidth} 
                     height={viewportHeight}
                     noBorder={true}
-                    backgroundColor="rgba(0, 0, 0, 0.3)"
+                    backgroundColor="transparent"
                 />
             ) : (
                 <div style={{ 
                     width: '100%', 
                     height: '100%', 
-                    background: 'rgba(0, 0, 0, 0.1)' 
+                    background: 'transparent' 
                 }} />
             )}
         </div>
