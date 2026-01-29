@@ -24,6 +24,17 @@ function Projects() {
             </p>
           </div>
         </Link>
+        <Link href="/projects/dashboard" className="project-card project-card--dashboard" prefetch={false}>
+          <div className="project-card__icon">
+          📊
+          </div>
+          <div className="project-card__content">
+            <h2 className="project-card__title">Dashboard</h2>
+            <p className="project-card__description">
+              Interactive dashboard for tracking and analyzing data.
+            </p>
+          </div>
+        </Link>
       </div>
     </div>
   );

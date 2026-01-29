@@ -59,6 +59,15 @@ export async function initializeDatabase() {
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
     `;
+
+    await sql`
+      CREATE TABLE IF NOT EXISTS dashboard_entries (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        status VARCHAR(255) NOT NULL,
+        link VARCHAR(255) NOT NULL
+      )
+    `;
     
     console.log('Database initialized successfully');
     return { success: true };
