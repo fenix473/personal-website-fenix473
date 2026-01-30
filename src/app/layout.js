@@ -8,6 +8,7 @@ import "@/styles/Writings.css";
 import { Provider } from "@/components/ui/provider";
 import ChatWindow from "@/components/ChatWindow";
 import OrbitBackground from "@/components/OrbitBackground";
+import NavAuth from "@/components/NavAuth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,7 +50,7 @@ export default function RootLayout({ children }) {
               <Link href="/">Home</Link>
               <Link href="/projects">Projects</Link>
               <Link href="/writings">Writings</Link>
-              <Link href="/auth/signin">Sign In</Link>
+              <NavAuth />
             </nav>
             {children}
           </div>
