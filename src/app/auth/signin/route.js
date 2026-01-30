@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const signInUrl = await getSignInUrl({
-      organizationId: 'org_01KG6GPKDPZ6CTTV7760Y71MMZ',
+      organizationId: 'org_01KG6JQ8FMTQD452WFJJ8D3CV2',
     });
     return NextResponse.redirect(signInUrl);
   } catch (err) {
