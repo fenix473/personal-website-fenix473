@@ -97,11 +97,12 @@ function Writings() {
     // Show carousel (with transition state)
     return (
         <div className={`writings-section ${isTransitioning ? 'transitioning' : ''}`}>
-            <h1 className={`writings-title ${isOpening ? 'fade-out' : ''} ${isClosing ? 'fade-in' : ''}`}>
-                Writings
-            </h1>
-            <div className="carousel-container" ref={scrollRef}>
-                <div className="essays-track">
+            <div className="writings-section__card">
+                <h1 className={`writings-title ${isOpening ? 'fade-out' : ''} ${isClosing ? 'fade-in' : ''}`}>
+                    Writings
+                </h1>
+                <div className="carousel-container" ref={scrollRef}>
+                    <div className="essays-track">
                     {tripleEssays.map((essay, index) => {
                         const isSelected = selectedEssay && essay.title === selectedEssay.title;
                         let cardClass = 'essay-card';
@@ -119,9 +120,10 @@ function Writings() {
                                 onClick={() => !isTransitioning && handleSelect(essay)}
                             >
                                 <img src={essay.cover} alt={essay.title} className="essay-card-cover" />
-                            </div>
-                        );
-                    })}
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </div>

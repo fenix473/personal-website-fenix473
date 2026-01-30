@@ -1,6 +1,7 @@
 "use client";
-import { Button, Table, Form, Input, Select } from 'antd';
+import { Button, Table, Form, Input, Select, Spin } from 'antd';
 import { useEffect, useState } from 'react';
+import '@/styles/Projects.css';
 import '@/styles/Dashboard.css';
 
 
@@ -9,7 +10,7 @@ import '@/styles/Dashboard.css';
 export default function DashboardPage() {
 
     const [dataSource, setDataSource] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function load() {
@@ -29,17 +30,6 @@ export default function DashboardPage() {
     }, []);
 
 
-    const formItemLayout = {
-        labelCol: { 
-            xs: { span: 24 },
-            sm: { span: 4 },
-        },
-        wrapperCol: { 
-            xs: {span: 14 },
-            sm: { span: 14 },
-        },
-    };
-
     const [form] = Form.useForm();
 
     const columns = [
@@ -58,8 +48,31 @@ export default function DashboardPage() {
             dataIndex: 'link',
             key: 'link',
             render: (text) => <a href={text} target='_blank' rel='noopener noreferrer'>{text}</a>,
-        }
+        },
+        {
+            title: '',
+            key: 'delete',
+            render: (_, record) => (
+                <Button type="link" danger onClick={() => handleDelete(record.id)}>
+                    Delete
+                </Button>
+            ),
+        },
     ];
+
+    async function handleDelete(id) {
+        try {
+            const res = await fetch('/api/dashboard', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id }),
+            });
+            if (!res.ok) throw new Error('Failed to delete entry');
+            setDataSource((prev) => prev.filter((row) => row.id !== id));
+        } catch (e) {
+            console.error('Error deleting entry:', e);
+        }
+    }
 
     async function onFinish(values) {
         try {
@@ -80,18 +93,31 @@ export default function DashboardPage() {
             console.error('Error creating dashboard entry:', e);
         }
     }
+
+    if (loading) {
+        return (
+            <div
+                className="projects dashboard-page"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '60vh',
+                }}
+            >
+                <Spin size="large" />
+            </div>
+        );
+    }
+
     return (
         <div className="projects dashboard-page">
             <h1>Dashboard</h1>
             <div className="dashboard-page__table-card">
-                <Table dataSource={dataSource} columns={columns} rowKey="id" loading={loading} />
+                <Table dataSource={dataSource} columns={columns} rowKey="id" />
             </div>
             <div className="dashboard-page__form-card">
-                <Form
-                    onFinish={onFinish}
-                    {...formItemLayout}
-                    form={form}
-                >
+                <Form onFinish={onFinish} form={form} layout="vertical">
                     <Form.Item name="projectname" label="Project Name" rules={[{ required: true, message: 'Please input your project name!' }]}>
                         <Input />
                     </Form.Item>
@@ -104,7 +130,7 @@ export default function DashboardPage() {
                     <Form.Item name="link" label="Link" rules={[{ required: true, message: 'Please input your link!' }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item {...formItemLayout}>
+                    <Form.Item>
                         <Button type="primary" htmlType="submit">Register</Button>
                     </Form.Item>
                 </Form>

@@ -41,7 +41,7 @@
 }
 
 .piano-page__title {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-roboto), sans-serif;
   font-size: 2rem;
   font-weight: 300;
   color: #fff;

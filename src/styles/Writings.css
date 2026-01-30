@@ -2,7 +2,7 @@
 
 /* Selection View */
 .writings-section {
-    padding: clamp(2rem, 4vw, 3rem) 0;
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 2rem);
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -10,12 +10,32 @@
     justify-content: center;
 }
 
+/* Dark glass card – high contrast for text readability */
+.writings-section__card {
+    background: linear-gradient(
+        165deg,
+        rgba(18, 22, 40, 0.88) 0%,
+        rgba(8, 10, 24, 0.92) 50%,
+        rgba(12, 16, 32, 0.9) 100%
+    );
+    backdrop-filter: blur(24px) saturate(1.2);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
 .writings-title {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: clamp(2rem, 5vw, 2.5rem);
     margin-bottom: clamp(2rem, 4vw, 3rem);
-    color: var(--white);
-    font-weight: 400;
+    color: var(--text-primary);
+    font-weight: 300;
     letter-spacing: -0.02em;
     text-align: center;
 }
@@ -117,11 +137,24 @@
     }
 }
 
-/* Reader View */
+/* Reader View – dark glass, high contrast */
 .writings-reader {
     padding: clamp(2rem, 4vw, 3rem);
     max-width: 800px;
     margin: 0 auto;
+    background: linear-gradient(
+        165deg,
+        rgba(18, 22, 40, 0.88) 0%,
+        rgba(8, 10, 24, 0.92) 50%,
+        rgba(12, 16, 32, 0.9) 100%
+    );
+    backdrop-filter: blur(24px) saturate(1.2);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .writings-reader.fade-in {
@@ -180,20 +213,20 @@
 }
 
 .writings-reader-title {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: clamp(1.5rem, 3.5vw, 2rem);
-    color: var(--white);
+    color: var(--text-primary);
     font-weight: 400;
     margin-bottom: 1.5rem;
 }
 
 
 .essay-title {
-    font-family: Georgia, 'Times New Roman', serif;
-    color: var(--white);
+    font-family: var(--font-roboto), sans-serif;
+    color: var(--text-primary);
     margin-bottom: 1.5rem;
     font-size: clamp(1.25rem, 3vw, 1.5rem);
-    font-weight: 400;
+    font-weight: 500;
 }
 
 /* DOCX Reader - Full Width Layout */
@@ -213,10 +246,10 @@
 }
 
 .docx-content {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: clamp(1.05rem, 2.5vw, 1.2rem);
     line-height: 1.9;
-    color: var(--white);
+    color: var(--text-secondary);
     max-width: 75ch;
 }
 
@@ -242,9 +275,9 @@
 
 .docx-loading,
 .docx-error {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-roboto), sans-serif;
     font-size: clamp(0.85rem, 2vw, 0.9rem);
-    color: var(--white);
+    color: var(--text-primary);
     padding: 2rem;
     text-align: center;
 }

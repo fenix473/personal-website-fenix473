@@ -9,10 +9,10 @@
 }
 
 .projects h1 {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-roboto), sans-serif;
   font-size: 2rem;
   font-weight: 300;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -61,17 +61,18 @@
 }
 
 .project-card__title {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-roboto), sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 0.5rem;
 }
 
 .project-card__description {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-roboto), sans-serif;
   font-size: 0.875rem;
-  color: #ffffff;
+  font-weight: 400;
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.5;
 }
