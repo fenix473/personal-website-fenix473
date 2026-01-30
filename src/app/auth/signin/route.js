@@ -1,37 +1,18 @@
 import { NextResponse } from 'next/server';
-import { WorkOS } from '@workos-inc/node';
+import { getSignInUrl } from '@workos-inc/authkit-nextjs';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const apiKey = process.env.WORKOS_API_KEY;
-  const clientId = process.env.WORKOS_CLIENT_ID;
-
-  if (!apiKey || !clientId) {
-    console.error('WorkOS: missing WORKOS_API_KEY or WORKOS_CLIENT_ID');
-    return NextResponse.json(
-      { error: 'Auth not configured' },
-      { status: 500 }
-    );
-  }
-
-  const workos = new WorkOS(apiKey);
-  const organization = 'org_01KG6GPKDPZ6CTTV7760Y71MMZ';
-  const redirectUri =
-    process.env.NEXT_PUBLIC_WORKOS_REDIRECT_URI ||
-    'https://fenix473.vercel.app/auth/callback';
-
   try {
-    const authorizationUrl = workos.sso.getAuthorizationUrl({
-      organization,
-      redirectUri,
-      clientId,
+    const signInUrl = await getSignInUrl({
+      organizationId: 'org_01KG6GPKDPZ6CTTV7760Y71MMZ',
     });
-    return NextResponse.redirect(authorizationUrl);
+    return NextResponse.redirect(signInUrl);
   } catch (err) {
-    console.error('WorkOS getAuthorizationUrl error:', err);
+    console.error('AuthKit getSignInUrl error:', err);
     return NextResponse.json(
-      { error: 'Auth error' },
+      { error: 'Auth not configured or error' },
       { status: 500 }
     );
   }

@@ -4,22 +4,29 @@ import { useEffect, useState } from 'react';
 import '@/styles/Projects.css';
 import '@/styles/Dashboard.css';
 
-
-
-
 export default function DashboardPage() {
-
     const [dataSource, setDataSource] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         async function load() {
             setLoading(true);
             try {
-                const res = await fetch('/api/dashboard');
-                if (!res.ok) { throw new Error('Failed to fetch dashboard entries'); }
-                const data = await res.json();
-                setDataSource(Array.isArray(data) ? data : data.entries ?? [])
+                const [entriesRes, meRes] = await Promise.all([
+                    fetch('/api/dashboard'),
+                    fetch('/api/auth/me', { credentials: 'include' }),
+                ]);
+                if (!entriesRes.ok) throw new Error('Failed to fetch dashboard entries');
+                const data = await entriesRes.json();
+                setDataSource(Array.isArray(data) ? data : data.entries ?? []);
+
+                if (meRes.ok) {
+                    const { user: u } = await meRes.json();
+                    setUser(u);
+                } else {
+                    setUser(null);
+                }
             } catch (e) {
                 console.error('Error loading dashboard entries:', e);
             } finally {
@@ -29,36 +36,30 @@ export default function DashboardPage() {
         load();
     }, []);
 
-
     const [form] = Form.useForm();
 
-    const columns = [
-        {
-            title: 'Project Name',
-            dataIndex: 'title',
-            key: 'title',
-        },
-        { 
-            title: 'Status', 
-            dataIndex: 'status', 
-            key: 'status' 
-        },
+    const baseColumns = [
+        { title: 'Project Name', dataIndex: 'title', key: 'title' },
+        { title: 'Status', dataIndex: 'status', key: 'status' },
         {
             title: 'Link',
             dataIndex: 'link',
             key: 'link',
-            render: (text) => <a href={text} target='_blank' rel='noopener noreferrer'>{text}</a>,
-        },
-        {
-            title: '',
-            key: 'delete',
-            render: (_, record) => (
-                <Button type="link" danger onClick={() => handleDelete(record.id)}>
-                    Delete
-                </Button>
-            ),
+            render: (text) => <a href={text} target="_blank" rel="noopener noreferrer">{text}</a>,
         },
     ];
+
+    const deleteColumn = {
+        title: '',
+        key: 'delete',
+        render: (_, record) => (
+            <Button type="link" danger onClick={() => handleDelete(record.id)}>
+                Delete
+            </Button>
+        ),
+    };
+
+    const columns = user ? [...baseColumns, deleteColumn] : baseColumns;
 
     async function handleDelete(id) {
         try {
@@ -66,7 +67,12 @@ export default function DashboardPage() {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id }),
+                credentials: 'include',
             });
+            if (res.status === 401) {
+                setUser(null);
+                return;
+            }
             if (!res.ok) throw new Error('Failed to delete entry');
             setDataSource((prev) => prev.filter((row) => row.id !== id));
         } catch (e) {
