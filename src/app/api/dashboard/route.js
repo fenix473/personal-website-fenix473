@@ -20,6 +20,10 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
+    const sessionCookie = request.cookies.get('wos_session')?.value;
+    if (!sessionCookie) {
+        return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const sql = getDb();
     const {id} = await request.json();
     await sql`
