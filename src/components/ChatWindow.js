@@ -33,7 +33,7 @@ function ChatWindow() {
         setInputValue('') // Clear the input field
 
         try {
-            const response = await fetch('/api/chat', {
+            const response = await fetch('/api/claude', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ function ChatWindow() {
             const botMessage = {
                 id: Date.now(),
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                message: data[0]?.output || 'No response',
+                message: data.text || 'No response',
                 sender: 'compositor'
             }
             setMessages(prev => [...prev, botMessage]);

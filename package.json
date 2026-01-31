@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.72.1",
     "@chakra-ui/react": "^3.31.0",
     "@emotion/react": "^11.14.0",
     "@neondatabase/serverless": "^1.0.2",
