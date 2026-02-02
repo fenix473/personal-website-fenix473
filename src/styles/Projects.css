@@ -161,26 +161,42 @@
   text-transform: uppercase;
 }
 
-/* Responsive – text box full width at bottom on narrow screens */
-@media (max-width: 600px) {
+/* Mobile – full width, organic scaling */
+@media (max-width: 768px) {
   .projects {
-    padding: 1.5rem;
+    padding: clamp(1rem, 4vw, 1.5rem);
+    max-width: 100%;
   }
 
   .projects h1 {
-    font-size: 1.5rem;
+    font-size: clamp(1.35rem, 5vw, 1.75rem);
   }
 
   .project-card {
     aspect-ratio: 16 / 9;
+    border-radius: 0;
   }
 
   .project-card__content {
     top: auto;
-    right: 0.75rem;
-    bottom: 0.75rem;
-    left: 0.75rem;
+    right: clamp(0.75rem, 3vw, 1rem);
+    bottom: clamp(0.75rem, 3vw, 1rem);
+    left: clamp(0.75rem, 3vw, 1rem);
     transform: none;
     max-width: none;
+    padding: clamp(1rem, 4vw, 1.5rem);
+  }
+
+  .project-card__title {
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+  }
+
+  .project-card__description {
+    font-size: clamp(0.9rem, 3.5vw, 1rem);
+  }
+
+  .project-card__cta {
+    padding: clamp(0.5rem, 2vw, 0.65rem) clamp(1rem, 4vw, 1.25rem);
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
   }
 }

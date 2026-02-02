@@ -255,3 +255,22 @@
   background: rgba(255, 255, 255, 0.15);
   color: var(--text-primary);
 }
+
+/* ─── Mobile – full width projects, organic scaling ─── */
+@media (max-width: 768px) {
+  .projects-section {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .projects-section__title {
+    padding: 0 1rem;
+  }
+
+  .projects-carousel {
+    width: 100%;
+  }
+}
