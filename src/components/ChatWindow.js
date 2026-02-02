@@ -1,9 +1,10 @@
 "use client"
 
 import { Box } from "@chakra-ui/react"
-import { FaFeather, FaAtom, FaCog, FaCommentDots, FaPaperPlane, FaTimes } from "react-icons/fa"
+import { FaFeather, FaAtom, FaCog, FaCommentDots, FaPaperPlane, FaTimes, FaExpand } from "react-icons/fa"
 import "@/styles/ChatWindow.css"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 const PERSONAS = [
     { key: "poet", label: "Poet", Icon: FaFeather },
@@ -11,7 +12,10 @@ const PERSONAS = [
     { key: "enginseer", label: "Enginseer", Icon: FaCog },
 ]
 
-function ChatWindow() {
+const ASSISTANT_FULLSCREEN_PATH = "/projects/assistant"
+
+function ChatWindow({ fullScreen = false, onClose }) {
+    const router = useRouter()
     const [selectedAgent, setSelectedAgent] = useState("poet")
     const [messages, setMessages] = useState([
         {
@@ -23,6 +27,31 @@ function ChatWindow() {
     ])
     const [inputValue, setInputValue] = useState("")
     const [isOpen, setIsOpen] = useState(false)
+
+    const handleClose = () => {
+        if (fullScreen && onClose) {
+            onClose();
+        } else {
+            setIsOpen(false);
+        }
+    }
+
+    const showContent = fullScreen || isOpen;
+
+    if (!showContent) {
+        return (
+            <button
+                type="button"
+                className="chat-fab"
+                onClick={() => setIsOpen(true)}
+                aria-label="Open chat"
+            >
+                <FaCommentDots size={24} />
+            </button>
+        )
+    }
+
+    const windowClassName = fullScreen ? "chat-window chat-window--fullscreen" : "chat-window";
 
     const handleSendMessage = async () => {
         const userMessage = inputValue.trim()
@@ -67,21 +96,8 @@ function ChatWindow() {
         }
     }
 
-    if (!isOpen) {
-        return (
-            <button
-                type="button"
-                className="chat-fab"
-                onClick={() => setIsOpen(true)}
-                aria-label="Open chat"
-            >
-                <FaCommentDots size={24} />
-            </button>
-        )
-    }
-
     return (
-        <Box className="chat-window">
+        <Box className={windowClassName}>
             <header className="chat-header">
                 <div className="chat-personas">
                     {PERSONAS.map(({ key, label, Icon }) => (
@@ -98,14 +114,26 @@ function ChatWindow() {
                         </button>
                     ))}
                 </div>
-                <button
-                    type="button"
-                    className="chat-close"
-                    onClick={() => setIsOpen(false)}
-                    aria-label="Close chat"
-                >
-                    <FaTimes size={18} />
-                </button>
+                <div className="chat-header-actions">
+                    {!fullScreen && (
+                        <button
+                            type="button"
+                            className="chat-expand"
+                            onClick={() => router.push(ASSISTANT_FULLSCREEN_PATH)}
+                            aria-label="Open chat in full screen"
+                        >
+                            <FaExpand size={18} />
+                        </button>
+                    )}
+                    <button
+                        type="button"
+                        className="chat-close"
+                        onClick={handleClose}
+                        aria-label="Close chat"
+                    >
+                        <FaTimes size={18} />
+                    </button>
+                </div>
             </header>
 
             <div className="chat-messages">

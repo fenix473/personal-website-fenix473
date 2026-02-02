@@ -111,6 +111,14 @@
   text-overflow: ellipsis;
 }
 
+.chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.chat-expand,
 .chat-close {
   display: flex;
   align-items: center;
@@ -126,6 +134,7 @@
   flex-shrink: 0;
 }
 
+.chat-expand:hover,
 .chat-close:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
@@ -276,4 +285,16 @@
 
 .chat-send:active {
   transform: scale(0.98);
+}
+
+/* ─── Full-screen variant (e.g. /projects/assistant) ─── */
+.chat-window--fullscreen {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  bottom: auto;
+  right: auto;
+  border-radius: 0;
 }

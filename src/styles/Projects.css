@@ -24,30 +24,33 @@
   gap: 1.5rem;
 }
 
-/* Individual project card */
+/* Project card – background fills, text overlaid on right, 16:9 aspect ratio */
 .project-card {
+  position: relative;
   display: block;
-  background: transparent;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   border-radius: 12px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .project-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* Card icon/image area */
+/* Icon + gradient – fills entire card */
 .project-card__icon {
-  height: 160px;
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 4rem;
+  font-size: clamp(3.5rem, 8vw, 5rem);
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
@@ -55,29 +58,53 @@
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
-/* Card content */
+.project-card--assistant .project-card__icon {
+  background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
+}
+
+/* Text – overlaid on right, smooth frosted box */
 .project-card__content {
-  padding: 1.25rem;
+  position: absolute;
+  top: 50%;
+  right: 1.25rem;
+  transform: translateY(-50%);
+  max-width: 48%;
+  padding: 1.25rem 1.5rem;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover .project-card__content {
+  background: rgba(13, 17, 23, 0.92);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
 .project-card__title {
   font-family: var(--font-roboto), sans-serif;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
   color: var(--text-primary);
   margin: 0 0 0.5rem;
 }
 
 .project-card__description {
   font-family: var(--font-roboto), sans-serif;
-  font-size: 0.875rem;
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
   font-weight: 400;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.88);
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
 }
 
-/* Responsive */
+/* Responsive – text box full width at bottom on narrow screens */
 @media (max-width: 600px) {
   .projects {
     padding: 1.5rem;
@@ -87,8 +114,16 @@
     font-size: 1.5rem;
   }
 
-  .project-card__icon {
-    height: 120px;
-    font-size: 3rem;
+  .project-card {
+    aspect-ratio: 16 / 9;
+  }
+
+  .project-card__content {
+    top: auto;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    transform: none;
+    max-width: none;
   }
 }

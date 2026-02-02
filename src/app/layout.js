@@ -6,7 +6,7 @@ import "@/styles/Home.css";
 import "@/styles/Resume.css";
 import "@/styles/Writings.css";
 import { Provider } from "@/components/ui/provider";
-import ChatWindow from "@/components/ChatWindow";
+import ChatWindowWrapper from "@/components/ChatWindowWrapper";
 import OrbitBackground from "@/components/OrbitBackground";
 import NavAuth from "@/components/NavAuth";
 
@@ -54,7 +54,7 @@ export default function RootLayout({ children }) {
             </nav>
             {children}
           </div>
-          <ChatWindow />
+          <ChatWindowWrapper />
         </Provider>
       </body>
     </html>

@@ -16,6 +16,21 @@
   /* Orbit Background */
   --orbit-z-index: -1;
   --orbit-background-opacity: 0.3;
+
+  /* Home page – shared glass card & layout (70% of viewport) */
+  --home-max-width: 70vw;
+  --home-section-gap: 2rem;
+  --home-padding-x: clamp(1.5rem, 4vw, 3rem);
+  --home-padding-y: clamp(2rem, 5vw, 4rem);
+  --glass-bg: linear-gradient(
+    165deg,
+    rgba(18, 22, 40, 0.88) 0%,
+    rgba(8, 10, 24, 0.92) 50%,
+    rgba(12, 16, 32, 0.9) 100%
+  );
+  --glass-border: 1px solid rgba(255, 255, 255, 0.22);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --glass-blur: blur(24px) saturate(1.2);
 }
 
 html,
