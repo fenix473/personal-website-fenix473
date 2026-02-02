@@ -43,65 +43,122 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* Icon + gradient – fills entire card */
-.project-card__icon {
+/* Background – fills entire card */
+.project-card__bg {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: clamp(3.5rem, 8vw, 5rem);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.project-card--piano .project-card__icon {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+.project-card--dashboard .project-card__bg {
+  background-image: url(/images/dashboard_background_v3.png);
 }
 
-.project-card--assistant .project-card__icon {
-  background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
+.project-card--piano .project-card__bg {
+  background-image: url(/images/piano_background_v2.png);
 }
 
-/* Text – overlaid on right, smooth frosted box */
+.project-card--assistant .project-card__bg {
+  background-image: url(/images/assistant_background_v8.png);
+}
+
+/* Text – overlaid on right */
 .project-card__content {
   position: absolute;
   top: 50%;
-  right: 1.25rem;
+  right: 1.5rem;
   transform: translateY(-50%);
-  max-width: 48%;
-  padding: 1.25rem 1.5rem;
-  background: rgba(13, 17, 23, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-width: 52%;
+  padding: 1.75rem 2rem;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.project-card:hover .project-card__content {
-  background: rgba(13, 17, 23, 0.92);
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+.project-card__content .project-card__title,
+.project-card__content .project-card__description {
+  width: 100%;
+  text-align: right;
+}
+
+/* Text box – same for all cards: white backdrop, dark text */
+.project-card--dashboard .project-card__content,
+.project-card--piano .project-card__content,
+.project-card--assistant .project-card__content {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.project-card--dashboard .project-card__accent,
+.project-card--piano .project-card__accent,
+.project-card--assistant .project-card__accent {
+  background: #000;
+}
+
+.project-card--dashboard .project-card__title,
+.project-card--piano .project-card__title,
+.project-card--assistant .project-card__title {
+  color: #000;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 3.5vw, 1.75rem);
+}
+
+.project-card--dashboard .project-card__description,
+.project-card--piano .project-card__description,
+.project-card--assistant .project-card__description {
+  color: #222;
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+}
+
+.project-card--dashboard .project-card__cta,
+.project-card--piano .project-card__cta,
+.project-card--assistant .project-card__cta {
+  color: #fff;
+  background: #000;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.project-card--dashboard:hover .project-card__cta,
+.project-card--piano:hover .project-card__cta,
+.project-card--assistant:hover .project-card__cta {
+  background: #333;
+}
+
+/* Shared */
+.project-card__accent {
+  width: 40px;
+  height: 3px;
+  margin-bottom: 1rem;
+  border-radius: 2px;
 }
 
 .project-card__title {
   font-family: var(--font-roboto), sans-serif;
-  font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--text-primary);
-  margin: 0 0 0.5rem;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.6rem;
 }
 
 .project-card__description {
   font-family: var(--font-roboto), sans-serif;
-  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.88);
-  margin: 0;
-  line-height: 1.55;
-  letter-spacing: 0.02em;
+  margin: 0 0 1.25rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+.project-card__cta {
+  font-family: var(--font-roboto), sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 /* Responsive – text box full width at bottom on narrow screens */

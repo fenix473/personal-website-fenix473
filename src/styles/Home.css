@@ -157,6 +157,24 @@
   width: 100%;
 }
 
+.projects-carousel .ant-carousel .slick-dots li button {
+  background: #000 !important;
+  opacity: 0.4;
+}
+
+.projects-carousel .ant-carousel .slick-dots li button::after {
+  background: transparent !important;
+}
+
+.projects-carousel .ant-carousel .slick-dots li.slick-active button {
+  background: #000 !important;
+  opacity: 1;
+}
+
+.projects-carousel .ant-carousel .slick-dots li.slick-active button::after {
+  background: #000 !important;
+}
+
 /* ─── Writings Section (Home context) ─── */
 .home-section .writings-section {
   min-height: auto;
