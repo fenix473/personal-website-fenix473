@@ -48,8 +48,6 @@ export default function RootLayout({ children }) {
             </div>
             <nav className="navbar">
               <Link href="/">Home</Link>
-              <Link href="/projects">Projects</Link>
-              <Link href="/writings">Writings</Link>
               <NavAuth />
             </nav>
             {children}

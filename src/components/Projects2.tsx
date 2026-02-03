@@ -1,6 +1,6 @@
 'use client';
 
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
