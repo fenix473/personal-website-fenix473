@@ -1,6 +1,6 @@
 "use client"
 
-import { Box } from "@chakra-ui/react"
+import { Box, Spinner } from "@chakra-ui/react"
 import { FaFeather, FaAtom, FaCog, FaCommentDots, FaPaperPlane, FaTimes, FaExpand } from "react-icons/fa"
 import "@/styles/ChatWindow.css"
 import { useState } from "react"
@@ -27,6 +27,7 @@ function ChatWindow({ fullScreen = false, onClose }) {
     ])
     const [inputValue, setInputValue] = useState("")
     const [isOpen, setIsOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleClose = () => {
         if (fullScreen && onClose) {
@@ -65,6 +66,7 @@ function ChatWindow({ fullScreen = false, onClose }) {
         }
         setMessages((prev) => [...prev, newMessage])
         setInputValue("")
+        setIsLoading(true)
 
         try {
             const response = await fetch("/api/claude", {
@@ -93,6 +95,8 @@ function ChatWindow({ fullScreen = false, onClose }) {
                 sender: "compositor",
             }
             setMessages((prev) => [...prev, botMessage])
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -146,6 +150,14 @@ function ChatWindow({ fullScreen = false, onClose }) {
                         <span className="chat-message-time">{msg.time}</span>
                     </div>
                 ))}
+                {isLoading && (
+                    <div className="chat-message chat-message--loading compositor" aria-busy="true" aria-live="polite">
+                        <Box display="flex" alignItems="center" gap="10px">
+                            <Spinner size="sm" color="white" />
+                            <span className="chat-message-text">Thinking...</span>
+                        </Box>
+                    </div>
+                )}
             </div>
 
             <div className="chat-input-wrap">
@@ -166,6 +178,7 @@ function ChatWindow({ fullScreen = false, onClose }) {
                     type="button"
                     className="chat-send"
                     onClick={handleSendMessage}
+                    disabled={isLoading}
                     aria-label="Send message"
                 >
                     <FaPaperPlane size={16} />

@@ -148,8 +148,11 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 12px;
   scroll-behavior: smooth;
+  min-height: 0;
 }
 
 /* Scrollbar */
@@ -172,6 +175,7 @@
 
 .chat-message {
   max-width: 88%;
+  width: fit-content;
   padding: 12px 14px;
   border-radius: 14px;
   display: flex;
@@ -218,6 +222,10 @@
   font-size: 0.7rem;
   opacity: 0.75;
   align-self: flex-end;
+}
+
+.chat-message--loading .chat-message-time {
+  display: none;
 }
 
 /* ─── Input area ─── */
@@ -287,14 +295,54 @@
   transform: scale(0.98);
 }
 
+.chat-send:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* ─── Full-screen variant (e.g. /projects/assistant) ─── */
 .chat-window--fullscreen {
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
-  bottom: auto;
-  right: auto;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-width: 100vw !important;
+  min-height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
   border-radius: 0;
+  z-index: 9999;
+  /* Content column: keep default stretch so window stays full width; children limit themselves */
+}
+
+.chat-window--fullscreen .chat-header,
+.chat-window--fullscreen .chat-input-wrap {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.chat-window--fullscreen .chat-messages {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  flex: 1;
+  min-height: 0;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 24px;
+  padding-right: 24px;
+  text-align: left;
+}
+
+.chat-window--fullscreen .chat-message {
+  max-width: 85%;
+  width: fit-content;
 }
