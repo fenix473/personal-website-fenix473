@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.7",
     "@neondatabase/serverless": "^1.0.2",
+    "@vercel/analytics": "^1.6.1",
     "@vercel/postgres": "^0.10.0",
     "@workos-inc/authkit-nextjs": "^2.13.0",
     "@workos-inc/node": "^8.0.0",
