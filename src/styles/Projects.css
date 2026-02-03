@@ -1,6 +1,21 @@
 /**
  * Projects Section Styles
+ * Desktop (≥1024px): image + content in a row, description visible
+ * Mobile/tablet (<1024px): preview + title + button only, no description
  */
+
+/* MUI Grid integration */
+.projects-section .MuiPaper-root {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.projects-section .MuiGrid-container {
+  width: 100%;
+}
 
 .projects {
   padding: 2rem;
@@ -17,25 +32,26 @@
   text-align: center;
 }
 
-/* Project cards grid */
 .projects__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
-/* Project card – background fills, text overlaid on right, 16:9 aspect ratio */
+/* Project card – desktop: image | content row; mobile: stacked */
 .project-card {
-  position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  min-height: 160px;
   border-radius: 12px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  container-type: inline-size;
+  container-name: card;
 }
 
 .project-card:hover {
@@ -43,54 +59,50 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* Background – fills entire card */
-.project-card__bg {
-  position: absolute;
-  inset: 0;
+/* Image box */
+.project-card__image {
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.project-card--dashboard .project-card__bg {
+.project-card--dashboard .project-card__image {
   background-image: url(/images/dashboard_background_v3.png);
 }
 
-.project-card--piano .project-card__bg {
+.project-card--piano .project-card__image {
   background-image: url(/images/piano_background_v2.png);
 }
 
-.project-card--assistant .project-card__bg {
+.project-card--assistant .project-card__image {
   background-image: url(/images/assistant_background_v8.png);
 }
 
-/* Text – overlaid on right */
+/* Content box – mobile: below image; desktop: beside image */
 .project-card__content {
-  position: absolute;
-  top: 50%;
-  right: 1.5rem;
-  transform: translateY(-50%);
-  max-width: 52%;
-  padding: 1.75rem 2rem;
-  text-align: right;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  border-radius: 12px;
+  justify-content: center;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 }
 
 .project-card__content .project-card__title,
 .project-card__content .project-card__description {
   width: 100%;
-  text-align: right;
+  text-align: left;
 }
 
-/* Text box – same for all cards: white backdrop, dark text */
 .project-card--dashboard .project-card__content,
 .project-card--piano .project-card__content,
 .project-card--assistant .project-card__content {
   background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 }
 
 .project-card--dashboard .project-card__accent,
@@ -104,14 +116,14 @@
 .project-card--assistant .project-card__title {
   color: #000;
   font-weight: 600;
-  font-size: clamp(1.4rem, 3.5vw, 1.75rem);
+  font-size: clamp(1rem, 5cqw, 1.5rem);
 }
 
 .project-card--dashboard .project-card__description,
 .project-card--piano .project-card__description,
 .project-card--assistant .project-card__description {
   color: #222;
-  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  font-size: clamp(0.8rem, 3.5cqw, 1.1rem);
 }
 
 .project-card--dashboard .project-card__cta,
@@ -119,9 +131,9 @@
 .project-card--assistant .project-card__cta {
   color: #fff;
   background: #000;
-  padding: 0.65rem 1.25rem;
-  font-size: 0.9rem;
-  border-radius: 8px;
+  padding: clamp(0.5rem, 1.8cqw, 0.65rem) clamp(1rem, 3.5cqw, 1.25rem);
+  font-size: clamp(0.75rem, 2.8cqw, 0.9rem);
+  border-radius: clamp(6px, 2cqw, 8px);
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
@@ -131,11 +143,10 @@
   background: #333;
 }
 
-/* Shared */
 .project-card__accent {
-  width: 40px;
-  height: 3px;
-  margin-bottom: 1rem;
+  width: clamp(28px, 10cqw, 40px);
+  height: clamp(2px, 0.8cqw, 3px);
+  margin-bottom: clamp(0.5rem, 2.5cqw, 1rem);
   border-radius: 2px;
 }
 
@@ -143,15 +154,20 @@
   font-family: var(--font-roboto), sans-serif;
   font-weight: 500;
   letter-spacing: 0.02em;
-  margin: 0 0 0.6rem;
+  margin: 0 0 clamp(0.4rem, 1.5cqw, 0.6rem);
 }
 
+/* Description – visible only on desktop (≥1024px / laptop breakpoint) */
 .project-card__description {
+  display: none;
   font-family: var(--font-roboto), sans-serif;
   font-weight: 400;
-  margin: 0 0 1.25rem;
+  margin: 0 0 clamp(0.75rem, 3cqw, 1.25rem);
   line-height: 1.6;
   letter-spacing: 0.01em;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .project-card__cta {
@@ -159,44 +175,81 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  align-self: flex-start;
 }
 
-/* Mobile – full width, organic scaling */
-@media (max-width: 768px) {
-  .projects {
-    padding: clamp(1rem, 4vw, 1.5rem);
-    max-width: 100%;
-  }
-
-  .projects h1 {
-    font-size: clamp(1.35rem, 5vw, 1.75rem);
-  }
-
-  .project-card {
-    aspect-ratio: 16 / 9;
-    border-radius: 0;
-  }
-
-  .project-card__content {
-    top: auto;
-    right: clamp(0.75rem, 3vw, 1rem);
-    bottom: clamp(0.75rem, 3vw, 1rem);
-    left: clamp(0.75rem, 3vw, 1rem);
-    transform: none;
-    max-width: none;
-    padding: clamp(1rem, 4vw, 1.5rem);
+/* Tablet and up – same as mobile for card layout */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .project-card__description {
+    display: none;
   }
 
   .project-card__title {
-    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Desktop – image | content row, 2:1 ratio, description visible (≥1024px) */
+@media (min-width: 1024px) {
+  .project-card {
+    flex-direction: row;
+    min-height: 160px;
+  }
+
+  /* Alternating: image right = reverse flex order */
+  .project-card--image-right {
+    flex-direction: row-reverse;
+  }
+
+  /* 2:1 image:description ratio */
+  .project-card__image {
+    flex: 0 0 66.67%;
+    width: 66.67%;
+    aspect-ratio: auto;
+    min-height: 160px;
+  }
+
+  .project-card__content {
+    flex: 0 0 33.33%;
+    width: 33.33%;
+    padding: 1.25rem 1.75rem;
+    text-align: left;
+  }
+
+  .project-card--image-right .project-card__content {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  .project-card--image-right .project-card__content .project-card__title,
+  .project-card--image-right .project-card__content .project-card__description {
+    text-align: right;
   }
 
   .project-card__description {
-    font-size: clamp(0.9rem, 3.5vw, 1rem);
+    display: -webkit-box;
+  }
+}
+
+/* Mobile – full width, title + button only */
+@media (max-width: 639px) {
+  .projects-section .MuiGrid-container {
+    padding: 0 clamp(1rem, 4vw, 1.5rem);
   }
 
-  .project-card__cta {
-    padding: clamp(0.5rem, 2vw, 0.65rem) clamp(1rem, 4vw, 1.25rem);
-    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  .project-card__description {
+    display: none;
+  }
+
+  .project-card__title {
+    margin-bottom: 0.5rem;
+  }
+
+  .project-card__content {
+    padding: clamp(0.875rem, 3cqw, 1.25rem);
+  }
+
+  .project-card__accent {
+    margin-bottom: 0.5rem;
   }
 }

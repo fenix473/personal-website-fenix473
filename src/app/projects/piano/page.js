@@ -33,7 +33,7 @@ export default function PianoPage() {
   const handleBack = useCallback(() => {
     if (isExiting) return;
     setIsExiting(true);
-    setTimeout(() => router.push('/projects'), FADE_OUT_MS);
+    setTimeout(() => router.push('/'), FADE_OUT_MS);
   }, [router, isExiting]);
 
   const show = mounted && !isExiting;
