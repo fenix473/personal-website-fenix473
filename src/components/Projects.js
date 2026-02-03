@@ -6,9 +6,9 @@ import { Carousel, ConfigProvider } from 'antd';
 const carouselTheme = {
   components: {
     Carousel: {
-      dotWidth: 30,
-      dotHeight: 14,
-      dotActiveWidth: 48,
+      dotWidth: 128,
+      dotHeight: 34,
+      dotActiveWidth: 188,
       dotGap: 10,
     },
   },
