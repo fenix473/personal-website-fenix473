@@ -3,6 +3,7 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Projects from "./Projects";
 import Writings from "./Writings";
+import Grid2 from "./Projects2";
 
 function Home() {
     return (
@@ -14,8 +15,8 @@ function Home() {
             </div>
             <section className="projects-section">
                 <h1 className="projects-section__title">Projects</h1>
-                <div className="projects-carousel">
-                    <Projects />
+                <div className="projects-section">
+                    <Grid2 />
                 </div>
             </section>
             <About />
