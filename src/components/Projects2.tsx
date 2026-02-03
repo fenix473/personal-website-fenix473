@@ -1,6 +1,5 @@
 'use client';
 
-import { styled } from '@mui/system';
 import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -10,15 +9,12 @@ import '@/styles/Projects.css';
 import React from 'react';
 import { projectsTheme } from '@/theme/projects-theme';
 
-const Item = styled(Paper)(({ theme }) => ({
+const itemSx = {
   backgroundColor: 'transparent',
   padding: 0,
   textAlign: 'center',
   boxShadow: 'none',
-  ...theme.applyStyles('dark', {
-    backgroundColor: 'transparent',
-  }),
-}));
+};
 
 function ProjectCard({
   href,
@@ -56,17 +52,17 @@ export default function Grid2() {
       <Box sx={{ flexGrow: 1, width: '100%' }}>
         <Grid container spacing={2}>
           <Grid size={12}>
-            <Item>
+            <Paper sx={itemSx} component="div">
               <ProjectCard
                 href="/projects/dashboard"
                 variant="dashboard"
                 title="Dashboard"
                 description="Interactive dashboard for tracking and analyzing data."
               />
-            </Item>
+            </Paper>
           </Grid>
           <Grid size={12}>
-            <Item>
+            <Paper sx={itemSx} component="div">
               <ProjectCard
                 href="/projects/piano"
                 variant="piano"
@@ -74,17 +70,17 @@ export default function Grid2() {
                 description="Interactive one-octave piano with keyboard and touch support. Built with Web Audio API."
                 imagePosition="right"
               />
-            </Item>
+            </Paper>
           </Grid>
           <Grid size={12}>
-            <Item>
+            <Paper sx={itemSx} component="div">
               <ProjectCard
                 href="/projects/assistant"
                 variant="assistant"
                 title="Assistant"
                 description="Human in the loop assistant using Claude. They will help you navigating this website and answer your general curiosities."
               />
-            </Item>
+            </Paper>
           </Grid>
         </Grid>
       </Box>
