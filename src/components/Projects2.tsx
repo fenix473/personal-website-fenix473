@@ -1,13 +1,11 @@
 'use client';
 
-import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Link from 'next/link';
 import '@/styles/Projects.css';
 import React from 'react';
-import { projectsTheme } from '@/theme/projects-theme';
 
 const itemSx = {
   backgroundColor: 'transparent',
@@ -48,11 +46,10 @@ function ProjectCard({
 
 export default function Grid2() {
   return (
-    <ThemeProvider theme={projectsTheme}>
-      <Box sx={{ flexGrow: 1, width: '100%' }}>
-        <Grid container spacing={2}>
-          <Grid size={12}>
-            <Paper sx={itemSx} component="div">
+    <Box sx={{ flexGrow: 1, width: '100%' }}>
+      <Grid container spacing={2}>
+        <Grid size={12}>
+          <Paper sx={itemSx} component="div">
               <ProjectCard
                 href="/projects/dashboard"
                 variant="dashboard"
@@ -80,10 +77,9 @@ export default function Grid2() {
                 title="Assistant"
                 description="Human in the loop assistant using Claude. They will help you navigating this website and answer your general curiosities."
               />
-            </Paper>
-          </Grid>
+          </Paper>
         </Grid>
-      </Box>
-    </ThemeProvider>
+      </Grid>
+    </Box>
   );
 }
