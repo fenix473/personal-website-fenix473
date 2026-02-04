@@ -1,12 +1,15 @@
 "use client";
+import dynamic from 'next/dynamic';
 import { Button, Table, Form, Input, Select, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Map from '@/components/map';
 import '@/styles/Projects.css';
 import '@/styles/Dashboard.css';
+
+// Leaflet uses `window` at load time; load Map only on the client to avoid prerender error.
+const Map = dynamic(() => import('@/components/map'), { ssr: false });
 
 export default function DashboardPage() {
     const [dataSource, setDataSource] = useState([]);
