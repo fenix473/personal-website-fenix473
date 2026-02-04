@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import ChatWindow from '@/components/ChatWindow';
+import ChatWindow from '@/components/chat/ChatWindow';
 
 export default function AssistantPage() {
   const router = useRouter();

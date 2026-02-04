@@ -1,9 +1,8 @@
-import Resume from "@/components/Resume";
-import About from "@/components/About";
-import Contact from "@/components/Contact";
-import Projects from "./Projects";
+import Resume from "./Resume";
+import About from "./About";
+import Contact from "./Contact";
 import Writings from "./Writings";
-import Grid2 from "./Projects2";
+import ProjectsGrid from "./ProjectsGrid";
 
 function Home() {
     return (
@@ -16,7 +15,7 @@ function Home() {
             <section className="projects-section">
                 <h1 className="projects-section__title">Projects</h1>
                 <div className="projects-section">
-                    <Grid2 />
+                    <ProjectsGrid />
                 </div>
             </section>
             <About />

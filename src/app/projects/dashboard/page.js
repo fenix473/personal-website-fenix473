@@ -1,6 +1,10 @@
 "use client";
 import { Button, Table, Form, Input, Select, Spin } from 'antd';
 import { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Map from '@/components/map';
 import '@/styles/Projects.css';
 import '@/styles/Dashboard.css';
 
@@ -100,6 +104,12 @@ export default function DashboardPage() {
         }
     }
 
+    const paperSx = {
+        backgroundColor: 'transparent',
+        padding: 0,
+        boxShadow: 'none',
+    };
+
     if (loading) {
         return (
             <div
@@ -118,29 +128,50 @@ export default function DashboardPage() {
 
     return (
         <div className="projects dashboard-page">
-            <h1>Dashboard</h1>
-            <div className="dashboard-page__table-card">
-                <Table dataSource={dataSource} columns={columns} rowKey="id" />
-            </div>
-            <div className="dashboard-page__form-card">
-                <Form onFinish={onFinish} form={form} layout="vertical">
-                    <Form.Item name="projectname" label="Project Name" rules={[{ required: true, message: 'Please input your project name!' }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item name="status" label="Status" rules={[{ required: true, message: 'Please select your status!' }]}>
-                        <Select>
-                            <Select.Option value="active">Active</Select.Option>
-                            <Select.Option value="inactive">Inactive</Select.Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item name="link" label="Link" rules={[{ required: true, message: 'Please input your link!' }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">Register</Button>
-                    </Form.Item>
-                </Form>
-            </div>
+            <Box sx={{ flexGrow: 1, width: '100%' }}>
+                <Grid container spacing={2}>
+                    <Grid size={12}>
+                        <Paper sx={paperSx} component="div">
+                            <h1>Dashboard</h1>
+                        </Paper>
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 8 }}>
+                        <Paper sx={paperSx} component="div">
+                            <div className="dashboard-page__table-card">
+                                <Table dataSource={dataSource} columns={columns} rowKey="id" />
+                            </div>
+                        </Paper>
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 4 }}>
+                        <Paper sx={paperSx} component="div">
+                            <div className="dashboard-page__form-card">
+                                <Form onFinish={onFinish} form={form} layout="vertical">
+                                    <Form.Item name="projectname" label="Project Name" rules={[{ required: true, message: 'Please input your project name!' }]}>
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item name="status" label="Status" rules={[{ required: true, message: 'Please select your status!' }]}>
+                                        <Select>
+                                            <Select.Option value="active">Active</Select.Option>
+                                            <Select.Option value="inactive">Inactive</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item name="link" label="Link" rules={[{ required: true, message: 'Please input your link!' }]}>
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item>
+                                        <Button type="primary" htmlType="submit">Register</Button>
+                                    </Form.Item>
+                                </Form>
+                            </div>
+                        </Paper>
+                    </Grid>
+                    <Grid size={12}>
+                        <Paper sx={paperSx} component="div">
+                            <Map />
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </Box>
         </div>
     );
 }

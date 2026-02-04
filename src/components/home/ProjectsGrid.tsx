@@ -44,7 +44,7 @@ function ProjectCard({
   );
 }
 
-export default function Grid2() {
+export default function ProjectsGrid() {
   return (
     <Box sx={{ flexGrow: 1, width: '100%' }}>
       <Grid container spacing={2}>

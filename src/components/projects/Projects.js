@@ -2,7 +2,6 @@ import Link from 'next/link';
 import '@/styles/Projects.css';
 import React from 'react';
 import { Carousel, ConfigProvider } from 'antd';
-import Grid from '@mui/material/Grid';
 
 
 const carouselTheme = {

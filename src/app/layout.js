@@ -6,9 +6,9 @@ import "@/styles/Home.css";
 import "@/styles/Resume.css";
 import "@/styles/Writings.css";
 import { Provider } from "@/components/ui/provider";
-import ChatWindowWrapper from "@/components/ChatWindowWrapper";
-import OrbitBackground from "@/components/OrbitBackground";
-import NavAuth from "@/components/NavAuth";
+import ChatWindowWrapper from "@/components/chat/ChatWindowWrapper";
+import OrbitBackground from "@/components/layout/OrbitBackground";
+import NavAuth from "@/components/layout/NavAuth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

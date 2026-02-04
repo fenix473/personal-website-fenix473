@@ -24,9 +24,9 @@ export const PROJECT_CODE_MAP: Record<string, CodeReference[]> = {
     piano: [
       { label: "Piano Page", path: "src/app/projects/piano/page.js" },
       { label: "Piano Layout", path: "src/app/projects/piano/layout.js" },
-      { label: "Piano Component", path: "src/components/Piano.jsx" },
-      { label: "Piano Key Component", path: "src/components/PianoKey.jsx" },
-      { label: "Melody Button Component", path: "src/components/MelodyButton.jsx" },
+      { label: "Piano Component", path: "src/components/piano/Piano.jsx" },
+      { label: "Piano Key Component", path: "src/components/piano/PianoKey.jsx" },
+      { label: "Melody Button Component", path: "src/components/piano/MelodyButton.jsx" },
       { label: "Piano API - Generate", path: "src/app/api/piano/generate/route.js" },
       { label: "Piano API - Save", path: "src/app/api/piano/save/route.js" },
       { label: "Piano API - List", path: "src/app/api/piano/list/route.js" },
@@ -40,8 +40,8 @@ export const PROJECT_CODE_MAP: Record<string, CodeReference[]> = {
     // Assistant Project
     assistant: [
       { label: "Assistant Page", path: "src/app/projects/assistant/page.js" },
-      { label: "Chat Window Component", path: "src/components/ChatWindow.js" },
-      { label: "Chat Window Wrapper", path: "src/components/ChatWindowWrapper.js" },
+      { label: "Chat Window Component", path: "src/components/chat/ChatWindow.js" },
+      { label: "Chat Window Wrapper", path: "src/components/chat/ChatWindowWrapper.js" },
       { label: "Claude API Route", path: "src/app/api/claude/route.js" },
       { label: "Chat API Route", path: "src/app/api/chat/route.js" },
       { label: "Agent Personas Config", path: "src/lib/agent-personas.js" },
@@ -51,8 +51,8 @@ export const PROJECT_CODE_MAP: Record<string, CodeReference[]> = {
     // Main Pages
     homepage: [
       { label: "Root Page", path: "src/app/page.js" },
-      { label: "Home Component", path: "src/components/Home.js" },
-      { label: "Orbit Background", path: "src/components/OrbitBackground.js" },
+      { label: "Home Component", path: "src/components/home/Home.js" },
+      { label: "Orbit Background", path: "src/components/layout/OrbitBackground.js" },
       { label: "Orbit Calculation", path: "src/app/orbit/OrbitCalculation.js" },
       { label: "Orbit Space", path: "src/app/orbit/OrbitSpace.js" },
       { label: "Home Styles", path: "src/styles/Home.css" }
@@ -60,13 +60,13 @@ export const PROJECT_CODE_MAP: Record<string, CodeReference[]> = {
   
     projects: [
       { label: "Projects Page", path: "src/app/projects/page.js" },
-      { label: "Projects Component", path: "src/components/Projects.js" },
+      { label: "Projects Component", path: "src/components/projects/Projects.js" },
       { label: "Projects Styles", path: "src/styles/Projects.css" }
     ],
   
     writings: [
       { label: "Writings Page", path: "src/app/writings/page.js" },
-      { label: "Writings Component", path: "src/components/Writings.js" },
+      { label: "Writings Component", path: "src/components/home/Writings.js" },
       { label: "Word Reader Utility", path: "src/utils/wordReader.js" },
       { label: "Infinite Scroll Hook", path: "src/utils/useInfiniteScroll.js" },
       { label: "Writings Styles", path: "src/styles/Writings.css" }
@@ -74,16 +74,16 @@ export const PROJECT_CODE_MAP: Record<string, CodeReference[]> = {
   
     // About & Resume
     about: [
-      { label: "About Component", path: "src/components/About.js" }
+      { label: "About Component", path: "src/components/home/About.js" }
     ],
   
     resume: [
-      { label: "Resume Component", path: "src/components/Resume.js" },
+      { label: "Resume Component", path: "src/components/home/Resume.js" },
       { label: "Resume Styles", path: "src/styles/Resume.css" }
     ],
   
     contact: [
-      { label: "Contact Component", path: "src/components/Contact.js" }
+      { label: "Contact Component", path: "src/components/home/Contact.js" }
     ],
   
     // Authentication
@@ -91,7 +91,7 @@ export const PROJECT_CODE_MAP: Record<string, CodeReference[]> = {
       { label: "Auth Callback Route", path: "src/app/auth/callback/route.js" },
       { label: "Auth Sign In Route", path: "src/app/auth/signin/route.js" },
       { label: "Auth Me API Route", path: "src/app/api/auth/me/route.js" },
-      { label: "Nav Auth Component", path: "src/components/NavAuth.js" },
+      { label: "Nav Auth Component", path: "src/components/layout/NavAuth.js" },
       { label: "Middleware", path: "src/middleware.js" }
     ],
   

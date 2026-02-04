@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Piano from '@/components/Piano';
+import Piano from '@/components/piano/Piano';
 import CoverBackButton from '@/components/CoverBackButton';
 import '@/styles/PianoPage.css';
 

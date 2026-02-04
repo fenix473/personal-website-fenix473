@@ -68,7 +68,43 @@ export async function initializeDatabase() {
         link VARCHAR(255) NOT NULL
       )
     `;
-    
+
+    // Active traffic incidents (from Austin API), keyed by traffic_report_id
+    await sql`
+      CREATE TABLE IF NOT EXISTS active_traffic_incidents (
+        id SERIAL PRIMARY KEY,
+        traffic_report_id VARCHAR(255) UNIQUE NOT NULL,
+        issue_reported TEXT,
+        address TEXT,
+        latitude DOUBLE PRECISION NOT NULL,
+        longitude DOUBLE PRECISION NOT NULL,
+        traffic_report_status VARCHAR(100),
+        agency VARCHAR(255),
+        published_date TIMESTAMP WITH TIME ZONE,
+        status_date_time TIMESTAMP WITH TIME ZONE,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+
+    // Daily snapshot: incidents by day (for 23:55 cron), keyed by traffic_report_id + incident_date
+    await sql`
+      CREATE TABLE IF NOT EXISTS daily_traffic_incidents (
+        id SERIAL PRIMARY KEY,
+        incident_date DATE NOT NULL,
+        traffic_report_id VARCHAR(255) NOT NULL,
+        issue_reported TEXT,
+        address TEXT,
+        latitude DOUBLE PRECISION NOT NULL,
+        longitude DOUBLE PRECISION NOT NULL,
+        traffic_report_status VARCHAR(100),
+        agency VARCHAR(255),
+        published_date TIMESTAMP WITH TIME ZONE,
+        status_date_time TIMESTAMP WITH TIME ZONE,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(traffic_report_id, incident_date)
+      )
+    `;
+
     console.log('Database initialized successfully');
     return { success: true };
   } catch (error) {
