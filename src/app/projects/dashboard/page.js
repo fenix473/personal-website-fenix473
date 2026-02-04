@@ -15,6 +15,7 @@ export default function DashboardPage() {
     const [dataSource, setDataSource] = useState([]);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [totalIncidents, setTotalIncidents] = useState(0);
 
     useEffect(() => {
         async function load() {
@@ -26,7 +27,8 @@ export default function DashboardPage() {
                 ]);
                 if (!entriesRes.ok) throw new Error('Failed to fetch dashboard entries');
                 const data = await entriesRes.json();
-                setDataSource(Array.isArray(data) ? data : data.entries ?? []);
+                setDataSource(Array.isArray(data) ? data : data.dashboardEntries ?? data.entries ?? []);
+                setTotalIncidents(data.totalIncidents ?? 0);
 
                 if (meRes.ok) {
                     const { user: u } = await meRes.json();
@@ -129,6 +131,7 @@ export default function DashboardPage() {
         );
     }
 
+
     return (
         <div className="projects dashboard-page">
             <Box sx={{ flexGrow: 1, width: '100%' }}>
@@ -170,10 +173,21 @@ export default function DashboardPage() {
                     </Grid>
                     <Grid size={12}>
                         <Paper sx={paperSx} component="div">
-                            <Map />
+                            <div className="dashboard-page__map-wrap">
+                                <Map />
+                            </div>
                         </Paper>
                     </Grid>
                 </Grid>
+                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                        <Paper sx={paperSx} component="div">
+                            <div className="dashboard-page__stats-card">
+                                <span className="dashboard-page__stats-label">Total Incidents</span>
+                                <span className="dashboard-page__stats-value">{totalIncidents}</span>
+                                <span className="dashboard-page__stats-value" style={{ fontSize: '1rem' }}> From February 1st to {new Date().toLocaleDateString('en-GB', {day: 'numeric', month: 'long'})}, 2026</span>
+                            </div>
+                        </Paper>
+                    </Grid>
             </Box>
         </div>
     );

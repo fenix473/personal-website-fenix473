@@ -6,7 +6,11 @@ export async function GET() {
     const dashboardEntries = await sql`
         SELECT * FROM dashboard_entries
     `;
-    return Response.json(dashboardEntries);
+    const  countResult = await sql`
+        SELECT COUNT(*)::int AS count FROM daily_traffic_incidents
+    `;
+    const totalIncidents = countResult[0]?.count ?? 0;
+    return Response.json({ dashboardEntries, totalIncidents });
 }
 
 export async function POST(request) {

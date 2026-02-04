@@ -2,9 +2,15 @@ import { NextResponse } from 'next/server'
 
 /**
  * GET /api/cron/daily
- * Vercel Cron (23:55 UTC): fetches all incidents published today and stores in daily_traffic_incidents.
+ *
+ * Vercel Cron job (schedule: 55 23 * * * = 23:55 UTC daily).
+ * Fetches all traffic incidents published on the current UTC day from the
+ * Austin API (via /api/traffic-reports), then stores them in
+ * daily_traffic_incidents via POST /api/traffic-reports/daily.
+ * Requires Authorization: Bearer <CRON_SECRET> when CRON_SECRET is set.
  */
 export async function GET(request) {
+  // Require Bearer token when CRON_SECRET is configured (Vercel sends it automatically).
   const auth = request.headers.get('Authorization')
   const secret = process.env.CRON_SECRET
   if (secret && auth !== `Bearer ${secret}`) {
@@ -12,10 +18,12 @@ export async function GET(request) {
   }
 
   try {
+    // Use VERCEL_URL in production so internal fetch hits the same deployment.
     const base = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
       : new URL(request.url).origin
 
+    // Today in UTC (YYYY-MM-DD); matches Austin API published_date filter.
     const today = new Date().toISOString().slice(0, 10)
     const listRes = await fetch(
       `${base}/api/traffic-reports?date=${today}&limit=2000`
@@ -24,6 +32,8 @@ export async function GET(request) {
       throw new Error(`traffic-reports GET failed: ${listRes.status}`)
     }
     const incidents = await listRes.json()
+
+    // No incidents for this day: succeed without writing to DB.
     if (!Array.isArray(incidents) || incidents.length === 0) {
       return NextResponse.json({
         ok: true,
@@ -33,6 +43,7 @@ export async function GET(request) {
       })
     }
 
+    // Persist today's incidents into daily_traffic_incidents (upsert by traffic_report_id + date).
     const postRes = await fetch(`${base}/api/traffic-reports/daily`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
