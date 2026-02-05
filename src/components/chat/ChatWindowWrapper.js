@@ -1,17 +1,23 @@
 "use client"
 
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import ChatWindow from "./ChatWindow"
 
+const ASSISTANT_FULLSCREEN_PATH = "/projects/assistant"
+
 /**
- * Renders floating ChatWindow (FAB + panel) except on the full-screen assistant page,
- * so the chat icon is hidden when the user is already in full-screen chat.
+ * Renders a single ChatWindow that persists across fullscreen and minimal.
+ * Same instance is rescaled via fullScreen prop; state is preserved until hard refresh.
  */
 export default function ChatWindowWrapper() {
     const pathname = usePathname()
-    const isAssistantPage = pathname === "/projects/assistant"
+    const router = useRouter()
+    const fullScreen = pathname === ASSISTANT_FULLSCREEN_PATH
 
-    if (isAssistantPage) return null
-
-    return <ChatWindow />
+    return (
+        <ChatWindow
+            fullScreen={fullScreen}
+            onClose={fullScreen ? () => router.back() : undefined}
+        />
+    )
 }

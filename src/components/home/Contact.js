@@ -9,6 +9,8 @@ function Contact() {
                 <a href="https://github.com/fenix473" target="_blank" rel="noopener noreferrer">
                     GitHub
                 </a>
+                <a href="mailto:favi.libero@favi.com" target="_blank" rel="noopener noreferrer">favi.libero@gmail.com</a>
+                <p>(737)325-6215</p>
             </div>
         </div>
     );

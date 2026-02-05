@@ -8,9 +8,9 @@ function Home() {
     return (
         <div className="home-section">
             <div className="home-section__card">
-                <h1 className="home-section__title">Home</h1>
-                <h2>Welcome to my website. Here you can find everything you need to know about me.</h2>
-                <p>I am a journalist and a software engineer. I have many tools and skills under my belt, ranging from data analysis to video editing. I firmly believe in the blend of technology and humanities, bringing best from the both worlds.</p>
+                <h1 className="home-section__title">Libero Favi</h1>
+                <h2>Full-Stack Developer | AI Automation & Data Processing</h2>
+                <p>Developer with a journalism background. I build web apps, automate workflows, and work with AI—but I actually care about whether something is useful, not just technically impressive. In an age where ChatGPT can write anything, imagination (knowing what to ask for) beats raw knowledge. That's where humanities meet tech.</p>
             </div>
             <section className="projects-section">
                 <h1 className="projects-section__title">Projects</h1>

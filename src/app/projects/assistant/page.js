@@ -1,14 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import ChatWindow from '@/components/chat/ChatWindow';
-
+/**
+ * Full-screen chat is rendered by layout (ChatWindowWrapper).
+ * This page only provides the route so the same chat instance is shown fullscreen.
+ */
 export default function AssistantPage() {
-  const router = useRouter();
-
-  return (
-    <ChatWindow
-    fullScreen onClose={() => router.back()}
-    />
-  )
+  return null;
 }

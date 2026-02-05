@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const RESUME_PDF = "/documents/ResumeMarkt.pdf";
+const RESUME_PDF = "/documents/Resume Full Stack.pdf";
 
 function Resume() {
     const [showResume, setShowResume] = useState(false);

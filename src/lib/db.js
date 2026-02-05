@@ -112,7 +112,7 @@ export async function initializeDatabase() {
       )
     `;
 
-    // Daily snapshot: incidents by day (for 23:55 cron), keyed by traffic_report_id + incident_date
+    // Daily snapshot: incidents by day (for 00:01 UTC cron, yesterday's data), keyed by traffic_report_id + incident_date
     await sql`
       CREATE TABLE IF NOT EXISTS daily_traffic_incidents (
         id SERIAL PRIMARY KEY,

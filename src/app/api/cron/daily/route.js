@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server'
 /**
  * GET /api/cron/daily
  *
- * Vercel Cron job (schedule: 55 23 * * * = 23:55 UTC daily).
- * Fetches all traffic incidents published on the current UTC day from the
- * Austin API (via /api/traffic-reports), then stores them in
+ * Vercel Cron job (schedule: 1 0 * * * = 00:01 UTC daily).
+ * Fetches all traffic incidents published on the previous UTC day (yesterday)
+ * from the Austin API (via /api/traffic-reports), then stores them in
  * daily_traffic_incidents via POST /api/traffic-reports/daily.
  * Requires Authorization: Bearer <CRON_SECRET> when CRON_SECRET is set.
  */
@@ -23,10 +23,12 @@ export async function GET(request) {
       ? `https://${process.env.VERCEL_URL}`
       : new URL(request.url).origin
 
-    // Today in UTC (YYYY-MM-DD); matches Austin API published_date filter.
-    const today = new Date().toISOString().slice(0, 10)
+    // Yesterday in UTC (YYYY-MM-DD); matches Austin API published_date filter.
+    const d = new Date()
+    d.setUTCDate(d.getUTCDate() - 1)
+    const yesterday = d.toISOString().slice(0, 10)
     const listRes = await fetch(
-      `${base}/api/traffic-reports?date=${today}&limit=2000`
+      `${base}/api/traffic-reports?date=${yesterday}&limit=2000`
     )
     if (!listRes.ok) {
       throw new Error(`traffic-reports GET failed: ${listRes.status}`)
@@ -38,16 +40,16 @@ export async function GET(request) {
       return NextResponse.json({
         ok: true,
         stored: 0,
-        date: today,
-        message: 'No incidents for today',
+        date: yesterday,
+        message: 'No incidents for yesterday',
       })
     }
 
-    // Persist today's incidents into daily_traffic_incidents (upsert by traffic_report_id + date).
+    // Persist yesterday's incidents into daily_traffic_incidents (upsert by traffic_report_id + date).
     const postRes = await fetch(`${base}/api/traffic-reports/daily`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ date: today, incidents }),
+      body: JSON.stringify({ date: yesterday, incidents }),
     })
     if (!postRes.ok) {
       const err = await postRes.text()
@@ -59,7 +61,7 @@ export async function GET(request) {
       ok: true,
       stored,
       total: incidents.length,
-      date: today,
+      date: yesterday,
     })
   } catch (err) {
     console.error('Cron /api/cron/daily error:', err)
