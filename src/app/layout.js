@@ -1,14 +1,16 @@
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
-import "@/styles/Nav.css";
+import "@/styles/Header.css";
+import "@/styles/Footer.css";
 import "@/styles/Home.css";
 import "@/styles/Resume.css";
 import "@/styles/Writings.css";
 import { Provider } from "@/components/ui/provider";
 import ChatWindowWrapper from "@/components/chat/ChatWindowWrapper";
 import OrbitBackground from "@/components/layout/OrbitBackground";
+import HeaderBackButton from "@/components/layout/HeaderBackButton";
 import NavAuth from "@/components/layout/NavAuth";
+import LayoutIncidentsStats from "@/components/layout/LayoutIncidentsStats";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,15 +44,15 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable}`}>
         <Provider>
           <OrbitBackground />
+          <HeaderBackButton />
           <div className="App">
-            <div className="wip-banner">
+            {/* <div className="wip-banner">
               🚧 Work in Progress 🚧
-            </div>
-            <nav className="navbar">
-              <Link href="/">Home</Link>
+            </div> */}
+            <main className="App__main">{children}</main>
+            <footer className="footer">
               <NavAuth />
-            </nav>
-            {children}
+            </footer>
           </div>
           <ChatWindowWrapper />
         </Provider>

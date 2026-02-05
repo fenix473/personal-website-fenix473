@@ -33,6 +33,20 @@ export function getDb() {
 }
 
 /**
+ * Add new columns to dashboard_entries if they don't exist (idempotent).
+ * Call this before INSERT to ensure schema is up to date.
+ */
+export async function migrateDashboardEntries() {
+  const sql = getDb();
+  await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS type VARCHAR(255)`;
+  await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS description TEXT`;
+  await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS user_name VARCHAR(255)`;
+  await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS latitude DOUBLE PRECISION`;
+  await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION`;
+  await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP`;
+}
+
+/**
  * Initialize the database with required tables
  * Call this once to set up your schema
  */
@@ -65,9 +79,21 @@ export async function initializeDatabase() {
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         status VARCHAR(255) NOT NULL,
-        link VARCHAR(255) NOT NULL
+        link VARCHAR(255) DEFAULT '',
+        type VARCHAR(255),
+        description TEXT,
+        user_name VARCHAR(255),
+        latitude DOUBLE PRECISION,
+        longitude DOUBLE PRECISION,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
     `;
+    await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS type VARCHAR(255)`;
+    await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS description TEXT`;
+    await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS user_name VARCHAR(255)`;
+    await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS latitude DOUBLE PRECISION`;
+    await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION`;
+    await sql`ALTER TABLE dashboard_entries ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP`;
 
     // Active traffic incidents (from Austin API), keyed by traffic_report_id
     await sql`

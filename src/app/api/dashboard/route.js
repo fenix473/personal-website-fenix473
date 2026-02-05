@@ -1,27 +1,38 @@
-import { getDb } from '@/lib/db';
+import { getDb, migrateDashboardEntries } from '@/lib/db';
 import { withAuth } from '@workos-inc/authkit-nextjs';
 
 export async function GET() {
-    const sql = getDb();
-    const dashboardEntries = await sql`
-        SELECT * FROM dashboard_entries
-    `;
-    const  countResult = await sql`
-        SELECT COUNT(*)::int AS count FROM daily_traffic_incidents
-    `;
-    const totalIncidents = countResult[0]?.count ?? 0;
-    return Response.json({ dashboardEntries, totalIncidents });
+  const sql = getDb();
+  await migrateDashboardEntries();
+  const dashboardEntries = await sql`
+    SELECT * FROM dashboard_entries ORDER BY created_at DESC NULLS LAST, id DESC
+  `;
+  const countResult = await sql`
+    SELECT COUNT(*)::int AS count FROM daily_traffic_incidents
+  `;
+  const totalIncidents = countResult[0]?.count ?? 0;
+  return Response.json({ dashboardEntries, totalIncidents });
 }
 
 export async function POST(request) {
-    const sql = getDb();
-    const {title, status, link} = await request.json();
-    const result = await sql`
-    INSERT INTO dashboard_entries (title, status, link)
-    VALUES (${title}, ${status}, ${link})
+  const sql = getDb();
+  await migrateDashboardEntries();
+  const {
+    title,
+    status,
+    link,
+    type,
+    description,
+    user: userName,
+    latitude,
+    longitude,
+  } = await request.json();
+  const result = await sql`
+    INSERT INTO dashboard_entries (title, status, link, type, description, user_name, latitude, longitude, created_at)
+    VALUES (${title}, ${status ?? ''}, ${link ?? ''}, ${type ?? null}, ${description ?? null}, ${userName ?? null}, ${latitude ?? null}, ${longitude ?? null}, CURRENT_TIMESTAMP)
     RETURNING *
-    `
-    return Response.json({ entry: result[0] });
+  `;
+  return Response.json({ entry: result[0] });
 }
 
 export async function DELETE(request) {

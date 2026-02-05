@@ -57,7 +57,7 @@ export default function PianoPage() {
             transitionDelay: isExiting ? '0s' : '0.15s',
           }}
         >
-          <CoverBackButton onClick={handleBack} />
+          {/* <CoverBackButton onClick={handleBack} /> */}
           <div className="piano-page__content">
             <h1 className="piano-page__title">Piano</h1>
             <Piano />

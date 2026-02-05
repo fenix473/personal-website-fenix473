@@ -1,0 +1,51 @@
+/* Fixed header – above content, below assistant (z-index 1000/9999) */
+.header-back {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  pointer-events: none;
+}
+
+.header-back__button {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  color: #000;
+  font-family: var(--font-roboto), sans-serif;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.header-back__button:hover {
+  background: rgba(255, 255, 255, 0.95);
+  opacity: 0.9;
+}
+
+.header-back__button:active {
+  opacity: 0.85;
+}
+
+@media (max-width: 480px) {
+  .header-back {
+    padding: 0.75rem 1rem;
+  }
+
+  .header-back__button {
+    padding: 0.4rem 0.75rem;
+  }
+}
