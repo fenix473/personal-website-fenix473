@@ -8,6 +8,15 @@ import '@/styles/Projects.css';
 import React from 'react';
 import { projects } from '@/data/projects';
 
+type ProjectVariant = 'dashboard' | 'piano' | 'assistant';
+const projectsTyped = projects as Array<{
+  href: string;
+  variant: ProjectVariant;
+  title: string;
+  description: string;
+  imagePosition?: 'left' | 'right';
+}>;
+
 const itemSx = {
   backgroundColor: 'transparent',
   padding: 0,
@@ -23,7 +32,7 @@ function ProjectCard({
   imagePosition = 'left',
 }: {
   href: string;
-  variant: 'dashboard' | 'piano' | 'assistant';
+  variant: ProjectVariant;
   title: string;
   description: string;
   imagePosition?: 'left' | 'right';
@@ -49,7 +58,7 @@ export default function ProjectsGrid() {
   return (
     <Box sx={{ flexGrow: 1, width: '100%' }}>
       <Grid container spacing={2}>
-        {projects.map((project) => (
+        {projectsTyped.map((project) => (
           <Grid size={12} key={project.href}>
             <Paper sx={itemSx} component="div">
               <ProjectCard
