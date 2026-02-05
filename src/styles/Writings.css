@@ -145,13 +145,18 @@
     box-shadow: var(--glass-shadow);
 }
 
-/* Floating back button – stays visible when scrolling */
+/* Floating back button – stays visible when scrolling, bottom center */
 .writings-reader .cover-back-button {
     position: fixed;
-    top: calc(var(--header-height, 64px) + 1rem);
-    left: var(--home-padding-x);
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: var(--z-sticky);
     margin-bottom: 0;
+}
+
+.writings-reader .cover-back-button:hover {
+    transform: translate(-50%, -3px);
 }
 
 .writings-reader.fade-in {
