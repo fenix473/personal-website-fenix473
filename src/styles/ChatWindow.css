@@ -310,23 +310,32 @@
   bottom: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
+  height: 100dvh !important; /* Mobile: avoids browser chrome covering content */
   min-width: 100vw !important;
   min-height: 100vh !important;
+  min-height: 100dvh !important;
   max-width: none !important;
   max-height: none !important;
   border-radius: 0;
   z-index: 9999;
-  /* Content column: keep default stretch so window stays full width; children limit themselves */
 }
 
-.chat-window--fullscreen .chat-header,
-.chat-window--fullscreen .chat-input-wrap {
+.chat-window--fullscreen .chat-header {
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
   flex-shrink: 0;
   padding-left: 24px;
   padding-right: 24px;
+  padding-top: max(14px, env(safe-area-inset-top));
+}
+
+.chat-window--fullscreen .chat-input-wrap {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding: 14px 24px max(14px, env(safe-area-inset-bottom));
 }
 
 .chat-window--fullscreen .chat-messages {
