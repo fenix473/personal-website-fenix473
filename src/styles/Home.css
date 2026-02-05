@@ -256,6 +256,95 @@
   color: var(--text-primary);
 }
 
+/* Contact form box */
+.contact-form-box {
+  margin-top: 2rem;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  text-align: left;
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-form label {
+  font-family: var(--font-roboto), sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-roboto), sans-serif;
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 5rem;
+}
+
+.contact-form button {
+  margin-top: 0.25rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-roboto), sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.contact-form button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.contact-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.contact-form-message {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.contact-form-success {
+  color: var(--text-primary);
+}
+
+.contact-form-error {
+  color: #f87171;
+}
+
 /* ─── Mobile – full width, organic scaling for entire home ─── */
 @media (max-width: 768px) {
   .home-section {
