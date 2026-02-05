@@ -98,9 +98,6 @@ function Writings() {
     return (
         <div className={`writings-section ${isTransitioning ? 'transitioning' : ''}`}>
             <div className="writings-section__card">
-                <h1 className={`writings-title ${isOpening ? 'fade-out' : ''} ${isClosing ? 'fade-in' : ''}`}>
-                    Writings
-                </h1>
                 <div className="carousel-container" ref={scrollRef}>
                     <div className="essays-track">
                     {tripleEssays.map((essay, index) => {

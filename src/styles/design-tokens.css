@@ -1,0 +1,129 @@
+:root {
+  /* ═══ COLORS ═══ */
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.95);
+  --text-muted: rgba(255, 255, 255, 0.88);
+
+  --accent-cyan: #00d9ff;
+  --accent-purple: #a78bfa;
+  --accent-yellow: #fbbf24;
+
+  --color-primary: var(--accent-cyan);
+  --color-secondary: var(--accent-purple);
+
+  --border-light: rgba(255, 255, 255, 0.22);
+
+  /* ═══ SPACING ═══ */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* ═══ TYPOGRAPHY ═══ */
+  --text-xs: clamp(0.75rem, 1.5vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 2vw, 1rem);
+  --text-base: clamp(1rem, 2.5vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 3vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 3.5vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 4vw, 2rem);
+  --text-3xl: clamp(2rem, 5vw, 2.5rem);
+  --text-4xl: clamp(2.5rem, 6vw, 3.5rem);
+
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+  --leading-loose: 1.8;
+
+  /* ═══ BORDERS & RADIUS ═══ */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  --border-width-thin: 1px;
+
+  /* ═══ GLASS MORPHISM ═══ */
+  --glass-bg: linear-gradient(
+    165deg,
+    rgba(18, 22, 40, 0.88) 0%,
+    rgba(8, 10, 24, 0.92) 50%,
+    rgba(12, 16, 32, 0.9) 100%
+  );
+  --glass-border: 1px solid rgba(255, 255, 255, 0.22);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --glass-blur: blur(24px) saturate(1.2);
+
+  /* ═══ TRANSITIONS ═══ */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-medium: 300ms;
+
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --transition-fast: all var(--duration-fast) var(--ease-out);
+  --transition-base: all var(--duration-base) var(--ease-out);
+
+  /* ═══ Z-INDEX ═══ */
+  --z-orbit: -1;
+  --z-base: 0;
+  --z-sticky: 200;
+  --z-modal: 500;
+
+  /* ═══ LAYOUT ═══ */
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+
+  --home-max-width: 70vw;
+  --home-section-gap: 2rem;
+  --home-padding-x: clamp(1.5rem, 4vw, 3rem);
+  --home-padding-y: clamp(2rem, 5vw, 4rem);
+
+  --header-height: 64px;
+  --header-padding-x: clamp(1rem, 3vw, 2rem);
+  --header-padding-y: 1rem;
+
+  /* ═══ ENHANCED GRADIENTS ═══ */
+  --gradient-primary: linear-gradient(135deg, #00d9ff 0%, #a78bfa 100%);
+  --gradient-secondary: linear-gradient(135deg, #a78bfa 0%, #fbbf24 100%);
+  --gradient-hero-bg: linear-gradient(
+    180deg,
+    rgba(8, 10, 24, 0.75) 0%,
+    rgba(18, 22, 40, 0.6) 30%,
+    rgba(30, 20, 50, 0.5) 70%,
+    rgba(8, 10, 24, 0.75) 100%
+  );
+
+  /* ═══ GLOW EFFECTS ═══ */
+  --glow-cyan: 0 0 20px rgba(0, 217, 255, 0.5),
+    0 0 40px rgba(0, 217, 255, 0.3),
+    0 0 60px rgba(0, 217, 255, 0.1);
+  --glow-purple: 0 0 20px rgba(167, 139, 250, 0.5),
+    0 0 40px rgba(167, 139, 250, 0.3),
+    0 0 60px rgba(167, 139, 250, 0.1);
+  --glow-button: 0 4px 20px rgba(0, 217, 255, 0.4),
+    0 0 40px rgba(0, 217, 255, 0.2);
+
+  /* ═══ BUTTON COLORS ═══ */
+  --button-primary-bg: var(--gradient-primary);
+  --button-primary-hover: linear-gradient(135deg, #00b8e6 0%, #9370db 100%);
+  --button-secondary-bg: rgba(255, 255, 255, 0.05);
+  --button-secondary-border: rgba(0, 217, 255, 0.4);
+  --button-secondary-hover-bg: rgba(0, 217, 255, 0.1);
+
+  /* ═══ HERO SPECIFIC ═══ */
+  --hero-min-height: 100vh;
+  --hero-content-max-width: 600px;
+  --hero-visual-size: clamp(300px, 40vw, 500px);
+  --tracking-tight: -0.025em;
+}

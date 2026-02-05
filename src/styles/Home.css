@@ -1,42 +1,274 @@
 /* ─── Home Page – Shared Layout & Glass Card ─── */
 
-/* Main container */
+/* Main container: full width so hero can span viewport */
 .home-section {
-  max-width: var(--home-max-width);
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
-  padding: var(--home-padding-y) var(--home-padding-x);
 }
 
-/* ─── Intro Card ─── */
+/* ═══════════════════════════════════════════════════════
+   HERO SECTION - Full Page Landing
+   ═══════════════════════════════════════════════════════ */
 
-.home-section__card h1 {
-  font-family: var(--font-roboto), sans-serif;
-  font-size: clamp(2.5rem, 6vw, 3.5rem);
-  font-weight: 300;
-  letter-spacing: -0.02em;
+.hero-section {
+  min-height: var(--hero-min-height);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: var(--space-4xl) var(--home-padding-x);
+
+  /* Ensure content is above orbit background */
+  z-index: var(--z-base);
+}
+
+.hero-section__container {
+  max-width: var(--container-2xl);
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4xl);
+  align-items: center;
+}
+
+/* ─── Content (Left Side) ─── */
+
+.hero-section__content {
+  max-width: var(--hero-content-max-width);
+  text-align: left;
+  z-index: 1;
+}
+
+.hero-section__title {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-light);
   color: var(--text-primary);
-  margin: 0 0 1.5rem;
-}
-
-.home-section__card h2 {
+  margin: 0 0 var(--space-md) 0;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.2;
   font-family: var(--font-roboto), sans-serif;
-  font-size: clamp(1rem, 2.5vw, 1.15rem);
-  font-weight: 400;
-  color: var(--text-primary);
-  margin: 0 0 2rem;
-  line-height: 1.7;
+
+  /* Subtle glow effect */
+  text-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
 }
 
-.home-section__card p {
-  font-size: clamp(1rem, 2.5vw, 1.1rem);
-  line-height: 1.8;
+.hero-section__subtitle {
+  font-size: var(--text-lg);
+  font-weight: var(--font-normal);
   color: var(--text-secondary);
-  margin: 0;
-  max-width: 65ch;
+  margin: 0 0 var(--space-xl) 0;
+  line-height: var(--leading-relaxed);
+  font-family: var(--font-roboto), sans-serif;
 }
 
-/* Apply glass card to intro card and all section blocks */
-.home-section__card,
+.hero-section__description {
+  font-size: var(--text-base);
+  color: var(--text-muted);
+  line-height: var(--leading-loose);
+  margin: 0 0 var(--space-2xl) 0;
+  font-family: var(--font-roboto), sans-serif;
+}
+
+/* ─── Action Buttons ─── */
+
+.hero-section__actions {
+  display: flex;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md) var(--space-2xl);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  transition: var(--transition-base);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--font-roboto), sans-serif;
+}
+
+/* Primary Button - Gradient */
+.hero-button--primary {
+  background: var(--button-primary-bg);
+  color: #000;
+  border: none;
+  box-shadow: var(--glow-button);
+}
+
+.hero-button--primary:hover {
+  background: var(--button-primary-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 30px rgba(0, 217, 255, 0.5),
+    0 0 50px rgba(0, 217, 255, 0.3);
+}
+
+/* Secondary Button - Glass */
+.hero-button--secondary {
+  background: var(--button-secondary-bg);
+  color: var(--color-primary);
+  border: 2px solid var(--button-secondary-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hero-button--secondary:hover {
+  background: var(--button-secondary-hover-bg);
+  border-color: var(--color-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+}
+
+/* ─── Visual (Right Side) ─── */
+
+.hero-section__visual {
+  position: relative;
+  width: 100%;
+  height: var(--hero-visual-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-section__visual-glow {
+  position: absolute;
+  width: var(--hero-visual-size);
+  height: var(--hero-visual-size);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 217, 255, 0.2) 0%,
+    rgba(167, 139, 250, 0.15) 50%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  animation: heroPulse 4s ease-in-out infinite;
+}
+
+@keyframes heroPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* ─── Hero Responsive ─── */
+
+@media (max-width: 1023px) {
+  .hero-section {
+    padding: var(--space-3xl) var(--space-xl);
+  }
+
+  .hero-section__container {
+    gap: var(--space-3xl);
+  }
+
+  .hero-section__title {
+    font-size: var(--text-3xl);
+  }
+
+  .hero-section__subtitle {
+    font-size: var(--text-base);
+  }
+
+  .hero-section__description {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-section {
+    min-height: auto;
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .hero-section__container {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    text-align: center;
+  }
+
+  .hero-section__content {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .hero-section__title {
+    font-size: var(--text-2xl);
+  }
+
+  .hero-section__subtitle {
+    font-size: var(--text-sm);
+  }
+
+  .hero-section__description {
+    font-size: var(--text-xs);
+  }
+
+  .hero-section__actions {
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-button {
+    width: 100%;
+  }
+
+  .hero-section__visual {
+    height: 250px;
+  }
+
+  .hero-section__visual-glow {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: var(--space-xl) var(--space-sm);
+  }
+
+  .hero-section__title {
+    font-size: var(--text-xl);
+  }
+
+  .hero-button {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-sm);
+  }
+}
+
+/* ─── Content sections (projects, about, etc.) – keep padding and max-width ─── */
+
+.home-section .projects-section,
+.home-section .about-section,
+.home-section .resume-section,
+.home-section .contact-section,
+.home-section .writings-section,
+.home-section #about,
+.home-section #writings,
+.home-section #contact {
+  padding: var(--home-padding-y) var(--home-padding-x);
+  padding-bottom: var(--home-section-gap);
+  max-width: var(--container-2xl);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Apply glass card to section blocks (not hero) */
 .home-section .about-section,
 .home-section .resume-section,
 .home-section .contact-section {
@@ -233,6 +465,20 @@
   flex-wrap: wrap;
 }
 
+/* Links in grid: stack in left column when inside .contact-links-box */
+.contact-links-box .contact-links {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.75rem;
+}
+
+.contact-links-box .contact-links a,
+.contact-links-box .contact-links p {
+  justify-content: center;
+  margin: 0;
+}
+
 .contact-links a {
   display: inline-flex;
   align-items: center;
@@ -256,17 +502,16 @@
   color: var(--text-primary);
 }
 
-/* Contact form box */
+/* Contact form box and links box (same card style, used in MUI Grid) */
 .contact-form-box {
-  margin-top: 2rem;
   padding: clamp(1.25rem, 3vw, 1.75rem);
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   text-align: left;
-  max-width: 28rem;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .contact-form {
@@ -353,24 +598,11 @@
     padding: clamp(1rem, 4vw, 2rem) clamp(1rem, 4vw, 1.5rem);
   }
 
-  .home-section__card,
   .home-section .about-section,
   .home-section .resume-section,
   .home-section .contact-section {
     padding: clamp(1.25rem, 4vw, 2rem);
     border-radius: 0;
-  }
-
-  .home-section__card h1 {
-    font-size: clamp(1.75rem, 7vw, 2.5rem);
-  }
-
-  .home-section__card h2 {
-    font-size: clamp(0.95rem, 3vw, 1.1rem);
-  }
-
-  .home-section__card p {
-    font-size: clamp(0.95rem, 3vw, 1.05rem);
   }
 
   .about-section h2 {
@@ -422,4 +654,54 @@
   .home-section .writings-title {
     font-size: clamp(1.5rem, 5vw, 2rem);
   }
+}
+
+/* ═══════════════════════════════════════════════════════
+   ANIMATIONS & POLISH
+   ═══════════════════════════════════════════════════════ */
+
+/* Fade in on load */
+.hero-section__content {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-section__visual {
+  animation: fadeIn 1s ease-out 0.3s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Button press effect */
+.hero-button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Smooth transitions */
+.hero-section__title,
+.hero-section__subtitle,
+.hero-section__description {
+  transition: color var(--transition-base);
+}
+
+/* Hover glow on title */
+.hero-section__title:hover {
+  text-shadow: 0 0 40px rgba(0, 217, 255, 0.5);
 }

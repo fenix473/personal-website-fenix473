@@ -1,0 +1,115 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  color: var(--text-primary);
+}
+
+.header__container {
+  max-width: var(--container-2xl);
+  margin: 0 auto;
+  padding: var(--header-padding-y) var(--header-padding-x);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.header__logo {
+  font-size: var(--text-xl);
+  font-weight: var(--font-light);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.header__logo:hover {
+  color: var(--color-primary);
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.header__link {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.header__link:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.header__link--active {
+  color: var(--color-primary);
+  font-weight: var(--font-medium);
+}
+
+.header__link--cta {
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  color: var(--color-primary);
+  font-weight: var(--font-medium);
+}
+
+.header__link--cta:hover {
+  background: var(--color-primary);
+  color: #000;
+  transform: translateY(-2px);
+}
+
+/* Back button – inline in nav so it never overlaps Contact */
+.header__back {
+  margin-left: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: #000;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  text-decoration: none;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.header__back:hover {
+  background: rgba(255, 255, 255, 0.95);
+  opacity: 0.95;
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+  .header__nav {
+    gap: var(--space-sm);
+  }
+  .header__link {
+    font-size: var(--text-xs);
+    padding: var(--space-xs) var(--space-sm);
+  }
+}
+
+@media (max-width: 767px) {
+  .header__container {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .header__nav {
+    width: 100%;
+    justify-content: center;
+  }
+}

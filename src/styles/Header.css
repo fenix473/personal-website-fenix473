@@ -1,13 +1,13 @@
-/* Fixed header – above content, below assistant (z-index 1000/9999) */
+/* Fixed back button – top-right so it doesn’t overlap the nav logo */
 .header-back {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
-  z-index: 500;
+  z-index: 501;
   display: flex;
   align-items: center;
-  padding: 1rem 1.5rem;
+  justify-content: flex-end;
+  padding: 1rem clamp(1rem, 3vw, 1.5rem);
   background: transparent;
   pointer-events: none;
 }
