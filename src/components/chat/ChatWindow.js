@@ -5,6 +5,7 @@ import { FaFeather, FaAtom, FaCog, FaCommentDots, FaPaperPlane, FaTimes, FaExpan
 import "@/styles/ChatWindow.css"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import ChatMarkdown from "@/components/chat/ChatMarkdown"
 
 const PERSONAS = [
     { key: "poet", label: "Poet", Icon: FaFeather },
@@ -20,7 +21,7 @@ function ChatWindow({ fullScreen = false, onClose }) {
     const [messages, setMessages] = useState([
         {
             id: 1,
-            time: "10:30 AM",
+            time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
             message: "Hello, how are you?",
             sender: "compositor",
         },
@@ -146,7 +147,7 @@ function ChatWindow({ fullScreen = false, onClose }) {
                         key={msg.id}
                         className={`chat-message ${msg.sender === "user" ? "user" : "compositor"}`}
                     >
-                        <p className="chat-message-text">{msg.message}</p>
+                        <div className="chat-message-text"><ChatMarkdown content={msg.message} /></div>
                         <span className="chat-message-time">{msg.time}</span>
                     </div>
                 ))}

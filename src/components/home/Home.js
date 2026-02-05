@@ -25,6 +25,11 @@ function Home() {
                         </div>
                     </div>
                     <div className="hero-section__visual">
+                        <img
+                            src="/images/Profile.jpg"
+                            alt="Profile"
+                            className="hero-section__avatar"
+                        />
                         <div className="hero-section__visual-glow" />
                     </div>
                 </div>

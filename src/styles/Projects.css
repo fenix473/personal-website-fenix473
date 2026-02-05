@@ -70,15 +70,15 @@
 }
 
 .project-card--dashboard .project-card__image {
-  background-image: url(/images/dashboard_background_v3.png);
+  background-image: url(/images/dashboard_background_v3.jpg);
 }
 
 .project-card--piano .project-card__image {
-  background-image: url(/images/piano_background_v2.png);
+  background-image: url(/images/piano_background_v2.jpg);
 }
 
 .project-card--assistant .project-card__image {
-  background-image: url(/images/assistant_background_v8.png);
+  background-image: url(/images/assistant_background_v8.jpg);
 }
 
 /* Content box – mobile: below image; desktop: beside image */

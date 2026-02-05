@@ -12,7 +12,7 @@ import OrbitBackground from "@/components/layout/OrbitBackground";
 import Header from "@/components/layout/Header";
 import NavAuth from "@/components/layout/NavAuth";
 import LayoutIncidentsStats from "@/components/layout/LayoutIncidentsStats";
-import { siteMeta } from "@/data/site-metadata";
+import { siteMeta, personJsonLd, websiteJsonLd } from "@/data/site-metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,8 +36,49 @@ const baseUrl =
 
 export const metadata = {
   metadataBase: new URL(baseUrl),
-  title: `${siteMeta.name} - Portfolio`,
-  description: siteMeta.shortDescription,
+  title: {
+    default: `${siteMeta.name} - Portfolio`,
+    template: `%s | ${siteMeta.name}`,
+  },
+  description: siteMeta.heroDescription || siteMeta.shortDescription,
+  keywords: siteMeta.seo.keywords,
+  authors: [{ name: siteMeta.name }],
+  creator: siteMeta.name,
+  openGraph: {
+    type: siteMeta.seo.ogType,
+    locale: siteMeta.seo.locale,
+    url: siteMeta.seo.ogUrl,
+    siteName: siteMeta.seo.ogSiteName,
+    title: siteMeta.seo.ogTitle,
+    description: siteMeta.seo.ogDescription,
+    images: [
+      {
+        url: siteMeta.seo.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteMeta.seo.ogSiteName,
+      },
+    ],
+  },
+  twitter: {
+    card: siteMeta.seo.twitterCard,
+    title: siteMeta.seo.twitterTitle,
+    description: siteMeta.seo.twitterDescription,
+    creator: siteMeta.seo.twitterCreator || undefined,
+    images: [siteMeta.seo.twitterImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  themeColor: siteMeta.seo.themeColor,
 };
 
 export const viewport = {
@@ -47,8 +88,19 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
+  const localeLang = siteMeta.seo.locale ? siteMeta.seo.locale.split("_")[0] : "en";
   return (
-    <html lang="en">
+    <html lang={localeLang}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable}`}>
         <Provider>
           <OrbitBackground />
