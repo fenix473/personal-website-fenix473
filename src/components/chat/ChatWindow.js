@@ -1,9 +1,9 @@
 "use client"
 
-import { Box, Spinner } from "@chakra-ui/react"
+import { Spinner } from "@chakra-ui/react"
 import { FaFeather, FaAtom, FaCog, FaCommentDots, FaPaperPlane, FaTimes, FaExpand } from "react-icons/fa"
 import "@/styles/ChatWindow.css"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import ChatMarkdown from "@/components/chat/ChatMarkdown"
 
@@ -29,6 +29,15 @@ function ChatWindow({ fullScreen = false, onClose }) {
     const [inputValue, setInputValue] = useState("")
     const [isOpen, setIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const messagesEndRef = useRef(null)
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages, isLoading])
 
     const handleClose = () => {
         if (fullScreen && onClose) {
@@ -102,7 +111,7 @@ function ChatWindow({ fullScreen = false, onClose }) {
     }
 
     return (
-        <Box className={windowClassName}>
+        <div className={windowClassName}>
             <header className="chat-header">
                 <div className="chat-personas">
                     {PERSONAS.map(({ key, label, Icon }) => (
@@ -153,12 +162,13 @@ function ChatWindow({ fullScreen = false, onClose }) {
                 ))}
                 {isLoading && (
                     <div className="chat-message chat-message--loading compositor" aria-busy="true" aria-live="polite">
-                        <Box display="flex" alignItems="center" gap="10px">
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             <Spinner size="sm" color="white" />
                             <span className="chat-message-text">Thinking...</span>
-                        </Box>
+                        </div>
                     </div>
                 )}
+                <div ref={messagesEndRef} aria-hidden="true" />
             </div>
 
             <div className="chat-input-wrap">
@@ -185,7 +195,7 @@ function ChatWindow({ fullScreen = false, onClose }) {
                     <FaPaperPlane size={16} />
                 </button>
             </div>
-        </Box>
+        </div>
     )
 }
 

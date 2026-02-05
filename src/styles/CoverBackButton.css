@@ -1,21 +1,28 @@
-/* Cover Back Button */
+@import "@/styles/design-tokens.css";
+
+/* Cover Back Button – matches hero-secondary / contact-links style */
 .cover-back-button {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.6rem 1.2rem;
+    padding: 0.75rem 1.75rem;
     margin-bottom: 2rem;
-    border: none;
-    border-radius: 0;
+    background: var(--button-secondary-bg, rgba(255, 255, 255, 0.05));
+    border: 2px solid var(--button-secondary-border, rgba(0, 217, 255, 0.4));
+    border-radius: var(--radius-lg, 0.75rem);
     cursor: pointer;
     font-family: var(--font-roboto), sans-serif;
-    font-size: clamp(0.8rem, 2vw, 0.85rem);
-    letter-spacing: 0.02em;
+    font-size: clamp(0.85rem, 2vw, 0.9rem);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     overflow: hidden;
     min-width: 140px;
     height: 44px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .cover-back-button-bg {
@@ -31,36 +38,37 @@
 .cover-back-button-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.35);
     z-index: 1;
 }
 
 .cover-back-button-text {
     position: relative;
     z-index: 2;
-    color: white;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    color: var(--color-primary, var(--accent-cyan, #00d9ff));
     font-weight: 500;
 }
 
 .cover-back-button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+    background: var(--button-secondary-hover-bg, rgba(0, 217, 255, 0.1));
+    border-color: var(--color-primary, var(--accent-cyan));
 }
 
 .cover-back-button:hover .cover-back-button-overlay {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 /* Fallback when no cover image (e.g. piano page) */
 .cover-back-button--no-cover {
-    background: linear-gradient(135deg, #2a2a3e 0%, #1a1a2e 50%, #0f0f1a 100%);
+    background: var(--button-secondary-bg, rgba(255, 255, 255, 0.05));
 }
 
 .cover-back-button--no-cover .cover-back-button-overlay {
-    background: rgba(0, 0, 0, 0.35);
+    background: transparent;
 }
 
 .cover-back-button--no-cover:hover .cover-back-button-overlay {
-    background: rgba(0, 0, 0, 0.25);
+    background: transparent;
 }
