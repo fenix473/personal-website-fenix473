@@ -3,6 +3,7 @@ import About from "./About";
 import Contact from "./Contact";
 import Writings from "./Writings";
 import ProjectsGrid from "./ProjectsGrid";
+import { siteMeta } from "@/data/site-metadata";
 
 function Home() {
     return (
@@ -11,24 +12,15 @@ function Home() {
             <section className="hero-section">
                 <div className="hero-section__container">
                     <div className="hero-section__content">
-                        <h1 className="hero-section__title">Libero Favi</h1>
-                        <h2 className="hero-section__subtitle">
-                            Full-Stack Developer | AI Automation & Data Processing
-                        </h2>
-                        <p className="hero-section__description">
-                            Developer with a journalism background. I build web apps,
-                            automate workflows, and work with AI—but I actually care
-                            about whether something is useful, not just technically
-                            impressive. In an age where ChatGPT can write anything,
-                            imagination (knowing what to ask for) beats raw knowledge.
-                            That&apos;s where humanities meet tech.
-                        </p>
+                        <h1 className="hero-section__title">{siteMeta.name}</h1>
+                        <h2 className="hero-section__subtitle">{siteMeta.tagline}</h2>
+                        <p className="hero-section__description">{siteMeta.heroDescription}</p>
                         <div className="hero-section__actions">
                             <a href="#projects" className="hero-button hero-button--primary">
-                                View Projects
+                                {siteMeta.cta.viewProjects}
                             </a>
                             <a href="#contact" className="hero-button hero-button--secondary">
-                                Get in Touch
+                                {siteMeta.cta.getInTouch}
                             </a>
                         </div>
                     </div>
@@ -39,25 +31,25 @@ function Home() {
             </section>
 
             <section id="projects" className="projects-section">
-                <h1 className="projects-section__title">Projects</h1>
+                <h1 className="projects-section__title">{siteMeta.sections.projects}</h1>
                 <div className="projects-section">
                     <ProjectsGrid />
                 </div>
             </section>
             <div id="about">
-                <h2 className="projects-section__title">About Me</h2>
+                <h2 className="projects-section__title">{siteMeta.sections.about}</h2>
                 <About />
             </div>
             <div id="writings">
-                <h2 className="projects-section__title">Writings</h2>
+                <h2 className="projects-section__title">{siteMeta.sections.writings}</h2>
                 <Writings />
             </div>
             <div id="resume">
-                <h2 className="projects-section__title">Resume</h2>
+                <h2 className="projects-section__title">{siteMeta.sections.resume}</h2>
                 <Resume />
             </div>
             <div id="contact">
-                <h2 className="projects-section__title">Contact Me</h2>
+                <h2 className="projects-section__title">{siteMeta.sections.contact}</h2>
                 <Contact />
             </div>
         </div>

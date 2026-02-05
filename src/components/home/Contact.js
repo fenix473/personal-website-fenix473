@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { siteMeta } from '@/data/site-metadata';
 
 function Contact() {
   const [email, setEmail] = useState('');
@@ -42,16 +43,16 @@ function Contact() {
           <Grid size={{ xs: 12, md: 5 }}>
             <div className="contact-form-box contact-links-box">
               <div className="contact-links">
-                <a href="https://www.linkedin.com/in/liberofavi/" target="_blank" rel="noopener noreferrer">
+                <a href={siteMeta.links.linkedin} target="_blank" rel="noopener noreferrer">
                   LinkedIn
                 </a>
-                <a href="https://github.com/fenix473" target="_blank" rel="noopener noreferrer">
+                <a href={siteMeta.links.github} target="_blank" rel="noopener noreferrer">
                   GitHub
                 </a>
-                <a href="mailto:favi.libero@gmail.com" target="_blank" rel="noopener noreferrer">
+                <a href={siteMeta.links.email} target="_blank" rel="noopener noreferrer">
                   Email
                 </a>
-                <a href="tel:+17373256215">(737) 325-6215</a>
+                <a href={siteMeta.links.phone}>{siteMeta.links.phoneDisplay}</a>
               </div>
             </div>
           </Grid>

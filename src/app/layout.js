@@ -12,6 +12,7 @@ import OrbitBackground from "@/components/layout/OrbitBackground";
 import Header from "@/components/layout/Header";
 import NavAuth from "@/components/layout/NavAuth";
 import LayoutIncidentsStats from "@/components/layout/LayoutIncidentsStats";
+import { siteMeta } from "@/data/site-metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,8 +36,8 @@ const baseUrl =
 
 export const metadata = {
   metadataBase: new URL(baseUrl),
-  title: "Libero Favi - Portfolio",
-  description: "Journalist and Software Engineer",
+  title: `${siteMeta.name} - Portfolio`,
+  description: siteMeta.shortDescription,
 };
 
 export const viewport = {

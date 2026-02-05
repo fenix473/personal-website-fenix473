@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Link from 'next/link';
 import '@/styles/Projects.css';
 import React from 'react';
+import { projects } from '@/data/projects';
 
 const itemSx = {
   backgroundColor: 'transparent',
@@ -48,37 +49,19 @@ export default function ProjectsGrid() {
   return (
     <Box sx={{ flexGrow: 1, width: '100%' }}>
       <Grid container spacing={2}>
-        <Grid size={12}>
-          <Paper sx={itemSx} component="div">
+        {projects.map((project) => (
+          <Grid size={12} key={project.href}>
+            <Paper sx={itemSx} component="div">
               <ProjectCard
-                href="/projects/dashboard"
-                variant="dashboard"
-                title="Dashboard"
-                description="Interactive dashboard for tracking and analyzing data."
+                href={project.href}
+                variant={project.variant}
+                title={project.title}
+                description={project.description}
+                imagePosition={project.imagePosition ?? 'left'}
               />
             </Paper>
           </Grid>
-          <Grid size={12}>
-            <Paper sx={itemSx} component="div">
-              <ProjectCard
-                href="/projects/piano"
-                variant="piano"
-                title="Piano"
-                description="Interactive one-octave piano with keyboard and touch support. Built with Web Audio API."
-                imagePosition="right"
-              />
-            </Paper>
-          </Grid>
-          <Grid size={12}>
-            <Paper sx={itemSx} component="div">
-              <ProjectCard
-                href="/projects/assistant"
-                variant="assistant"
-                title="Assistant"
-                description="Human in the loop assistant using Claude. They will help you navigating this website and answer your general curiosities."
-              />
-          </Paper>
-        </Grid>
+        ))}
       </Grid>
     </Box>
   );

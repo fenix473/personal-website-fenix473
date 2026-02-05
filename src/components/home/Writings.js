@@ -4,31 +4,7 @@ import { useState, useRef } from "react";
 import WordReader from "@/utils/wordReader";
 import useInfiniteScroll from "@/utils/useInfiniteScroll";
 import CoverBackButton from "@/components/CoverBackButton";
-
-// DOCX files served from public folder
-const baseUrl = "/writings/";
-
-// Essay collection
-const essays = [
-    { 
-        title: "Orange Man", 
-        file: baseUrl + "Orange Man Clean.docx", 
-        description: "Reflection on the Charge of the Light Brigade by Tennyson. Exploring discipline, loyalty and officer responsibility.", 
-        cover: baseUrl + "writingsCovers/Orange Man Cover.png"
-    },
-    { 
-        title: "Profession", 
-        file: baseUrl + "Profession.docx", 
-        description: "Exploring professional development and career growth.",
-        cover: baseUrl + "writingsCovers/Profession Cover.png"
-    },
-    { 
-        title: "Serve Analytical Paper", 
-        file: baseUrl + "Serve Analytical Paper.docx", 
-        description: "An analytical paper on service and dedication.",
-        cover: baseUrl + "writingsCovers/Serve Analytical Paper Cover.png"
-    }
-];
+import { essays } from "@/data/essays";
 
 function Writings() {
     const [selectedEssay, setSelectedEssay] = useState(null);

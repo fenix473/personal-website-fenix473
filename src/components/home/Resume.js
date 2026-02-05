@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const RESUME_PDF = "/documents/Resume Full Stack.pdf";
+import { siteMeta } from "@/data/site-metadata";
 
 function Resume() {
     const [showResume, setShowResume] = useState(false);
@@ -20,7 +19,7 @@ function Resume() {
                 <h2 className="resume-title">My Resume</h2>
                 <div className="resume-pdf-container">
                     <iframe
-                        src={RESUME_PDF}
+                        src={siteMeta.resumePdfPath}
                         className="resume-pdf-iframe"
                         title="Resume PDF"
                     />
