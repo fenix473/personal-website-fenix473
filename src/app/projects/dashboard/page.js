@@ -123,8 +123,8 @@ export default function DashboardPage() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid size={12}>
-            <Paper sx={paperSx} component="div">
+          <Grid size={12} className="dashboard-page__table-grid">
+            <Paper sx={paperSx} component="div" className="dashboard-page__table-paper">
               <DashboardTable
                 dataSource={dataSource}
                 setDataSource={setDataSource}

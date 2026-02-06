@@ -13,6 +13,13 @@
   box-sizing: border-box;
 }
 
+/* Allow table horizontal scroll: flex/grid children need min-width: 0 to shrink */
+.dashboard-page__table-grid,
+.dashboard-page__table-paper {
+  min-width: 0;
+  overflow: visible;
+}
+
 .dashboard-page__table-card,
 .dashboard-page__form-card {
   background: linear-gradient(
@@ -264,11 +271,19 @@
 }
 
 /* Table: horizontal scroll on narrow screens for readable column widths */
+.dashboard-page__table-card {
+  overflow: visible;
+  min-width: 0; /* allow flex shrink so overflow works */
+}
+
 .dashboard-page__table-wrap {
-  overflow-x: auto;
+  overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
   margin: 0 -0.5rem; /* pull scroll into card padding for full bleed */
   padding: 0 0.5rem;
+  min-width: 0;
+  width: 100%;
 }
 
 .dashboard-page__table-wrap .ant-table {
@@ -286,6 +301,11 @@
   .dashboard-page__table-card,
   .dashboard-page__form-card {
     padding: 1rem;
+  }
+
+  .dashboard-page__table-wrap {
+    margin: 0 -1rem; /* wider scroll area on mobile */
+    padding: 0 1rem;
   }
 
   .dashboard-page__table-wrap .ant-table-thead > tr > th,

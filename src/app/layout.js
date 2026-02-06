@@ -79,6 +79,10 @@ export const metadata = {
     },
   },
   themeColor: siteMeta.seo.themeColor,
+  icons: {
+    icon: "/images/sun_cartoon.png",
+    apple: "/images/sun_cartoon.png",
+  },
 };
 
 export const viewport = {
