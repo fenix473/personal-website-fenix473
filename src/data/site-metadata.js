@@ -40,7 +40,7 @@ That's where humanities meet tech.`,
     ogImage: "/images/Profile.jpg",
     ogType: "website",
     ogSiteName: "Libero Favi Portfolio",
-    ogUrl: "https://fenix473.vercel.app",
+    ogUrl: "https://favilibero.com",
 
     // Twitter / X Card
     twitterCard: "summary_large_image",
@@ -153,7 +153,7 @@ export const projectsMeta = [
     description: "Interactive 49-key digital piano with AI melody generation using Claude API and N8N workflow automation.",
     fullDescription: "An interactive 49-key digital piano, built with React and the Web Audio API. The application integrates an N8N workflow via webhook that interfaces with a large language model to generate original melodies based on user prompts, returning structured JSON containing note sequences, tempo, and duration data. Generated melodies are persisted in a Neon database through Next.js API Routes, enabling users to save, list, and replay their AI-created compositions.",
     link: "/projects/piano",
-    liveUrl: "https://fenix473.vercel.app/projects/piano",
+    liveUrl: "https://favilibero.com/projects/piano",
     tags: ["Web Audio API", "React", "AI Integration", "N8N", "Claude API", "Neon Database"],
     techStack: [
       "React",
@@ -188,7 +188,7 @@ export const projectsMeta = [
     description: "Conversational AI assistant powered by Anthropic Claude API with custom code inspection tools and multiple personas.",
     fullDescription: "A conversational AI assistant integrated throughout the portfolio website, powered by the Anthropic Claude API with a two-tier model strategy for cost efficiency and capability. The assistant features a custom inspect_project_code tool that references a detailed code map, allowing it to retrieve file paths and generate GitHub URLs to provide accurate technical explanations about the website's implementations. Offering both an embedded floating chat window and a full-screen mode, with three selectable personas.",
     link: "/projects/assistant",
-    liveUrl: "https://fenix473.vercel.app/projects/assistant",
+    liveUrl: "https://favilibero.com/projects/assistant",
     tags: ["AI Assistant", "Claude API", "Conversational AI", "Custom Tools", "React"],
     techStack: [
       "Anthropic Claude API",
@@ -224,7 +224,7 @@ export const projectsMeta = [
     description: "Interactive dashboard visualizing real-time Austin traffic data with automated ETL pipeline and map integration.",
     fullDescription: "An interactive dashboard that visualizes real-time traffic incident data from the City of Austin's public safety dataset using Leaflet and OpenStreetMap. The application implements a daily ETL pipeline using Cron Jobs to get incident data from the Austin Open Data Portal via their SoQL API, process it server-side, and store it in a Neon serverless Postgres database. Built with React, Next.js, and Material-UI, the frontend features a modular component architecture with map visualization, data tables, statistics displays, and form inputs for incident management.",
     link: "/projects/dashboard",
-    liveUrl: "https://fenix473.vercel.app/projects/dashboard",
+    liveUrl: "https://favilibero.com/projects/dashboard",
     tags: ["Data Visualization", "ETL Pipeline", "React", "Leaflet", "Cron Jobs", "PostgreSQL"],
     techStack: [
       "React",
@@ -628,8 +628,8 @@ export const essaysJsonLd = (essay) => ({
   keywords: essay.seo.keywords.join(", "),
   articleSection: essay.category.join(", "),
   wordCount: essay.readingTime * 200, // Approximate
-  url: `https://fenix473.vercel.app/essays/${essay.slug}`,
-  image: `https://fenix473.vercel.app${essay.coverImage}`,
+  url: `https://favilibero.com/essays/${essay.slug}`,
+  image: `https://favilibero.com${essay.coverImage}`,
 });
 
 // Helper function to generate page-specific metadata for Projects
@@ -677,7 +677,7 @@ export const generateEssayMetadata = (essaySlug) => {
     openGraph: {
       title: essay.seo.title,
       description: essay.seo.description,
-      url: `https://fenix473.vercel.app/essays/${essay.slug}`,
+      url: `https://favilibero.com/essays/${essay.slug}`,
       type: "article",
       images: [
         {

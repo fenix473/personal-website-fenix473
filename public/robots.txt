@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fenix473.vercel.app/sitemap.xml
+Sitemap: https://favilibero.com/sitemap.xml

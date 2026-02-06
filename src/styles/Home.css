@@ -181,7 +181,20 @@
   }
 
   .hero-section__container {
+    grid-template-columns: 1fr;
     gap: var(--space-3xl);
+    text-align: center;
+  }
+
+  /* Avatar above text whenever layout stacks (tablet and mobile) */
+  .hero-section__content {
+    order: 2;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .hero-section__visual {
+    order: 1;
   }
 
   .hero-section__title {
@@ -204,14 +217,11 @@
   }
 
   .hero-section__container {
-    grid-template-columns: 1fr;
     gap: var(--space-2xl);
-    text-align: center;
   }
 
-  .hero-section__content {
-    max-width: 100%;
-    text-align: center;
+  .hero-section__visual {
+    height: 250px;
   }
 
   .hero-section__title {
@@ -234,10 +244,6 @@
 
   .hero-button {
     width: 100%;
-  }
-
-  .hero-section__visual {
-    height: 250px;
   }
 
   .hero-section__avatar {
