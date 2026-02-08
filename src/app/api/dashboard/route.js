@@ -1,6 +1,8 @@
 import { getDb, migrateDashboardEntries } from '@/lib/db';
 import { withAuth } from '@workos-inc/authkit-nextjs';
 
+const AUSTIN_BASE = 'https://data.austintexas.gov/resource/dx9v-zd7x.json';
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const from = searchParams.get('from') || '2026-02-01';
@@ -12,24 +14,26 @@ export async function GET(request) {
     SELECT * FROM dashboard_entries ORDER BY created_at DESC NULLS LAST, id DESC
   `;
 
-  // Fetch incident count via /api/traffic-reports for each day in range
+  // Single Austin API call with count(*) — avoids Vercel timeout from N self-calls
   let totalIncidents = 0;
-  const base = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : new URL(request.url).origin;
-  const fromDate = new Date(from);
-  const toDate = new Date(to);
-  for (let d = new Date(fromDate); d <= toDate; d.setUTCDate(d.getUTCDate() + 1)) {
-    const dateStr = d.toISOString().slice(0, 10);
-    try {
-      const res = await fetch(`${base}/api/traffic-reports?date=${dateStr}&limit=2000`);
-      if (res.ok) {
-        const incidents = await res.json();
-        totalIncidents += Array.isArray(incidents) ? incidents.length : 0;
-      }
-    } catch (err) {
-      console.error(`Dashboard: traffic-reports fetch failed for ${dateStr}`, err);
+  try {
+    const dayStart = `${from}T00:00:00.000`;
+    const dayEnd = `${to}T23:59:59.999`;
+    const where = `latitude is not null and longitude is not null and published_date >= '${dayStart}' and published_date <= '${dayEnd}'`;
+    const params = new URLSearchParams({
+      $select: 'count(*)',
+      $where: where,
+    });
+    const res = await fetch(`${AUSTIN_BASE}?${params.toString()}`, {
+      headers: { Accept: 'application/json' },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const count = data?.[0]?.count;
+      totalIncidents = typeof count === 'string' ? parseInt(count, 10) : Number(count) || 0;
     }
+  } catch (err) {
+    console.error('Dashboard: Austin API count failed', err);
   }
 
   return Response.json({ dashboardEntries, totalIncidents });
