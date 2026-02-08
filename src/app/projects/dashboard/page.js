@@ -35,8 +35,9 @@ export default function DashboardPage() {
     async function load() {
       setLoading(true);
       try {
+        const to = new Date().toISOString().slice(0, 10);
         const [entriesRes, meRes] = await Promise.all([
-          fetch('/api/dashboard'),
+          fetch(`/api/dashboard?from=2026-02-01&to=${to}`),
           fetch('/api/auth/me', { credentials: 'include' }),
         ]);
         if (!entriesRes.ok) throw new Error('Failed to fetch dashboard entries');
