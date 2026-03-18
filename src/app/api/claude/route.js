@@ -47,7 +47,7 @@ export async function POST(request) {
         const anthropic = new Anthropic();
 
         // First turn: cheaper stable model with custom tools only (no web_fetch).
-        const cheapModel = 'claude-3-5-haiku-20241022';
+        const cheapModel = 'claude-haiku-4-5-20251001';
         let msg = await anthropic.messages.create({
             model: cheapModel,
             max_tokens: 1000,
