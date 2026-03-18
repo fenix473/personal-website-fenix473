@@ -12,12 +12,14 @@ export default function sitemap() {
     { url: `${baseUrl}/writings`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
   ];
 
-  const projectPages = projectsMeta.map((project) => ({
-    url: `${baseUrl}${project.link}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 0.8,
-  }));
+  const projectPages = projectsMeta
+    .filter((project) => !project.external)
+    .map((project) => ({
+      url: `${baseUrl}${project.link}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    }));
 
   const essayPages = essaysMeta.map((essay) => ({
     url: `${baseUrl}/essays/${essay.slug}`,

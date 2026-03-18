@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
+  async redirects() {
+    return [
+      {
+        source: "/projects/piano",
+        destination: "https://trader-module-frontend.vercel.app/",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {

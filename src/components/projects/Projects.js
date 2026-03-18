@@ -35,26 +35,30 @@ function Projects() {
             <span className="project-card__cta">View project →</span>
           </div>
         </Link>
-        {/* Piano Project Card */}
-        <Link href="/projects/piano" className="project-card project-card--piano" prefetch={false}>
+        {/* Trader Module Project Card (external) */}
+        <a
+          href="https://trader-module-frontend.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="project-card project-card--trader"
+        >
           <div className="project-card__bg" />
           <div className="project-card__content">
             <div className="project-card__accent" />
-            <h2 className="project-card__title">Piano</h2>
+            <h2 className="project-card__title">Trader Module</h2>
             <p className="project-card__description">
-              Interactive one-octave piano with keyboard and touch support. 
-              Built with Web Audio API.
+              Market data, tracked companies, AI signal analysis, price charts, and news. Built with N8N integration.
             </p>
             <span className="project-card__cta">View project →</span>
           </div>
-        </Link>
+        </a>
         <Link href="/projects/assistant" className="project-card project-card--assistant" prefetch={false}>
           <div className="project-card__bg" />
           <div className="project-card__content">
             <div className="project-card__accent" />
             <h2 className="project-card__title">Assistant</h2>
             <p className="project-card__description">
-              Human in the loop assistant using Claude. They will help you navigating this website and answer your general quiriousities.
+              Human in the loop assistant using Claude. They will help you navigating this website and answer your general curiosities.
             </p>
             <span className="project-card__cta">View project →</span>
           </div>

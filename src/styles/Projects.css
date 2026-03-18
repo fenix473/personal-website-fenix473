@@ -73,8 +73,8 @@
   background-image: url(/images/dashboard_background_v3.jpg);
 }
 
-.project-card--piano .project-card__image {
-  background-image: url(/images/piano_background_v2.jpg);
+.project-card--trader .project-card__image {
+  background-image: url(/images/trader_background.jpg);
 }
 
 .project-card--assistant .project-card__image {
@@ -100,19 +100,19 @@
 }
 
 .project-card--dashboard .project-card__content,
-.project-card--piano .project-card__content,
+.project-card--trader .project-card__content,
 .project-card--assistant .project-card__content {
   background: rgba(255, 255, 255, 0.95);
 }
 
 .project-card--dashboard .project-card__accent,
-.project-card--piano .project-card__accent,
+.project-card--trader .project-card__accent,
 .project-card--assistant .project-card__accent {
   background: #000;
 }
 
 .project-card--dashboard .project-card__title,
-.project-card--piano .project-card__title,
+.project-card--trader .project-card__title,
 .project-card--assistant .project-card__title {
   color: #000;
   font-weight: 600;
@@ -120,14 +120,14 @@
 }
 
 .project-card--dashboard .project-card__description,
-.project-card--piano .project-card__description,
+.project-card--trader .project-card__description,
 .project-card--assistant .project-card__description {
   color: #222;
   font-size: clamp(0.8rem, 3.5cqw, 1.1rem);
 }
 
 .project-card--dashboard .project-card__cta,
-.project-card--piano .project-card__cta,
+.project-card--trader .project-card__cta,
 .project-card--assistant .project-card__cta {
   color: #fff;
   background: #000;
@@ -138,7 +138,7 @@
 }
 
 .project-card--dashboard:hover .project-card__cta,
-.project-card--piano:hover .project-card__cta,
+.project-card--trader:hover .project-card__cta,
 .project-card--assistant:hover .project-card__cta {
   background: #333;
 }

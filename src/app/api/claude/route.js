@@ -24,6 +24,10 @@ function runInspectProjectCode(input) {
     const blobBase = GITHUB_REPO_BASE.replace(/\/$/, '');
     const rawBase = GITHUB_RAW_BASE.replace(/\/$/, '');
     const lines = refs.map((r) => {
+        const isExternal = r.path.startsWith('http://') || r.path.startsWith('https://');
+        if (isExternal) {
+            return `- ${r.label}:\n  live: ${r.path} (external project)`;
+        }
         const blobUrl = `${blobBase}/${r.path}`;
         const rawUrl = `${rawBase}/${r.path}`;
         return `- ${r.label}:\n  view: ${blobUrl}\n  raw (fetch for source): ${rawUrl}`;

@@ -8,13 +8,14 @@ import '@/styles/Projects.css';
 import React from 'react';
 import { projects } from '@/data/projects';
 
-type ProjectVariant = 'dashboard' | 'piano' | 'assistant';
+type ProjectVariant = 'dashboard' | 'trader' | 'assistant';
 const projectsTyped = projects as Array<{
   href: string;
   variant: ProjectVariant;
   title: string;
   description: string;
   imagePosition?: 'left' | 'right';
+  external?: boolean;
 }>;
 
 const itemSx = {
@@ -30,19 +31,18 @@ function ProjectCard({
   title,
   description,
   imagePosition = 'left',
+  external = false,
 }: {
   href: string;
   variant: ProjectVariant;
   title: string;
   description: string;
   imagePosition?: 'left' | 'right';
+  external?: boolean;
 }) {
-  return (
-    <Link
-      href={href}
-      className={`project-card project-card--${variant}${imagePosition === 'right' ? ' project-card--image-right' : ''}`}
-      prefetch={false}
-    >
+  const className = `project-card project-card--${variant}${imagePosition === 'right' ? ' project-card--image-right' : ''}`;
+  const content = (
+    <>
       <div className="project-card__image" />
       <div className="project-card__content">
         <div className="project-card__accent" />
@@ -50,6 +50,18 @@ function ProjectCard({
         <p className="project-card__description">{description}</p>
         <span className="project-card__cta">View project →</span>
       </div>
+    </>
+  );
+  if (external) {
+    return (
+      <a href={href} className={className} target="_blank" rel="noopener noreferrer">
+        {content}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className={className} prefetch={false}>
+      {content}
     </Link>
   );
 }
@@ -67,6 +79,7 @@ export default function ProjectsGrid() {
                 title={project.title}
                 description={project.description}
                 imagePosition={project.imagePosition ?? 'left'}
+                external={project.external}
               />
             </Paper>
           </Grid>

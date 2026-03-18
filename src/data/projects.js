@@ -12,13 +12,23 @@ export const projects = [
     imagePosition: "left",
   },
   {
-    href: "/projects/piano",
-    variant: "piano",
-    title: "Piano",
+    href: "https://trader-module-frontend.vercel.app/",
+    variant: "trader",
+    title: "Trader Module",
     description:
-      "Interactive one-octave piano with keyboard and touch support. Built with Web Audio API.",
+      "Market data, tracked companies, AI signal analysis, price charts, and news. Built with N8N integration.",
     imagePosition: "right",
+    external: true,
   },
+  // Legacy Piano project (kept for future repairs; currently hidden from UI)
+  // {
+  //   href: "/projects/piano",
+  //   variant: "piano",
+  //   title: "Piano",
+  //   description:
+  //     "Interactive one-octave piano with keyboard and touch support. Built with Web Audio API.",
+  //   imagePosition: "right",
+  // },
   {
     href: "/projects/assistant",
     variant: "assistant",

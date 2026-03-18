@@ -32,21 +32,9 @@ export const PROJECT_CODE_MAP: Record<string, CodeReference[]> = {
     { label: "Stats Card Styles", path: "src/styles/StatsCard.css" }
   ],
 
-  // Piano Project
-  piano: [
-    { label: "Piano Page", path: "src/app/projects/piano/page.js" },
-    { label: "Piano Layout", path: "src/app/projects/piano/layout.js" },
-    { label: "Piano Component", path: "src/components/piano/Piano.jsx" },
-    { label: "Piano Key Component", path: "src/components/piano/PianoKey.jsx" },
-    { label: "Melody Button Component", path: "src/components/piano/MelodyButton.jsx" },
-    { label: "Piano API - Generate", path: "src/app/api/piano/generate/route.js" },
-    { label: "Piano API - Save", path: "src/app/api/piano/save/route.js" },
-    { label: "Piano API - List", path: "src/app/api/piano/list/route.js" },
-    { label: "Piano API - Delete", path: "src/app/api/piano/delete/route.js" },
-    { label: "Audio Player Hook", path: "src/hooks/useAudioPlayer.js" },
-    { label: "Key Press Hook", path: "src/hooks/useKeyPress.js" },
-    { label: "Piano Styles", path: "src/styles/Piano.css" },
-    { label: "Piano Page Styles", path: "src/styles/PianoPage.css" }
+  // Trader Module (external – live at https://trader-module-frontend.vercel.app/)
+  trader: [
+    { label: "Trader Module (external)", path: "https://trader-module-frontend.vercel.app/" },
   ],
 
   // Assistant Project
