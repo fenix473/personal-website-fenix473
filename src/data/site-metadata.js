@@ -19,7 +19,7 @@ That's where humanities meet tech.`,
     phone: "tel:+17373256215",
     phoneDisplay: "(737) 325-6215",
   },
-  resumePdfPath: "/documents/Resume Full Stack.pdf",
+  resumePdfPath: "/documents/Resume Data Engi.pdf",
   sections: {
     projects: "Projects",
     about: "About Me",
