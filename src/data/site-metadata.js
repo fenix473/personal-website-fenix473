@@ -175,7 +175,7 @@ export const projectsMeta = [
       description: "Trading app with market data, AI signal analysis, price charts, and news. Built with N8N integration.",
       keywords: ["Trader Module", "Market Data", "AI Signal Analysis", "N8N", "Trading", "Price Charts"],
     },
-    ogImage: "/images/trader_background.jpg",
+    ogImage: "/images/trading_background_light.png",
   },
   // Legacy Piano project (kept for future repairs; currently not used in navigation)
   // {
